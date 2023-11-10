@@ -4,21 +4,13 @@ import FadeInOut from "./FadeInOut";
 export function TestimonialFadeInOut({ data }) {
     const [show, setShow] = useState(true);
     const [dataIndex, setDataIndex] = useState(0);
-    const extraStyles = {
-        // position: "fixed",
-        // top: "30px",
-        // left: 0,
-        // right: 0,
-        // bottom: 0,
-        // background: "rgba(0, 0, 0, 0.4)",
-        // color: "#FFF"
-    };
+    const extraStyles = {};
 
     useEffect(() => {
         const interval = setInterval(() => {
             setShow((prevShow) => !prevShow);
             setDataIndex((prevIndex) => (prevIndex + 1) % data.length);
-        }, 3000); // Time in milliseconds for the timer to toggle the visibility
+        }, 3000);
 
         return () => clearInterval(interval);
     }, [data.length]);

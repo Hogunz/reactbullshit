@@ -15,33 +15,18 @@ const instructorsData = [
     },
     // Add more instructor data as needed
 ];
+
 const InstructorDescription = ({ id }) => {
     const instructor = instructorsData.filter((i) => i.id == id)[0];
 
     return (
-        <div className="relative max-w-xs overflow-hidden bg-cover bg-no-repeat">
-            <a
-                href={"/Instructors?instructor=" + instructor.id}
-                className="href"
-            >
-                <img
-                    className="max-w-full bg-cover object-cover aspect-square mb-[27px] transition duration-300 ease-in-out hover:scale-110"
-                    src={instructor.avatar}
-                    alt=""
-                />
-            </a>
-            <div>
-                <a
-                    href=""
-                    className="font-inter font-semibold text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
-                >
+        <>
+            <div className="dark:bg-dark">
+                <div className="text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
                     {instructor.name}
-                </a>
-                <h3 className="font-inter font-normal text-light/75 leading-[26.4px]">
-                    {instructor.position}
-                </h3>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
