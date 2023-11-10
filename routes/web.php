@@ -31,6 +31,12 @@ Route::get('/Contact', function(){
 Route::get('/ProgramDescription', function(){
     return Inertia::render("ProgramDescription");
 });
+Route::get('/Instructors', function(Request $request){
+
+    return Inertia::render("Faculty", [
+        'instructor' => $request->instructor,
+    ]);
+});
 Route::get('/Program', function(Request $request){
     return Inertia::render("ProgramDescriptions", [
         'program' => $request->program,
