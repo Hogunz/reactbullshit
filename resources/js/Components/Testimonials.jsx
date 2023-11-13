@@ -10,13 +10,13 @@ export function Testimonials() {
         },
         {
             text: "In any field of expertise, success is built upon a solid foundation, you'll have trouble creating anything of value. A sturdy foundation is acquired by starting with the right learning institution that gives an environment that pushes you beyond your limits, provides a venue where you apply what you have learned, and where educators exemplify an unparalleled commitment to help others become the best version of themselves. All these summarize my journey in Colegio de Dagupan. To the Colegio de Dagupan community, especially to the Arzadon Family, thank you for helping and guiding me during my undergraduate studies. It is such an honor to carry our school's name.",
-            image: "url_to_image_2",
+            image: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png",
             name: "Rex Añonuevo",
             position: "CISCO Design Engineer",
         },
         {
             text: "Being a BSIT student can be an exciting and challenging experience. The program provides students with a comprehensive understanding of various aspects of information technology, including programming languages, software development, database management, networking, cybersecurity, and web design. BSIT students frequently get the chance to take classes from seasoned instructors who have practical knowledge in the subject and may offer insightful commentary. They also participate in practical, hands-on learning activities that let them put the academic theories they have learned to use in actual situations. Furthermore, BSIT students frequently engage in groups with their classmates on projects, which helps them build leadership and collaboration skills and gives them networking chances. The curriculum also encourages students to participate in extracurricular activities like tech clubs, hackathons, and coding contests, which may further their professional growth and keep them up to speed with the most recent developments in the industry.",
-            image: "url_to_image_3",
+            image: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png",
             name: "Christopher D. Ocsillos",
             position: "UdD Faculty / Project Manager",
         },

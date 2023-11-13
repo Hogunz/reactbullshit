@@ -21,7 +21,6 @@ export function TestimonialFadeInOut({ data }) {
                 <h3 className="font-inter text-[14px] text-[#d399ee] uppercase font-medium tracking-widest pb-[20px]">
                     Testimonials
                 </h3>
-
                 <FadeInOut
                     show={show}
                     style={extraStyles}
