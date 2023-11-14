@@ -1,82 +1,94 @@
-import React, { useState, useEffect, useRef } from "react";
-import FadeInOut from "./FadeInOut";
-
-export function TestimonialFadeInOut({ data }) {
-    const [show, setShow] = useState(true);
-    const [dataIndex, setDataIndex] = useState(0);
-    const intervalRef = useRef(null);
-
-    useEffect(() => {
-        const startInterval = () => {
-            intervalRef.current = setInterval(() => {
-                setShow(false);
-                setTimeout(() => {
-                    setDataIndex((prevIndex) => (prevIndex + 1) % data.length);
-                    setShow(true);
-                }, 500); // Adjust the timeout value as needed
-            }, 3000);
-        };
-
-        const container = document.getElementById("testimonialContainer");
-
-        if (container) {
-            container.addEventListener("mouseenter", () =>
-                clearInterval(intervalRef.current)
-            );
-            container.addEventListener("mouseleave", startInterval);
-        }
-
-        startInterval();
-
-        return () => {
-            clearInterval(intervalRef.current);
-            if (container) {
-                container.removeEventListener("mouseenter", () =>
-                    clearInterval(intervalRef.current)
-                );
-                container.removeEventListener("mouseleave", startInterval);
-            }
-        };
-    }, [data.length]);
-
+import React from "react";
+import ButtonLink from "./buttons/ButtonLink";
+import {
+    LocationIcon,
+    PhoneIcon,
+    MessageIcon,
+    FinderIcon,
+} from "./svg/SVGicon";
+import GoogleMap from "./GoogleMap";
+const ContactUs = () => {
     return (
-        <div
-            id="testimonialContainer"
-            className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 pt-[130px] lg:px-6 pb-[221px]"
-        >
-            <div className="font-light text-gray-500 sm:text-lg dark:text-light/75">
-                <h3 className="font-inter text-[14px] text-[#d399ee] uppercase font-medium tracking-widest pb-[20px]">
-                    Testimonials
-                </h3>
-
-                <FadeInOut
-                    key={`text-${dataIndex}`}
-                    show={show}
-                    className="flex flex-col transition ease-in duration-500"
-                >
-                    <div className="mb-4 font-inter italic leading-[33px] text-[18px] dark:text-light text-dark">
-                        <p>{data[dataIndex].text}</p>
+        <>
+            <div className="dark:bg-dark">
+                <div className="text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
+                    Contact Us
+                </div>
+                <div class="mx-auto max-w-3xl grid grid-cols-2 gap-8 pb-[130px]">
+                    <div className="border relative max-w-xl ">
+                        <div className="flex flex-col">
+                            <div className="flex space-x-4 p-8 items-center">
+                                <div className="border-dashed border-2 border-purple bg-purple/5 p-2">
+                                    <MessageIcon />
+                                </div>
+                                <div>
+                                    <h2 className="font-inter leading-[26.4px] font-semibold text-[22px] text-light">
+                                        Our Contacts
+                                    </h2>
+                                </div>
+                            </div>
+                            <div className="font-light font-inter leading-[27px] text-light/75 text-[18px] px-8">
+                                <p>
+                                    Enroll today and embark on your path to
+                                    mastering the art of Information Technology!
+                                </p>
+                            </div>
+                            <div className="p-8 space-y-4">
+                                <div className="flex space-x-4 items-center">
+                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
+                                        <LocationIcon />
+                                    </div>
+                                    <div>
+                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
+                                            Arellano St, Dagupan City,
+                                            Philippines
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div className="flex space-x-4 items-center">
+                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
+                                        <MessageIcon />
+                                    </div>
+                                    <div>
+                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
+                                            udd_site@cdd.edu.ph
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div className="flex space-x-4 items-center">
+                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
+                                        <PhoneIcon />
+                                    </div>
+                                    <div>
+                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
+                                            (075) 522 2405
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <h1 className="font-inter font-semibold text-[22px] leading-[26.4px] text-purple pb-[10.39px]">
-                        {data[dataIndex].name}
-                    </h1>
-                    <h3 className="font-inter font-normal text-[18px] leading-[27px]">
-                        {data[dataIndex].position}
-                    </h3>
-                </FadeInOut>
+                    <div className="border relative max-w-xl ">
+                        <div className="flex flex-col">
+                            <div className="flex space-x-4 p-8 items-center">
+                                <div className="border-dashed border-2 border-purple bg-purple/5 p-2">
+                                    <FinderIcon />
+                                </div>
+                                <div>
+                                    <h2 className="font-inter leading-[26.4px] font-semibold text-[22px] text-light">
+                                        How Can you find us?
+                                    </h2>
+                                </div>
+                            </div>
+                            <div className=" ">
+                                <GoogleMap />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <FadeInOut
-                key={`image-${dataIndex}`}
-                show={show}
-                className="transition ease-in duration-500"
-            >
-                <img
-                    className="max-w-xl aspect-square object-cover bg-cover object-center w-[570px] h-[450px]"
-                    src={data[dataIndex].image}
-                    alt="testimonial"
-                />
-            </FadeInOut>
-        </div>
+        </>
     );
-}
+};
+
+export default ContactUs;
