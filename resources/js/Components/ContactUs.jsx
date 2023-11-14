@@ -20,7 +20,9 @@ export function TestimonialFadeInOut({ data }) {
         const container = document.getElementById("testimonialContainer");
 
         if (container) {
-            container.addEventListener("mouseenter", () => clearInterval(intervalRef.current));
+            container.addEventListener("mouseenter", () =>
+                clearInterval(intervalRef.current)
+            );
             container.addEventListener("mouseleave", startInterval);
         }
 
@@ -29,7 +31,9 @@ export function TestimonialFadeInOut({ data }) {
         return () => {
             clearInterval(intervalRef.current);
             if (container) {
-                container.removeEventListener("mouseenter", () => clearInterval(intervalRef.current));
+                container.removeEventListener("mouseenter", () =>
+                    clearInterval(intervalRef.current)
+                );
                 container.removeEventListener("mouseleave", startInterval);
             }
         };

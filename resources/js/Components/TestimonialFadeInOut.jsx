@@ -10,7 +10,7 @@ export function TestimonialFadeInOut({ data }) {
         const interval = setInterval(() => {
             setShow((prevShow) => !prevShow);
             setDataIndex((prevIndex) => (prevIndex + 1) % data.length);
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(interval);
     }, [data.length]);
@@ -24,7 +24,7 @@ export function TestimonialFadeInOut({ data }) {
                 <FadeInOut
                     show={show}
                     style={extraStyles}
-                    className="flex flex-col transition ease-in duration-500"
+                    className="flex flex-col "
                 >
                     <div className="mb-4 font-inter italic leading-[33px] text-[18px] dark:text-light text-dark">
                         <p>{data[dataIndex].text}</p>
@@ -38,11 +38,7 @@ export function TestimonialFadeInOut({ data }) {
                     </h3>
                 </FadeInOut>
             </div>
-            <FadeInOut
-                show={show}
-                style={extraStyles}
-                className="transition ease-in duration-500"
-            >
+            <FadeInOut show={show} style={extraStyles} className="">
                 <img
                     className="max-w-xl aspect-square object-cover bg-cover object-center w-[570px] h-[450px]"
                     src={data[dataIndex].image}
