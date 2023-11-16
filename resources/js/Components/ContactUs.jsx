@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonLink from "./buttons/ButtonLink";
+import ButtonLink from "./ButtonLink";
 import {
     LocationIcon,
     PhoneIcon,
@@ -15,7 +15,7 @@ const ContactUs = () => {
                     Contact Us
                 </div>
                 <div class="mx-auto max-w-3xl grid grid-cols-2 gap-8 pb-[130px]">
-                    <div className="border relative max-w-xl ">
+                    <div className="relative max-w-xl dark:bg-[#232323] shadow-2xl">
                         <div className="flex flex-col">
                             <div className="flex space-x-4 p-8 items-center">
                                 <div className="border-dashed border-2 border-purple bg-purple/5 p-2">
@@ -68,7 +68,7 @@ const ContactUs = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="border relative max-w-xl ">
+                    <div className=" relative max-w-xl dark:bg-[#232323] shadow-2xl">
                         <div className="flex flex-col">
                             <div className="flex space-x-4 p-8 items-center">
                                 <div className="border-dashed border-2 border-purple bg-purple/5 p-2">

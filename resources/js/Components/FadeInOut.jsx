@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const FadeInOut = ({ show, duration, children, className, style }) => {
     const UNMOUNTED = "unmounted";
@@ -14,46 +14,59 @@ const FadeInOut = ({ show, duration, children, className, style }) => {
         exited: { opacity: 0 },
     };
 
-    const [status, setStatus] = useState(show ? ENTERED : EXITED);
+    const [testimonialStatus, setTestimonialStatus] = useState(
+        show ? ENTERED : EXITED
+    );
+    const [imageStatus, setImageStatus] = useState(show ? EXITED : ENTERED);
+    const exitTimeoutRef = useRef(null);
 
-    useEffect(() => {
-        let nextStatus = null;
-        if (show) {
-            if (status !== ENTERING && status !== ENTERED) {
-                nextStatus = ENTERING;
-            }
-        } else {
-            if (status === ENTERING || status === ENTERED) {
-                nextStatus = EXITING;
-            }
-        }
-        updateStatus(nextStatus);
-    }, [show]);
-
-    const updateStatus = (nextStatus) => {
-        if (nextStatus !== null) {
-            if (nextStatus === ENTERING) {
-                performEnter();
-            } else {
-                performExit();
-            }
-        } else if (status === EXITED) {
-            setStatus(UNMOUNTED);
-        }
-    };
-
-    const performEnter = () => {
-        setStatus(ENTERING);
+    const performEnter = (setType) => {
+        setType(ENTERING);
         setTimeout(() => {
-            setStatus(ENTERED);
-        }, 0);
-    };
-
-    const performExit = () => {
-        setTimeout(() => {
-            setStatus(EXITED);
+            setType(ENTERED);
         }, duration);
     };
+
+    const performExit = (setType) => {
+        if (setType === testimonialStatus || setType === imageStatus) {
+            exitTimeoutRef.current = setTimeout(() => {
+                setType(EXITED);
+            }, duration);
+        }
+    };
+
+    const updateStatus = (nextTestimonialStatus, nextImageStatus) => {
+        performExit(testimonialStatus);
+        performExit(imageStatus);
+        if (nextTestimonialStatus !== null && nextImageStatus !== null) {
+            performEnter(setTestimonialStatus);
+            performEnter(setImageStatus);
+        }
+    };
+
+    useEffect(() => {
+        let nextTestimonialStatus = null;
+        let nextImageStatus = null;
+        if (show) {
+            if (
+                testimonialStatus !== ENTERING &&
+                testimonialStatus !== ENTERED
+            ) {
+                nextTestimonialStatus = ENTERING;
+            }
+            if (imageStatus !== ENTERING && imageStatus !== ENTERED) {
+                nextImageStatus = ENTERING;
+            }
+        } else {
+            nextTestimonialStatus = EXITING;
+            nextImageStatus = EXITING;
+        }
+        updateStatus(nextTestimonialStatus, nextImageStatus);
+
+        return () => {
+            clearTimeout(exitTimeoutRef.current);
+        };
+    }, [show, testimonialStatus, imageStatus, duration]);
 
     return (
         <div
@@ -61,8 +74,8 @@ const FadeInOut = ({ show, duration, children, className, style }) => {
             style={{
                 ...style,
                 transition: `opacity ${duration}ms ease-in-out`,
-                opacity: status === ENTERED ? 1 : 0,
-                ...transitionStyles[status],
+                opacity: testimonialStatus === ENTERED ? 1 : 0,
+                ...transitionStyles[testimonialStatus],
             }}
         >
             {children}

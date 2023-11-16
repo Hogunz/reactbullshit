@@ -4,6 +4,7 @@ import AboutUs from "@/Components/AboutUs";
 import Academics from "@/Components/Academics";
 import Instructors from "@/Components/Instructors";
 import Blogs from "@/Components/Blogs";
+import EnrollSpin from "@/Components/EnrollSpin";
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
@@ -14,6 +15,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 <Academics />
                 <Instructors />
                 <Blogs />
+                <EnrollSpin />
             </div>
         </>
     );

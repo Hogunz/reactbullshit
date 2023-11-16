@@ -3,12 +3,9 @@ import { Link } from "@inertiajs/react";
 export function NavBar() {
     return (
         <>
-            <nav className="bg-light border-gray-200 dark:bg-dark">
+            <nav className="bg-light/75 border-gray-200 dark:bg-dark">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a
-                        href="https://flowbite.com/"
-                        className="flex items-center"
-                    >
+                    <a href="/" className="flex items-center">
                         <img
                             src="https://flowbite.com/docs/images/logo.svg"
                             className="h-8 mr-3"
@@ -50,48 +47,41 @@ export function NavBar() {
                             <li>
                                 <a
                                     href="/"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
+                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                     aria-current="page"
                                 >
                                     Home
                                 </a>
                             </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
-                                >
-                                    About
-                                </a>
-                            </li>
+
                             <li>
                                 <a
                                     href="/ProgramDescription"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
+                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     Academics
                                 </a>
                             </li>
                             <li>
-                                <a
-                                    href="#"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
+                                <Link
+                                    href="/Faculty"
+                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     Faculty
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
-                                    href="#"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
+                                <Link
+                                    href="/Events"
+                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     News & Events
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a
-                                    href="#"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
+                                    href="/VMO"
+                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     VMO
                                 </a>
@@ -99,7 +89,7 @@ export function NavBar() {
                             <li>
                                 <Link
                                     href="/Contact"
-                                    className="block py-2 pl-3 text-dark dark:text-light"
+                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     Contact
                                 </Link>
@@ -107,12 +97,15 @@ export function NavBar() {
                             <li>
                                 <a
                                     href="#"
-                                    className="block py-0 pl-3 text-dark dark:text-light"
+                                    className="block py-0 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     <DarkMode />
                                 </a>
                             </li>
                         </ul>
+                    </div>
+                    <div>
+                        <ul></ul>
                     </div>
                 </div>
             </nav>

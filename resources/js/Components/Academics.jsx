@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ButtonLink from "./buttons/ButtonLink";
+import ButtonLink from "./ButtonLink";
 
 export const Description = ({ name = "SITE", props }) => (
     <div className="dark:bg-dark w-full">

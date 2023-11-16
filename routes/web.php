@@ -31,10 +31,25 @@ Route::get('/Contact', function(){
 Route::get('/ProgramDescription', function(){
     return Inertia::render("ProgramDescription");
 });
+Route::get('/Faculty', function(){
+    return Inertia::render("FacultyPage");
+});
+Route::get('/Events', function(){
+    return Inertia::render("Events");
+});
+Route::get('/VMO', function(){
+    return Inertia::render("VMO");
+});
 Route::get('/Instructors', function(Request $request){
 
     return Inertia::render("Faculty", [
         'instructor' => $request->instructor,
+    ]);
+});
+Route::get('/Blogs', function(Request $request){
+
+    return Inertia::render("Blog", [
+        'blog' => $request->blog,
     ]);
 });
 Route::get('/Program', function(Request $request){

@@ -1,7 +1,10 @@
 import { Testimonials } from "@/Components/Testimonials";
 export default function AboutUs() {
     return (
-        <section className="bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-30% to-dark">
+        <section
+            id="About"
+            className="bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-30% to-dark"
+        >
             <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6 ">
                 <div className="font-light text-gray-500 sm:text-lg dark:text-light/75 order-2 ">
                     <h3 className="font-inter text-[14px] text-[#d399ee] uppercase font-medium tracking-widest">
