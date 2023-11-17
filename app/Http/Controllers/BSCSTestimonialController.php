@@ -12,7 +12,7 @@ class BSCSTestimonialController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

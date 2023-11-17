@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('b_s_c_s_testimonials', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('name');
+            $table->string('image');
+            $table->longText('course');
+            $table->longText('latin')->nullable();
+            $table->longText('position');
+            $table->longText('place')->nullable();
+            $table->longText('content');
             $table->timestamps();
         });
     }
