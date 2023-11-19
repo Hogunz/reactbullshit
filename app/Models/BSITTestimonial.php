@@ -11,10 +11,7 @@ class BSITTestimonial extends Model
     protected $fillable = [
         'name', // Add the name field to the fillable array
         'image',
-        'course',
-        'latin',
         'position',
-        'place',
         'content',
         'start_time',
         'end_time',

@@ -16,10 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('name');
             $table->string('image');
-            $table->longText('course');
-            $table->longText('latin')->nullable();
             $table->longText('position');
-            $table->longText('place');
             $table->longText('content');
             $table->timestamps();
         });

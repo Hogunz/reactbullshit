@@ -70,7 +70,7 @@ export default function Authenticated({ user, header, children }) {
                                         <Dropdown.Link href="">
                                             BSIT Testimonials
                                         </Dropdown.Link>
-                                        <Dropdown.Link href="">
+                                        <Dropdown.Link href={route("bscstestimonials.index")}>
                                             BSCS Testimonials
                                         </Dropdown.Link>
                                         <Dropdown.Link
