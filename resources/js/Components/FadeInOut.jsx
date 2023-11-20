@@ -21,29 +21,29 @@ const FadeInOut = ({ show, duration, children, className, style }) => {
     const exitTimeoutRef = useRef(null);
 
     const performEnter = (setType) => {
-        setType(ENTERING);
+        setTestimonialStatus(ENTERING);
         setTimeout(() => {
-            setType(ENTERED);
+            setTestimonialStatus(ENTERED);
         }, duration);
     };
 
-    const performExit = (setType) => {
-        if (setType === testimonialStatus || setType === imageStatus) {
+    const performExit = () => {
+        if (
+            testimonialStatus === testimonialStatus ||
+            imageStatus === imageStatus
+        ) {
             exitTimeoutRef.current = setTimeout(() => {
-                setType(EXITED);
+                setTestimonialStatus(EXITED);
             }, duration);
         }
     };
 
     const updateStatus = (nextTestimonialStatus, nextImageStatus) => {
-        performExit(testimonialStatus);
-        performExit(imageStatus);
+        performExit();
         if (nextTestimonialStatus !== null && nextImageStatus !== null) {
-            performEnter(setTestimonialStatus);
-            performEnter(setImageStatus);
+            performEnter();
         }
     };
-
     useEffect(() => {
         let nextTestimonialStatus = null;
         let nextImageStatus = null;

@@ -4,7 +4,6 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
-
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -67,11 +66,12 @@ export default function Authenticated({ user, header, children }) {
                                         <Dropdown.Link href="">
                                             News & Events
                                         </Dropdown.Link>
-                                        <Dropdown.Link href="">
-                                            BSIT Testimonials
-                                        </Dropdown.Link>
-                                        <Dropdown.Link href={route("bscstestimonials.index")}>
-                                            BSCS Testimonials
+                                        <Dropdown.Link
+                                            href={route(
+                                                "bscstestimonials.index"
+                                            )}
+                                        >
+                                            Testimonials
                                         </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("logout")}

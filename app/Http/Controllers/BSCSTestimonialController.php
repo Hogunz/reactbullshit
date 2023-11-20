@@ -18,11 +18,11 @@ class BSCSTestimonialController extends Controller
     public function index()
     {
         $bscstestimonials = BSCSTestimonial::withTrashed()->get();
-        return Inertia::render('admin/bscstestimonials/index', [
+        return Inertia::render('admin/bscstestimonials/Index', [
             'bscstestimonials' => $bscstestimonials,
         ]);
-
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -30,7 +30,7 @@ class BSCSTestimonialController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/bscstestimonials/create');
+        return Inertia::render('admin/bscstestimonials/Create');
     }
 
     /**
@@ -41,7 +41,7 @@ class BSCSTestimonialController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'required|image',
@@ -81,9 +81,12 @@ class BSCSTestimonialController extends Controller
      * @param  \App\Models\Testimonial  $testimonial
      * @return \Illuminate\Http\Response
      */
-    public function edit(BSCSTestimonial $bscstestimonials)
+    public function edit(BSCSTestimonial $bscstestimonial)
     {
-        return view('admin.bscstestimonials.edit', compact('bscstestimonial'));
+        return Inertia::render('admin/bscstestimonials/Edit', [
+            'bscstestimonial' => $bscstestimonial,
+        ]);
+
     }
 
     /**
@@ -95,13 +98,11 @@ class BSCSTestimonialController extends Controller
      */
     public function update(Request $request, BSCSTestimonial $bscstestimonial)
     {
+        //  dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'course' => 'nullable',
-            'latin' => 'nullable',
             'position' => 'nullable',
-            'place' => 'nullable',
             'content' => 'nullable',
         ]);
 
@@ -111,10 +112,7 @@ class BSCSTestimonialController extends Controller
         }
 
         $bscstestimonial->name = $request->name;
-        $bscstestimonial->course = $request->course;
-        $bscstestimonial->latin = $request->input('latin');
         $bscstestimonial->position = $request->input('position');
-        $bscstestimonial->place = $request->input('place');
         $bscstestimonial->content = $request->input('content');
         $bscstestimonial->save();
 
@@ -130,7 +128,7 @@ class BSCSTestimonialController extends Controller
     public function destroy(BSCSTestimonial $bscstestimonial)
     {
         $bscstestimonial->delete();
-        return redirect()->route('bscstestimonials.index');
+        return redirect()->route('bscstestimonials.index')->with('status', 'Testimonial Successfully deleted');
     }
     public function forceDelete(BSCSTestimonial $bscstestimonial)
     {

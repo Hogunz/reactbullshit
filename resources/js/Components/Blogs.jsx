@@ -41,12 +41,12 @@ export const blogData = [
     {
         id: 2,
         author: "CJ Dela Cruz",
-        avatar: "https://scontent.fmnl17-2.fna.fbcdn.net/v/t39.30808-6/399644557_819547243514476_8660785698142414732_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHvt5aea86s9KhRMQQ7R1b5dpjED5pxRE12mMQPmnFETRP80nD-zN9gJ98F5_X6xY7LBjyF6vXzHrfnXu3Bou-4&_nc_ohc=j6JSn1ZxCI0AX8I3-aV&_nc_ht=scontent.fmnl17-2.fna&oh=00_AfA4ejrZp6FMPKPvdnLUwyXugFRibXTh13HDv6GtIVy4Xg&oe=65588932",
+        avatar: "",
         title: "Mr. and Ms. SITE",
         date: "November 15, 2023",
         description: (
             <>
-                <p className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4">
+                <div className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4">
                     𝐋𝐢𝐠𝐡𝐭𝐬, 𝐂𝐚𝐦𝐞𝐫𝐚, 𝐀𝐜𝐭𝐢𝐨𝐧! ✨ The moment we've all been waiting
                     for is finally here! ✨ The stage is ablaze with excitement,
                     and the spotlight is poised to capture the essence of true
@@ -66,12 +66,12 @@ export const blogData = [
                     in the making. Here's to the enchanting journey of our 𝗠𝗿.
                     𝗮𝗻𝗱 𝗠𝘀. 𝐒𝐈𝐓𝐄 𝟮𝟬𝟮𝟯, where dreams unfold and where every
                     contestant is a story waiting to be told.
-                </p>
+                </div>
             </>
         ),
         content: (
             <>
-                <p className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify">
+                <h1 className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify">
                     <p className="pb-[16px]">𝐋𝐢𝐠𝐡𝐭𝐬, 𝐂𝐚𝐦𝐞𝐫𝐚, 𝐀𝐜𝐭𝐢𝐨𝐧! ✨ </p>
                     <p className="pb-[16px]">
                         The moment we've all been waiting for is finally here!
@@ -107,7 +107,7 @@ export const blogData = [
                         𝟮𝟬𝟮𝟯, where dreams unfold and where every contestant is
                         a story waiting to be told.
                     </p>
-                </p>
+                </h1>
             </>
         ),
     },
@@ -124,7 +124,7 @@ const Blogs = () => {
                     Latest News
                 </h1>
 
-                <div class="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
+                <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
                     {blogData.map((blog, index) => (
                         <div
                             key={index}

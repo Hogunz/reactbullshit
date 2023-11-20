@@ -137,7 +137,7 @@ const Instructors = () => {
                     Our Instructors
                 </h1>
 
-                <div class="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-8 pb-[130px]">
+                <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-8 pb-[130px]">
                     {instructorsData.map((instructor, index) => (
                         <div
                             key={index}

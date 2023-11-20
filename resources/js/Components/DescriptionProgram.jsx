@@ -10,7 +10,7 @@ export const BSITDescriptionProgram = () => {
     return (
         <>
             <div className=" bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-25% to-[#232323] ">
-                <div class="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
+                <div className="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
                     <div className="border-0 dark:bg-dark relative  ">
                         <div className="flex flex-col">
                             <div className="flex space-x-4 p-8 items-center">
@@ -73,46 +73,46 @@ export const BSITDescriptionProgram = () => {
                     </p>
                     <div>
                         <ul className="list-disc list-inside">
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Develop and implement software applications
                                 using various programming languages and tools.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Design and develop websites and web applications
                                 using front-end and back-end technologies.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Analyze complex business problems and design
                                 effective solutions using information
                                 technology.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Use database management systems to store,
                                 organize, and retrieve data efficiently.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Configure and manage computer networks and
                                 network security protocols.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Understand and apply principles of data
                                 structures and algorithms to solve problems in
                                 computer science.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Collaborate with other professionals to develop
                                 and manage technology projects.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Analyze data and apply statistical and
                                 mathematical models to derive insights and
                                 inform decision-making.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Develop and implement mobile applications for
                                 various platforms and devices.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Communicate technical information clearly and
                                 effectively to both technical and non-technical
                                 audiences.
@@ -211,7 +211,7 @@ export const BSCSDescriptionProgram = () => {
                         </div>
                     </div>
                 </div>
-                <div class="mx-auto max-w-5xl gap-8 pb-[130px] pt-[130px]">
+                <div className="mx-auto max-w-5xl gap-8 pb-[130px] pt-[130px]">
                     <p className="dark:text-light font-extralight font-inter leading-[27px] text-[18px]">
                         BS Computer Science is a 4-year course that produces
                         graduates with the computing concepts and theories,
@@ -236,32 +236,32 @@ export const BSCSDescriptionProgram = () => {
                     </p>
                     <div>
                         <ul className="list-disc list-inside">
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Articulate the computing theories, principles
                                 and knowledge domain to address real-world
                                 problems.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Conduct research and determine the latest
                                 developments in the specific field of practice.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Work effectively with teams and communicate
                                 orally and in writing.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Understand computing problems, define the
                                 requirements to design an appropriate solution.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Develop computing solutions utilizing modern
                                 computing tools.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Demonstrate professional, social and ethical
                                 responsibility.
                             </li>
-                            <li class=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
                                 Engage in independent learning for continual
                                 development as a computing professional.
                             </li>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BSCSTestimonialController;
+use App\Models\BSCSTestimonial;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +21,20 @@ use App\Http\Controllers\BSCSTestimonialController;
 */
 
 Route::get('/', function () {
+    $bscstestimonials = BSCSTestimonial::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'bscstestimonials' => $bscstestimonials,
     ]);
 });
-Route::resource('bscstestimonials', BSCSTestimonialController::class);
+//bscstestimonials
+Route::resource('bscstestimonials', BSCSTestimonialController::class)->except(['update']);
+Route::post('bscstestimonials/{bscstestimonial}', [BSCSTestimonialController::class, 'update'])->name('bscstestimonials.update');
+//SoftDelete
+Route::delete('bscstestimonials/forceDelete/{bscstestimonial}', [BSCSTestimonialController::class, 'forceDelete'])->name('bscstestimonials.forceDelete');
 
 Route::get('/Contact', function(){
     return Inertia::render("EnrollNow");

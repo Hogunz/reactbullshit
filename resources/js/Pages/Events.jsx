@@ -10,7 +10,7 @@ const Events = () => {
                 <div className="text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
                     News & Events
                 </div>
-                <div class="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
+                <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
                     {blogData.map((blog, index) => (
                         <div
                             key={index}

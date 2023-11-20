@@ -1,5 +1,5 @@
 import { Testimonials } from "@/Components/Testimonials";
-export default function AboutUs() {
+export default function AboutUs({ bscstestimonials = [] }) {
     return (
         <section
             id="About"
@@ -35,7 +35,7 @@ export default function AboutUs() {
                         ever-evolving IT industry.
                     </p>
                 </div>
-                <div class="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-6">
                     <img
                         className="w-full object-cover bg-cover object-center"
                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
@@ -48,7 +48,7 @@ export default function AboutUs() {
                     />
                 </div>
             </div>
-            <Testimonials />
+            <Testimonials bscstestimonials={bscstestimonials} />
         </section>
     );
 }

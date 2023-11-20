@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import FadeInOut from "./FadeInOut";
-
 export function TestimonialFadeInOut({ data }) {
     const [show, setShow] = useState(true);
     const [dataIndex, setDataIndex] = useState(0);
@@ -27,7 +26,7 @@ export function TestimonialFadeInOut({ data }) {
                     className="flex flex-col "
                 >
                     <div className="mb-4 font-inter italic leading-[33px] text-[18px] dark:text-light text-dark">
-                        <p>{data[dataIndex].text}</p>
+                        <p>{data[dataIndex].content}</p>
                     </div>
 
                     <h1 className="font-inter font-semibold text-[22px] leading-[26.4px] text-purple pb-[10.39px]">
@@ -41,7 +40,7 @@ export function TestimonialFadeInOut({ data }) {
             <FadeInOut show={show} style={extraStyles} className="">
                 <img
                     className="max-w-xl aspect-square object-cover bg-cover object-center w-[570px] h-[450px]"
-                    src={data[dataIndex].image}
+                    src={"/storage/" + data[dataIndex].image}
                     alt="office content 2"
                 />
             </FadeInOut>

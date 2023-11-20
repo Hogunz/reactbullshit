@@ -1,23 +1,25 @@
 import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
-import { Person } from "./create";
+import { useForm } from "@inertiajs/react";
 
-export default function index() {
+export default function Index({ bscstestimonials }) {
+    const { delete: destroy } = useForm({});
+    function forceDelete(id) {
+        destroy(route("bscstestimonials.forceDelete", id));
+    }
+
     return (
         <>
             <NavBar />
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="border-b border-gray-200 bg-white p-6">
                     <div class="mb-2 flex justify-end">
-                        <Button>
-                            {" "}
-                            <a
-                                href={route("bscstestimonials.create")}
-                                className="href"
-                            >
-                                Create
-                            </a>
-                        </Button>
+                        <a
+                            href={route("bscstestimonials.create")}
+                            className="href"
+                        >
+                            <Button>Create</Button>
+                        </a>
                     </div>
                     <table class="min-w-full table-auto">
                         <thead>
@@ -46,7 +48,7 @@ export default function index() {
                             </tr>
                         </thead>
                         <tbody>
-                            {Person.map((bscstestimonial, index) => (
+                            {bscstestimonials.map((bscstestimonial, index) => (
                                 <tr>
                                     <td class="px-3 py-2 text-center">
                                         {bscstestimonial.id}
@@ -60,14 +62,30 @@ export default function index() {
                                     <td class="px-3 py-2 text-center">
                                         {bscstestimonial.content}
                                     </td>
-                                    <td class="px-3 py-2 text-center"></td>
                                     <td class="px-3 py-2 text-center">
-                                        <a href="{{ route('categories.show', $category) }}">
-                                            <button>show</button>
+                                        {bscstestimonial.created_at}
+                                    </td>
+                                    <td class="px-3 py-2 text-center">
+                                        <a href="">
+                                            <Button>show</Button>
                                         </a>
-                                        <a href="{{ route('categories.edit', $category) }}">
-                                            <button>edit</button>
+                                        <a
+                                            href={route(
+                                                "bscstestimonials.edit",
+                                                { id: bscstestimonial.id }
+                                            )}
+                                            className="href"
+                                        >
+                                            <Button>edit</Button>
                                         </a>
+                                        <Button
+                                            type="button"
+                                            onClick={() =>
+                                                forceDelete(bscstestimonial.id)
+                                            }
+                                        >
+                                            Delete
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}
