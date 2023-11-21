@@ -11,6 +11,7 @@ export default function Welcome({
     phpVersion,
     bscstestimonials,
     events,
+    faculties,
 }) {
     return (
         <>
@@ -19,7 +20,7 @@ export default function Welcome({
                 <HeroSection />
                 <AboutUs bscstestimonials={bscstestimonials} />
                 <Academics />
-                <Instructors />
+                <Instructors faculties={faculties} />
                 <Blogs events={events} />
                 <EnrollSpin />
             </div>

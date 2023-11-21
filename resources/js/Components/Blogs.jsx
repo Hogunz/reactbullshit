@@ -151,7 +151,9 @@ export default function Blogs({ events = [] }) {
                             </a>
                             <div className="">
                                 <a
-                                    href=""
+                                    href={route("events.show", {
+                                        id: event.id,
+                                    })}
                                     className="font-inter font-semibold text-[22px] text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
                                 >
                                     {event.name}

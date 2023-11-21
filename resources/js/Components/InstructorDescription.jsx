@@ -1,14 +1,11 @@
 import React from "react";
-import { instructorsData } from "./Instructors";
 import { FacebookIcon, TwitterIcon, InstagramIcon } from "./svg/SVGicon";
-const InstructorDescription = ({ id }) => {
-    const instructor = instructorsData.filter((i) => i.id == id)[0];
-
+export default function InstructorDescription({ faculties = [] }) {
     return (
         <>
             <div className="dark:bg-dark">
                 <div className="text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
-                    {instructor.name}
+                    {faculties.name}
                 </div>
             </div>
             <div className="bg-gradient-to-br from-purple from-5% via-[#232323] via-30% to-dark">
@@ -18,12 +15,12 @@ const InstructorDescription = ({ id }) => {
                             <div className="pt-[20px]">
                                 <img
                                     className="max-w-xs object-scale-down w-[346.09px] h-[300px]"
-                                    src={instructor.avatar}
+                                    src={"/storage/" + faculties.image}
                                     alt=""
                                 />
                             </div>
                             <div className="font-inter font-semibold text-[24px] leading-[28.8px] text-center text-[#d399ee] pt-[30px]">
-                                {instructor.name}
+                                {faculties.name}
                             </div>
                             <div className="flex justify-evenly space-x-4 p-8 ">
                                 <div className="flex justify-center place-items-center border-dashed border-2 border-purple bg-purple/5 p-[5px] w-[50px] h-[50px]">
@@ -39,13 +36,11 @@ const InstructorDescription = ({ id }) => {
                         </div>
                     </div>
                     <div className="max-w-3xl">
-                        {instructor.description}
+                        {faculties.content}
                         <div></div>
                     </div>
                 </div>
             </div>
         </>
     );
-};
-
-export default InstructorDescription;
+}

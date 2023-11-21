@@ -44,8 +44,8 @@ export default function Academics() {
 
                         <div className="grid grid-cols-1 gap-6 justify-items-end items-center pb-[74px] overflow-hidden">
                             <img
-                                className="object-cover bg-cover bg-center object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110"
-                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+                                className="object-fill bg-no-repeat bg-cover bg-center object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110"
+                                src="/img/pic4.jpg"
                                 alt="office content 1"
                             />
                         </div>
@@ -81,8 +81,8 @@ export default function Academics() {
                         </div>
                         <div className="grid grid-cols-1 gap-6 justify-items-end items-center overflow-hidden ">
                             <img
-                                className="object-cover bg-cover bg-center object-center aspect-square h-[270px] w-[470px]  transition duration-300 ease-in-out hover:scale-110 "
-                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+                                className="object-fill bg-no-repeat bg-cover bg-center object-center aspect-square h-[270px] w-[470px]  transition duration-300 ease-in-out hover:scale-110 "
+                                src="/img/pic5.jpg"
                                 alt="office content 1"
                             />
                         </div>

@@ -33,7 +33,8 @@ export default function HeroSection() {
                 </div>
                 <div className=" lg:mt-0 lg:col-span-5 lg:flex">
                     <img
-                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
+                        className="object-scale-down bg-cover"
+                        src="/img/pic1.jpg"
                         alt="mockup"
                     />
                 </div>

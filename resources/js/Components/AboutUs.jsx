@@ -38,12 +38,12 @@ export default function AboutUs({ bscstestimonials = [] }) {
                 <div className="grid grid-cols-2 gap-6">
                     <img
                         className="w-full object-cover bg-cover object-center"
-                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+                        src="/img/pic2.jpg"
                         alt="office content 1"
                     />
                     <img
                         className="mt-6 w-full lg:mt-10 object-cover bg-cover object-center"
-                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+                        src="/img/pic3.jpg"
                         alt="office content 2"
                     />
                 </div>

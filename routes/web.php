@@ -10,6 +10,8 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BSCSTestimonialController;
+use App\Http\Controllers\FacultyController;
+use App\Models\Faculty;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,7 @@ use App\Http\Controllers\BSCSTestimonialController;
 Route::get('/', function () {
     $bscstestimonials = BSCSTestimonial::all();
     $events = Event::all();
+    $faculties = Faculty::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -32,6 +35,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'bscstestimonials' => $bscstestimonials,
         'events' => $events,
+        'faculties' => $faculties,
     ]);
 });
 //bscstestimonials
@@ -45,6 +49,13 @@ Route::delete('bscstestimonials/forceDelete/{bscstestimonial}', [BSCSTestimonial
 Route::resource('events', EventController::class)->except(['update']);
 Route::post('events/{event}', [EventController::class, 'update'])->name('events.update');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+
+//Faculties
+Route::resource('faculties', FacultyController::class)->except(['update']);
+Route::post('faculties/{faculty}', [FacultyController::class, 'update'])->name('faculties.update');
+Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])->name('faculties.show');
+
+
 
 
 Route::get('/News&Events', function () {
