@@ -5,7 +5,13 @@ import Academics from "@/Components/Academics";
 import Instructors from "@/Components/Instructors";
 import Blogs from "@/Components/Blogs";
 import EnrollSpin from "@/Components/EnrollSpin";
-export default function Welcome({ auth, laravelVersion, phpVersion, bscstestimonials }) {
+export default function Welcome({
+    auth,
+    laravelVersion,
+    phpVersion,
+    bscstestimonials,
+    events,
+}) {
     return (
         <>
             <div className="bg-light dark:bg-dark h-screen ">
@@ -14,7 +20,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion, bscstestimon
                 <AboutUs bscstestimonials={bscstestimonials} />
                 <Academics />
                 <Instructors />
-                <Blogs />
+                <Blogs events={events} />
                 <EnrollSpin />
             </div>
         </>

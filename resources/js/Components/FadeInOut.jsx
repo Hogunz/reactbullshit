@@ -1,72 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 const FadeInOut = ({ show, duration, children, className, style }) => {
-    const UNMOUNTED = "unmounted";
-    const EXITED = "exited";
-    const ENTERING = "entering";
-    const ENTERED = "entered";
-    const EXITING = "exiting";
+    const [opacity, setOpacity] = useState(0);
 
-    const transitionStyles = {
-        entering: { opacity: 0 },
-        entered: { opacity: 1 },
-        exiting: { opacity: 0 },
-        exited: { opacity: 0 },
-    };
-
-    const [testimonialStatus, setTestimonialStatus] = useState(
-        show ? ENTERED : EXITED
-    );
-    const [imageStatus, setImageStatus] = useState(show ? EXITED : ENTERED);
-    const exitTimeoutRef = useRef(null);
-
-    const performEnter = (setType) => {
-        setTestimonialStatus(ENTERING);
-        setTimeout(() => {
-            setTestimonialStatus(ENTERED);
-        }, duration);
-    };
-
-    const performExit = () => {
-        if (
-            testimonialStatus === testimonialStatus ||
-            imageStatus === imageStatus
-        ) {
-            exitTimeoutRef.current = setTimeout(() => {
-                setTestimonialStatus(EXITED);
-            }, duration);
-        }
-    };
-
-    const updateStatus = (nextTestimonialStatus, nextImageStatus) => {
-        performExit();
-        if (nextTestimonialStatus !== null && nextImageStatus !== null) {
-            performEnter();
-        }
-    };
     useEffect(() => {
-        let nextTestimonialStatus = null;
-        let nextImageStatus = null;
+        let timeout;
         if (show) {
-            if (
-                testimonialStatus !== ENTERING &&
-                testimonialStatus !== ENTERED
-            ) {
-                nextTestimonialStatus = ENTERING;
-            }
-            if (imageStatus !== ENTERING && imageStatus !== ENTERED) {
-                nextImageStatus = ENTERING;
-            }
+            setOpacity(0); // Reset opacity when showing
+            timeout = setTimeout(() => {
+                setOpacity(1); // Fade in
+            }, 50); // Small delay to trigger the transition
         } else {
-            nextTestimonialStatus = EXITING;
-            nextImageStatus = EXITING;
+            setOpacity(0); // Fade out immediately when hiding
         }
-        updateStatus(nextTestimonialStatus, nextImageStatus);
 
-        return () => {
-            clearTimeout(exitTimeoutRef.current);
-        };
-    }, [show, testimonialStatus, imageStatus, duration]);
+        return () => clearTimeout(timeout);
+    }, [show]);
 
     return (
         <div
@@ -74,8 +23,7 @@ const FadeInOut = ({ show, duration, children, className, style }) => {
             style={{
                 ...style,
                 transition: `opacity ${duration}ms ease-in-out`,
-                opacity: testimonialStatus === ENTERED ? 1 : 0,
-                ...transitionStyles[testimonialStatus],
+                opacity: opacity,
             }}
         >
             {children}

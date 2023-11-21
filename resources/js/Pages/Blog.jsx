@@ -1,13 +1,13 @@
-import BlogDescription from "@/Components/BlogDescription";
+import BlogDescription from "@/Pages/BlogDescription";
 import InstructorDescription from "@/Components/InstructorDescription";
 import { NavBar } from "@/Components/NavBar";
 import React from "react";
 
-const Blog = ({ blog }) => {
+const Blog = ({ events }) => {
     return (
         <>
             <NavBar />
-            <BlogDescription id={blog} />
+            <BlogDescription events={events} />
         </>
     );
 };

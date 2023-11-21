@@ -72,7 +72,7 @@ export function NavBar() {
                             </li>
                             <li>
                                 <Link
-                                    href="/Events"
+                                    href="/News&Events"
                                     className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                                 >
                                     News & Events

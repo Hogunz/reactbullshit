@@ -1,6 +1,6 @@
 import { TestimonialFadeInOut } from "./TestimonialFadeInOut";
-export function Testimonials({ bscstestimonials = [] }) {
-    console.log(bscstestimonials);
+export default function Testimonials({ bscstestimonials = [] }) {
+    // console.log(bscstestimonials);
     const data = bscstestimonials;
     // const data = [
     //     {

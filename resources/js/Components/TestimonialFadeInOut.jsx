@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FadeInOut from "./FadeInOut";
+
 export function TestimonialFadeInOut({ data }) {
     const [show, setShow] = useState(true);
     const [dataIndex, setDataIndex] = useState(0);
@@ -7,10 +8,12 @@ export function TestimonialFadeInOut({ data }) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setShow((prevShow) => !prevShow);
-            setDataIndex((prevIndex) => (prevIndex + 1) % data.length);
-        }, 5000);
-
+            setShow(false);
+            setTimeout(() => {
+                setDataIndex((prevIndex) => (prevIndex + 1) % data.length);
+                setShow(true);
+            }, 700);
+        }, 7000);
         return () => clearInterval(interval);
     }, [data.length]);
 

@@ -1,4 +1,4 @@
-import { Testimonials } from "@/Components/Testimonials";
+import Testimonials from "@/Components/Testimonials";
 export default function AboutUs({ bscstestimonials = [] }) {
     return (
         <section

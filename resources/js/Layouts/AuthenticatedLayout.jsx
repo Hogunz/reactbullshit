@@ -63,7 +63,9 @@ export default function Authenticated({ user, header, children }) {
                                         >
                                             Profile
                                         </Dropdown.Link>
-                                        <Dropdown.Link href="">
+                                        <Dropdown.Link
+                                            href={route("events.index")}
+                                        >
                                             News & Events
                                         </Dropdown.Link>
                                         <Dropdown.Link
