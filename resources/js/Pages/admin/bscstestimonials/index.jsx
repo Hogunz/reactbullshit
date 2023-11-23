@@ -34,9 +34,6 @@ export default function Index({ bscstestimonials }) {
                                     Position
                                 </th>
                                 <th class="px-3 py-2 uppercase tracking-tight">
-                                    Content
-                                </th>
-                                <th class="px-3 py-2 uppercase tracking-tight">
                                     Date
                                 </th>
                                 <th class="px-3 py-2 uppercase tracking-tight">
@@ -60,15 +57,19 @@ export default function Index({ bscstestimonials }) {
                                         {bscstestimonial.position}
                                     </td>
                                     <td class="px-3 py-2 text-center">
-                                        {bscstestimonial.content}
-                                    </td>
-                                    <td class="px-3 py-2 text-center">
                                         {bscstestimonial.created_at}
                                     </td>
                                     <td class="px-3 py-2 text-center">
-                                        <a href="">
+                                        {/* <a
+                                            href={route(
+                                                "bscstestimonials.show",
+                                                {
+                                                    id: bscstestimonial.id,
+                                                }
+                                            )}
+                                        >
                                             <Button>show</Button>
-                                        </a>
+                                        </a> */}
                                         <a
                                             href={route(
                                                 "bscstestimonials.edit",

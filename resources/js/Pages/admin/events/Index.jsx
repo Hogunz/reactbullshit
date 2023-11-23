@@ -54,7 +54,11 @@ export default function Index({ events }) {
                                         {event.created_at}
                                     </td>
                                     <td class="px-3 py-2 text-center">
-                                        <a href="">
+                                        <a
+                                            href={route("events.show", {
+                                                id: event.id,
+                                            })}
+                                        >
                                             <Button>show</Button>
                                         </a>
                                         <a

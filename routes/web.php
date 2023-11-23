@@ -55,8 +55,12 @@ Route::resource('faculties', FacultyController::class)->except(['update']);
 Route::post('faculties/{faculty}', [FacultyController::class, 'update'])->name('faculties.update');
 Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])->name('faculties.show');
 
-
-
+Route::get('/Faculty', function () {
+    $faculties = Faculty::with('user')->get();
+    return Inertia::render('FacultyPage', [
+        'faculties' => $faculties,
+    ]);
+});
 
 Route::get('/News&Events', function () {
     $events = Event::with('user')->get();
@@ -70,19 +74,11 @@ Route::get('/Contact', function () {
 Route::get('/ProgramDescription', function () {
     return Inertia::render("ProgramDescription");
 });
-Route::get('/Faculty', function () {
-    return Inertia::render("FacultyPage");
-});
 
 Route::get('/VMO', function () {
     return Inertia::render("VMO");
 });
-Route::get('/Instructors', function (Request $request) {
 
-    return Inertia::render("Faculty", [
-        'instructor' => $request->instructor,
-    ]);
-});
 Route::get('/Blogs', function (Request $request) {
 
     return Inertia::render("Blog", [

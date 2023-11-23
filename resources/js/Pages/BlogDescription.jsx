@@ -20,7 +20,7 @@ export default function BlogDescription({ events = [] }) {
         <>
             <div className="dark:bg-dark">
                 <div className="max-w-screen-xl flex flex-col mx-auto p-4">
-                    <div className="font-inter font-bold text-light text-[60px] text-left leading-[72px] pt-[93.45px]">
+                    <div className="font-inter font-bold dark:text-light text-dark text-[60px] text-left leading-[72px] pt-[93.45px]">
                         {events.name}
                     </div>
                     <div className="flex space-x-[49.63px] pb-[50px]">
@@ -29,7 +29,7 @@ export default function BlogDescription({ events = [] }) {
                                 <CalendarIcon />
                             </div>
                             <div>
-                                <h2 className="font-inter font-normal text-[16px] leading-[27px] text-light">
+                                <h2 className="font-inter font-normal text-[16px] leading-[27px] dark:text-light text-dark">
                                     {formatDate(events.created_at)}
                                 </h2>
                             </div>
@@ -39,7 +39,7 @@ export default function BlogDescription({ events = [] }) {
                                 <UserIcon />
                             </div>
                             <div>
-                                <h2 className="font-inter font-normal text-[16px] leading-[27px] text-light">
+                                <h2 className="font-inter font-normal text-[16px] leading-[27px] dark:text-light text-dark">
                                     {events.user.name}
                                 </h2>
                             </div>
@@ -52,9 +52,12 @@ export default function BlogDescription({ events = [] }) {
                             alt=""
                         />
                     </div>
-                    <div className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify">
-                        {events.content}
-                    </div>
+                    <div
+                        className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify"
+                        dangerouslySetInnerHTML={{
+                            __html: events.content,
+                        }}
+                    />
                 </div>
             </div>
         </>

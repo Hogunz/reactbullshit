@@ -2,7 +2,7 @@ import InputLabel from "@/Components/InputLabel";
 import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
-
+import JoditEditor from "jodit-react";
 export default function Edit({ events }) {
     const { data, setData, post } = useForm({
         name: events.name,
@@ -48,16 +48,16 @@ export default function Edit({ events }) {
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Content</InputLabel>
-                                <textarea
+                                <JoditEditor
                                     name="content"
                                     value={data.content}
-                                    onChange={(e) =>
-                                        setData("content", e.target.value)
+                                    onChange={(newContent) =>
+                                        setData("content", newContent)
                                     }
                                     cols={30}
                                     rows={10}
                                     required
-                                ></textarea>
+                                ></JoditEditor>
                             </div>
                             <div className="mb-2">
                                 <Button type="submit">Update</Button>

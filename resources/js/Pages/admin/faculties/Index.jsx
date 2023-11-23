@@ -60,7 +60,11 @@ export default function Index({ faculties }) {
                                         {faculty.created_at}
                                     </td>
                                     <td class="px-3 py-2 text-center">
-                                        <a href="">
+                                        <a
+                                            href={route("faculties.show", {
+                                                id: faculty.id,
+                                            })}
+                                        >
                                             <Button>show</Button>
                                         </a>
                                         <a

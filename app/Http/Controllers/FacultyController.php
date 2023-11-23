@@ -40,7 +40,7 @@ class FacultyController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'required|image',
-            'content' => 'required',
+            'content' => 'nullable',
             'position' => 'required',
         ]);
 
@@ -87,7 +87,7 @@ class FacultyController extends Controller
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'position' => 'nullable',
-            'content' => 'required',
+            'content' => 'nullable',
         ]);
 
         if ($request->hasFile('image')) {

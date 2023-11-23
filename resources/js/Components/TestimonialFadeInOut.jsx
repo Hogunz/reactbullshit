@@ -18,17 +18,21 @@ export function TestimonialFadeInOut({ data }) {
     }, [data.length]);
 
     return (
-        <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 pt-[130px] lg:px-6 pb-[221px]">
-            <div className="font-light text-gray-500 sm:text-lg dark:text-light/75">
-                <h3 className="font-inter text-[14px] text-[#d399ee] uppercase font-medium tracking-widest pb-[20px]">
+        <div
+            data-aos="fade-up"
+            data-aos-duration="800"
+            className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl flex flex-col sm:flex-row lg:grid lg:grid-cols-2 sm:grid-cols-1 pt-[130px] lg:px-6 pb-[221px] "
+        >
+            <div className="font-light text-gray-500 sm:text-lg dark:text-light/75 ">
+                <h3 className="font-inter lg:text-[14px] text-[#d399ee] text-center sm:text-left lg:mb-8 text-lg uppercase font-medium tracking-widest pb-[20px]">
                     Testimonials
                 </h3>
                 <FadeInOut
                     show={show}
                     style={extraStyles}
-                    className="flex flex-col "
+                    className="flex flex-col order-1"
                 >
-                    <div className="mb-4 font-inter italic leading-[33px] text-[18px] dark:text-light text-dark">
+                    <div className="mb-4 font-inter italic leading-[33px] text-[18px] dark:text-light text-dark ">
                         <p>{data[dataIndex].content}</p>
                     </div>
 
@@ -40,13 +44,19 @@ export function TestimonialFadeInOut({ data }) {
                     </h3>
                 </FadeInOut>
             </div>
-            <FadeInOut show={show} style={extraStyles} className="">
-                <img
-                    className="max-w-xl aspect-square object-cover bg-cover object-center w-[570px] h-[450px]"
-                    src={"/storage/" + data[dataIndex].image}
-                    alt="office content 2"
-                />
-            </FadeInOut>
+            <div>
+                <FadeInOut
+                    show={show}
+                    style={extraStyles}
+                    className="bg-cover bg-center"
+                >
+                    <img
+                        className="max-w-full object-scale-down  object-center w-[570px] h-[450px]"
+                        src={"/storage/" + data[dataIndex].image}
+                        alt="office content 2"
+                    />
+                </FadeInOut>
+            </div>
         </div>
     );
 }

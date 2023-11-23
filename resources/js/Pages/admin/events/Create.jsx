@@ -3,7 +3,7 @@ import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
-
+import JoditEditor from "jodit-react";
 export default function Create() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
@@ -50,15 +50,16 @@ export default function Create() {
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Content</InputLabel>
-                                <textarea
+                                <JoditEditor
+                                    value={data.content}
                                     name="content"
-                                    onChange={(e) =>
-                                        setData("content", e.target.value)
+                                    onChange={(newContent) =>
+                                        setData("content", newContent)
                                     }
                                     cols={30}
                                     rows={10}
                                     required
-                                ></textarea>
+                                ></JoditEditor>
                             </div>
                             <div className="mb-2">
                                 <Button type="submit">Create</Button>

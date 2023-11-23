@@ -58,7 +58,7 @@ export const BSITDescriptionProgram = () => {
                 </div>
 
                 <div class="mx-auto max-w-5xl gap-8 pb-[130px] pt-[63px]">
-                    <p className="dark:text-light font-extralight font-inter leading-[27px] text-[18px]">
+                    <p className="text-light font-extralight font-inter leading-[27px] text-[18px]">
                         Bachelor of Science in Information Technology (BSIT) is
                         a 4-year program that equips graduates with
                         comprehensive knowledge and skills in the realm of
@@ -212,7 +212,7 @@ export const BSCSDescriptionProgram = () => {
                     </div>
                 </div>
                 <div className="mx-auto max-w-5xl gap-8 pb-[130px] pt-[130px]">
-                    <p className="dark:text-light font-extralight font-inter leading-[27px] text-[18px]">
+                    <p className="text-light font-extralight font-inter leading-[27px] text-[18px]">
                         BS Computer Science is a 4-year course that produces
                         graduates with the computing concepts and theories,
                         algorithmic foundations and new developments in

@@ -1,13 +1,14 @@
 import Testimonials from "@/Components/Testimonials";
 export default function AboutUs({ bscstestimonials = [] }) {
     return (
-        <section
-            id="About"
-            className="bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-30% to-dark"
-        >
-            <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6 ">
-                <div className="font-light text-gray-500 sm:text-lg dark:text-light/75 order-2 ">
-                    <h3 className="font-inter text-[14px] text-[#d399ee] uppercase font-medium tracking-widest">
+        <section className="dark:bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-30% to-dark bg-light-75 ">
+            <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl flex flex-col sm:flex-row lg:grid lg:grid-cols-2 sm:grid-cols-1 lg:py-16 lg:px-6 ">
+                <div
+                    data-aos="fade-left"
+                    data-aos-duration="800"
+                    className="font-light text-gray-500 sm:text-lg dark:text-light/75 order-2 text-center sm:text-left  "
+                >
+                    <h3 className="font-inter lg:text-[14px] text-[#d399ee]  lg:mb-8 text-lg uppercase font-medium tracking-widest pb-[20px]">
                         ABOUT US
                     </h3>
                     <p className="mb-4">
@@ -35,7 +36,11 @@ export default function AboutUs({ bscstestimonials = [] }) {
                         ever-evolving IT industry.
                     </p>
                 </div>
-                <div className="grid grid-cols-2 gap-6">
+                <div
+                    data-aos="zoom-in"
+                    data-aos-duration="800"
+                    className="grid grid-cols-2 gap-6"
+                >
                     <img
                         className="w-full object-cover bg-cover object-center"
                         src="/img/pic2.jpg"

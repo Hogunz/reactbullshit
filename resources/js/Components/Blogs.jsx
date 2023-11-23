@@ -124,15 +124,20 @@ export default function Blogs({ events = [] }) {
 
     return (
         <>
-            <div className="bg-[#232323] pt-[90px]">
-                <h3 className="font-inter text-center text-[14px] text-[#d399ee] uppercase font-medium tracking-widest mb-4">
-                    Blog / News
-                </h3>
-                <h1 className="text-light text-3xl text-center font-inter font-semibold pb-[50px]">
-                    Latest News
-                </h1>
-
-                <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
+            <div className="dark:bg-[#232323] bg-light/75 pt-[90px]">
+                <div data-aos="fade-up" data-aos-duration="800">
+                    <h3 className="font-inter text-center text-[14px] text-[#d399ee] uppercase font-medium tracking-widest mb-4">
+                        Blog / News
+                    </h3>
+                    <h1 className="dark:text-light text-dark/75 text-3xl text-center font-inter font-semibold pb-[50px]">
+                        Latest News
+                    </h1>
+                </div>
+                <div
+                    data-aos="fade-up"
+                    data-aos-duration="600"
+                    className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 justify-items-center justify-self-center gap-8 pb-[130px]"
+                >
                     {events.map((event, index) => (
                         <div
                             key={index}
@@ -154,16 +159,17 @@ export default function Blogs({ events = [] }) {
                                     href={route("events.show", {
                                         id: event.id,
                                     })}
-                                    className="font-inter font-semibold text-[22px] text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
+                                    className="line-clamp-1 font-inter font-semibold text-[22px] text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
                                 >
                                     {event.name}
                                 </a>
                                 <div className="space-y-8">
-                                    <div>
-                                        <p className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4">
-                                            {event.content}
-                                        </p>
-                                    </div>
+                                    <div
+                                        className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4"
+                                        // dangerouslySetInnerHTML={{
+                                        //     __html: event.content,
+                                        // }}
+                                    />
 
                                     <div className="flex justify-between">
                                         <div>

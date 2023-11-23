@@ -1,44 +1,43 @@
 import { NavBar } from "@/Components/NavBar";
 import React, { Component } from "react";
-import { instructorsData } from "@/Components/Instructors";
-export default function FacultyPage() {
+export default function FacultyPage({ faculties = [] }) {
     return (
         <>
             {" "}
             <div className="dark:bg-dark w-full">
                 <NavBar />
-                <div className="text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+                <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
                     Our Instructors
                 </div>
-                <section class="bg-[#232323] pt-[140px]">
-                    <div class="mx-auto max-w-5xl grid grid-cols-3 gap-8 pb-[130px]">
-                        {instructorsData.map((instructor, index) => (
+                <section className="dark:bg-[#232323] bg-light pt-[140px]">
+                    <div className="mx-auto max-w-5xl grid grid-cols-3 gap-8 pb-[130px]">
+                        {faculties.map((faculty, index) => (
                             <div
                                 key={index}
-                                className="relative max-w-xs overflow-hidden bg-cover bg-no-repeat"
+                                className="relative max-w-xs overflow-hidden  bg-cover bg-no-repeat"
                             >
                                 <a
-                                    href={
-                                        "/Instructors?instructor=" +
-                                        instructor.id
-                                    }
-                                    className="href"
+                                    href={route("faculties.show", {
+                                        id: faculty.id,
+                                    })}
                                 >
-                                    <img
-                                        className="max-w-full bg-cover object-cover aspect-square mb-[27px] transition duration-300 ease-in-out hover:scale-110"
-                                        src={instructor.avatar}
-                                        alt=""
-                                    />
+                                    <div className="overflow-hidden w-[320px] h-[448.13px]">
+                                        <img
+                                            className="max-w-full object-scale-down mb-[27px] transition duration-300 ease-in-out hover:scale-110 w-[320px] h-[448.13px]"
+                                            src={"/storage/" + faculty.image}
+                                            alt=""
+                                        />
+                                    </div>
                                 </a>
-                                <div className="space-y-2">
+                                <div>
                                     <a
                                         href=""
-                                        className="font-inter font-semibold text-[#a352cc] leading-[26.4px] text-[22px] hover:text-light transition duration-300 ease-in-out"
+                                        className="font-inter font-semibold text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
                                     >
-                                        {instructor.name}
+                                        {faculty.name}
                                     </a>
-                                    <h3 className="font-inter font-normal text-light/75 leading-[26.4px] text-[18px]">
-                                        {instructor.position}
+                                    <h3 className="font-inter font-normal dark:text-light/75 text-dark leading-[26.4px]">
+                                        {faculty.position}
                                     </h3>
                                 </div>
                             </div>

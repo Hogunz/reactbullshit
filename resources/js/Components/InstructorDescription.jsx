@@ -4,14 +4,14 @@ export default function InstructorDescription({ faculties = [] }) {
     return (
         <>
             <div className="dark:bg-dark">
-                <div className="text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
+                <div className="dark:text-light text-dark text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
                     {faculties.name}
                 </div>
             </div>
             <div className="bg-gradient-to-br from-purple from-5% via-[#232323] via-30% to-dark">
                 <div class="mx-auto max-w-6xl grid grid-cols-2 justify-items-center pt-[130px]">
                     <div className="bg-dark shadow-2xl max-w-xl sticky inset-x-0 top-14 bottom-0 max-h-full lg:p-0 w-[386.09px] h-[495.8px] flex justify-center items-center">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col overflow-hidden">
                             <div className="pt-[20px]">
                                 <img
                                     className="max-w-xs object-scale-down w-[346.09px] h-[300px]"
@@ -35,10 +35,12 @@ export default function InstructorDescription({ faculties = [] }) {
                             </div>
                         </div>
                     </div>
-                    <div className="max-w-3xl">
-                        {faculties.content}
-                        <div></div>
-                    </div>
+                    <div
+                        className="max-w-3xl font-inter dark:font-light dark:text-light text-[18px] leading-[27px]"
+                        dangerouslySetInnerHTML={{
+                            __html: faculties.content,
+                        }}
+                    />
                 </div>
             </div>
         </>

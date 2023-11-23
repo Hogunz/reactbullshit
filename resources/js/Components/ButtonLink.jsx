@@ -3,7 +3,7 @@ export default function ButtonLink() {
         <>
             <button
                 type="button"
-                className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-dark border rounded-lg bg-light dark:bg-transparent dark:text-light hover:bg-purple hover:text-light dark:hover:bg-purple dark:hover:text-dark hover:border-purple  transition duration-300 ease-in-out focus:ring-4 dark:focus:ring-light focus:ring-purple"
+                className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-light border rounded-lg bg-purple hover:bg-light hover:text-purple hover:border-purple  transition duration-300 ease-in-out focus:ring-4 focus:ring-purple"
             >
                 View More
                 <svg
