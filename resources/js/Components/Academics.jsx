@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ButtonLink from "./ButtonLink";
+import CustomCursor from "./CustomCursor";
 
 export const Description = ({ name = "SITE", props }) => (
     <div className="dark:bg-dark w-full">
@@ -13,6 +14,7 @@ export const Description = ({ name = "SITE", props }) => (
 export default function Academics() {
     return (
         <>
+            <CustomCursor />
             <section className="dark:bg-[#232323] bg-light pt-[140px]">
                 <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
                     <div
@@ -27,8 +29,8 @@ export default function Academics() {
                             Program Description
                         </h1>
                     </div>
-                    <div class="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2">
-                        <div class="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px] bg-cover bg-no-repeat lg:order-1 sm:order-2">
+                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2">
+                        <div className="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px] bg-cover bg-no-repeat lg:order-1 sm:order-2">
                             <img
                                 className="object-fill bg-no-repeat bg-cover bg-center object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110"
                                 src="/img/pic4.jpg"
@@ -37,11 +39,11 @@ export default function Academics() {
                         </div>
 
                         <div
-                            class="flex items-center p-4 md:p-8 aos-disabled aos-init aos-animate"
+                            className="flex items-center p-4 md:p-8 aos-disabled aos-init aos-animate"
                             data-aos="fade-up"
                             data-aos-duration="600"
                         >
-                            <div class="mt-4 md:mt-0">
+                            <div className="mt-4 md:mt-0">
                                 <h2 className=" text-purple text-[22px] font-inter font-semibold pb-[23px]">
                                     BSIT
                                 </h2>
@@ -66,22 +68,22 @@ export default function Academics() {
                             </div>
                         </div>
                     </div>
-                    <hr class="h-px my-8 bg-light border-0 dark:bg-light/75" />
-                    <div class="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2">
-                        <div class="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px] bg-cover bg-no-repeat lg:order-1 sm:order-2">
+                    <hr className="h-px my-8 bg-light border-0 dark:bg-light/75" />
+                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2">
+                        <div className="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px]  bg-center bg-cover bg-no-repeat lg:order-1 sm:order-2">
                             <img
-                                className="object-fill bg-no-repeat bg-cover bg-center object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110 "
+                                className="object-fill bg-no-repeat bg-cover object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110 "
                                 src="/img/pic5.jpg"
                                 alt="office content 1"
                             />
                         </div>
 
                         <div
-                            class="flex items-center p-4 md:p-8 aos-disabled aos-init aos-animate"
+                            className="flex items-center p-4 md:p-8 aos-disabled aos-init aos-animate"
                             data-aos="fade-up"
                             data-aos-duration="600"
                         >
-                            <div class="mt-4 md:mt-0">
+                            <div className="mt-4 md:mt-0">
                                 <h2 className=" text-purple text-[22px] font-inter font-semibold pb-[23px]">
                                     BSCS
                                 </h2>

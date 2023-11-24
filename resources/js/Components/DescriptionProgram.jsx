@@ -6,9 +6,11 @@ import {
     MessageIcon,
     FinderIcon,
 } from "./svg/SVGicon";
+import CustomCursor from "./CustomCursor";
 export const BSITDescriptionProgram = () => {
     return (
         <>
+            <CustomCursor />
             <div className=" bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-25% to-[#232323] ">
                 <div className="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
                     <div className="border-0 dark:bg-dark relative  ">

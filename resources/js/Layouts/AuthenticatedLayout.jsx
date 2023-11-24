@@ -164,12 +164,15 @@ export default function Authenticated({ user, header, children }) {
                             <ResponsiveNavLink href={route("profile.edit")}>
                                 Profile
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink>News & Events</ResponsiveNavLink>
-                            <ResponsiveNavLink>
-                                BSIT Testimonials
+                            <ResponsiveNavLink href={route("events.index")}>
+                                News & Events
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink>
-                                {" "}
+                            <ResponsiveNavLink href={route("faculties.index")}>
+                                Faculty
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route("bscstestimonials.index")}
+                            >
                                 BSCS Testimonials
                             </ResponsiveNavLink>
                             <ResponsiveNavLink

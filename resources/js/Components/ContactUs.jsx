@@ -7,9 +7,11 @@ import {
     FinderIcon,
 } from "./svg/SVGicon";
 import GoogleMap from "./GoogleMap";
+import CustomCursor from "./CustomCursor";
 const ContactUs = () => {
     return (
         <>
+            <CustomCursor />
             <div className="dark:bg-dark">
                 <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
                     Contact Us

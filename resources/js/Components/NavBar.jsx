@@ -1,107 +1,188 @@
 import DarkMode from "./DarkModeToggle";
 import { Link } from "@inertiajs/react";
 import { LogoIcon } from "./svg/SVGicon";
+import {
+    Navbar,
+    Typography,
+    Button,
+    IconButton,
+    Collapse,
+} from "@material-tailwind/react";
+import { useState, useEffect } from "react";
 export function NavBar() {
+    const [openNav, setOpenNav] = useState(false);
+
+    useEffect(() => {
+        window.addEventListener(
+            "resize",
+            () => window.innerWidth >= 960 && setOpenNav(false)
+        );
+    }, []);
+    const navList = (
+        <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <a
+                    href="/"
+                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                >
+                    Home
+                </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <a
+                    href="/ProgramDescription"
+                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                >
+                    Academics
+                </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <a
+                    href="/Faculty"
+                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                >
+                    Faculty
+                </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <a
+                    href="/News&Events"
+                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                >
+                    News & Events
+                </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <a
+                    href="/VMO"
+                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                >
+                    VMO
+                </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <a
+                    href="/Contact"
+                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                >
+                    Contact
+                </a>
+            </Typography>
+        </ul>
+    );
     return (
         <>
             <nav className="bg-light/75 border-gray-200 dark:bg-dark">
-                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a href="/" className="flex items-center">
-                        <LogoIcon />
-                    </a>
-                    <button
-                        data-collapse-toggle="navbar-default"
-                        type="button"
-                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                        aria-controls="navbar-default"
-                        aria-expanded="false"
-                    >
-                        <span className="sr-only">Open main menu</span>
-                        <svg
-                            className="w-5 h-5"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 17 14"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M1 1h15M1 7h15M1 13h15"
-                            />
-                        </svg>
-                    </button>
-                    <div
-                        className="hidden w-full md:block md:w-auto"
-                        id="navbar-default"
-                    >
-                        <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-light dark:bg-gray-800 md:dark:bg-dark dark:border-gray-700">
-                            <li>
-                                <a
-                                    href="/"
-                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
-                                    aria-current="page"
-                                >
-                                    Home
+                <Navbar className="max-w-full  mx-auto p-4 lg:fixed static inset-x-0 top-0 z-10 h-max border-transparent bg-light/75 dark:bg-dark/75 shadow-2xl">
+                    <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto">
+                        <a href="/" className="flex items-center">
+                            <LogoIcon />
+                        </a>
+                        <div className="flex items-center gap-4">
+                            <div className="mr-4 hidden lg:block">
+                                {navList}
+                            </div>
+                            <div className="mr-4 hidden lg:block">
+                                <DarkMode />
+                            </div>
+                            <div className="flex items-center gap-x-1">
+                                <a href="/Contact" className="href">
+                                    <span className="hidden lg:inline-block justify-center items-center py-3 px-5 text-base font-medium text-center text-light border rounded-lg bg-purple hover:bg-light hover:text-purple hover:border-purple  transition duration-300 ease-in-out focus:ring-4 focus:ring-purple">
+                                        Enroll Now
+                                    </span>
                                 </a>
-                            </li>
-
-                            <li>
-                                <a
-                                    href="/ProgramDescription"
-                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                            </div>
+                            <IconButton
+                                variant="text"
+                                className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+                                ripple={false}
+                                onClick={() => setOpenNav(!openNav)}
+                            >
+                                {openNav ? (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        className="h-6 w-6"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+                                )}
+                            </IconButton>
+                        </div>
+                        <Collapse open={openNav}>
+                            {navList}
+                            <div className="flex items-center gap-x-1">
+                                <Button
+                                    fullWidth
+                                    variant="text"
+                                    size="sm"
+                                    className=""
                                 >
-                                    Academics
-                                </a>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/Faculty"
-                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                                    <span>Log In</span>
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    variant="gradient"
+                                    size="sm"
+                                    className=""
                                 >
-                                    Faculty
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/News&Events"
-                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
-                                >
-                                    News & Events
-                                </Link>
-                            </li>
-                            <li>
-                                <a
-                                    href="/VMO"
-                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
-                                >
-                                    VMO
-                                </a>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/Contact"
-                                    className="block py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
-                                >
-                                    Contact
-                                </Link>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="block py-0 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
-                                >
-                                    <DarkMode />
-                                </a>
-                            </li>
-                        </ul>
+                                    <span>Sign in</span>
+                                </Button>
+                            </div>
+                        </Collapse>
                     </div>
-                    <div>
-                        <ul></ul>
-                    </div>
-                </div>
+                </Navbar>
             </nav>
         </>
     );

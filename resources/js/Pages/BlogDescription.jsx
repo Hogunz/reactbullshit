@@ -1,5 +1,6 @@
 import React from "react";
 import { CalendarIcon, UserIcon } from "../Components/svg/SVGicon";
+import CustomCursor from "@/Components/CustomCursor";
 
 export default function BlogDescription({ events = [] }) {
     const formatDate = (dateString) => {
@@ -18,6 +19,7 @@ export default function BlogDescription({ events = [] }) {
 
     return (
         <>
+            <CustomCursor />
             <div className="dark:bg-dark">
                 <div className="max-w-screen-xl flex flex-col mx-auto p-4">
                     <div className="font-inter font-bold dark:text-light text-dark text-[60px] text-left leading-[72px] pt-[93.45px]">

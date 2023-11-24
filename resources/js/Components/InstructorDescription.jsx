@@ -1,8 +1,10 @@
 import React from "react";
 import { FacebookIcon, TwitterIcon, InstagramIcon } from "./svg/SVGicon";
+import CustomCursor from "./CustomCursor";
 export default function InstructorDescription({ faculties = [] }) {
     return (
         <>
+            <CustomCursor />
             <div className="dark:bg-dark">
                 <div className="dark:text-light text-dark text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
                     {faculties.name}

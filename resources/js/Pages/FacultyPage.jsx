@@ -1,9 +1,11 @@
+import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import React, { Component } from "react";
 export default function FacultyPage({ faculties = [] }) {
     return (
         <>
             {" "}
+            <CustomCursor />
             <div className="dark:bg-dark w-full">
                 <NavBar />
                 <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">

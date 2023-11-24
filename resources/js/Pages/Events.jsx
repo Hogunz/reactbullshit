@@ -1,6 +1,7 @@
 import { NavBar } from "@/Components/NavBar";
 import React from "react";
 import ButtonLink from "@/Components/ButtonLink";
+import CustomCursor from "@/Components/CustomCursor";
 export default function Events({ events = [] }) {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -10,6 +11,7 @@ export default function Events({ events = [] }) {
     };
     return (
         <>
+            <CustomCursor />
             <div className="dark:bg-dark w-full">
                 <NavBar />
                 <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
