@@ -17,7 +17,7 @@ const ContactUs = () => {
                     Contact Us
                 </div>
                 <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                    <div class="mx-auto max-w-3xl grid grid-cols-2 gap-8 pb-[130px]">
+                    <div className="mx-auto max-w-3xl grid grid-cols-2 gap-8 pb-[130px]">
                         <div className="relative max-w-xl dark:bg-[#232323] shadow-2xl">
                             <div className="flex flex-col">
                                 <div className="flex space-x-4 p-8 items-center">
