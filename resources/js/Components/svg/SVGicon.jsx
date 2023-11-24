@@ -129,7 +129,7 @@ export const UserIcon = (props) => (
 );
 export const LogoIcon = (props) => (
     <svg
-        className=" h-8 mr-3 text-transparent hover:text-light/75 transition duration-300 ease-in-out "
+        className=" h-8 mr-3 text-transparent hover:text-purple transition duration-300 ease-in-out "
         xmlns="http://www.w3.org/2000/svg"
         xmlSpace="preserve"
         viewBox="0 0 858 207"

@@ -12,7 +12,7 @@ const VMO = () => {
                     VMO
                 </div>
                 <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                    <div className=" mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
+                    <div className=" mx-auto max-w-7xl grid sm:grid-cols-3 grid-cols-1 gap-8 pb-[130px] p-8 ">
                         <div className="p-4 dark:bg-[#232323] border-2 border-purple shadow-2xl">
                             <h1 className="font-inter font-bold leading-normal tracking-widest text-[40px] text-purple ">
                                 Vision

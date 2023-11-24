@@ -13,11 +13,11 @@ const ContactUs = () => {
         <>
             <CustomCursor />
             <div className="dark:bg-dark">
-                <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+                <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] pt-[211px] pb-[231px]">
                     Contact Us
                 </div>
                 <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                    <div className="mx-auto max-w-3xl grid grid-cols-2 gap-8 pb-[130px]">
+                    <div className="mx-auto max-w-3xl grid lg:grid-cols-2 grid-cols-1 gap-8 pb-[130px]">
                         <div className="relative max-w-xl dark:bg-[#232323] shadow-2xl">
                             <div className="flex flex-col">
                                 <div className="flex space-x-4 p-8 items-center">
@@ -25,7 +25,7 @@ const ContactUs = () => {
                                         <MessageIcon />
                                     </div>
                                     <div>
-                                        <h2 className="font-inter leading-[26.4px] font-semibold text-[22px] dark:text-light text-dark">
+                                        <h2 className="font-inter leading-[26.4px] font-semibold lg:text-[22px] dark:text-light text-dark">
                                             Our Contacts
                                         </h2>
                                     </div>

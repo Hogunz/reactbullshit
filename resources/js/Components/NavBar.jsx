@@ -15,11 +15,11 @@ export function NavBar() {
     useEffect(() => {
         window.addEventListener(
             "resize",
-            () => window.innerWidth >= 960 && setOpenNav(false)
+            () => window.innerWidth >= 960 && setOpenNav(false),
         );
     }, []);
     const navList = (
-        <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+        <ul className="sm:mt-2 mt-12 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 lg:divide-y-0 divide-y-2">
             <Typography
                 as="li"
                 variant="small"
@@ -28,7 +28,7 @@ export function NavBar() {
             >
                 <a
                     href="/"
-                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                    className="sm:text-base text-5xl flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                 >
                     Home
                 </a>
@@ -41,7 +41,7 @@ export function NavBar() {
             >
                 <a
                     href="/ProgramDescription"
-                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                    className="sm:text-base text-5xl flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                 >
                     Academics
                 </a>
@@ -54,7 +54,7 @@ export function NavBar() {
             >
                 <a
                     href="/Faculty"
-                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                    className="sm:text-base text-5xl flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                 >
                     Faculty
                 </a>
@@ -67,7 +67,7 @@ export function NavBar() {
             >
                 <a
                     href="/News&Events"
-                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                    className="sm:text-base text-5xl flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                 >
                     News & Events
                 </a>
@@ -80,7 +80,7 @@ export function NavBar() {
             >
                 <a
                     href="/VMO"
-                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                    className="sm:text-base text-5xl flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                 >
                     VMO
                 </a>
@@ -93,7 +93,7 @@ export function NavBar() {
             >
                 <a
                     href="/Contact"
-                    className="flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
+                    className="sm:text-base text-5xl flex items-center py-2 pl-3 text-dark dark:text-light hover:text-purple dark:hover:text-purple transition duration-300 ease-in-out"
                 >
                     Contact
                 </a>
@@ -162,23 +162,13 @@ export function NavBar() {
                         </div>
                         <Collapse open={openNav}>
                             {navList}
-                            <div className="flex items-center gap-x-1">
-                                <Button
-                                    fullWidth
-                                    variant="text"
-                                    size="sm"
-                                    className=""
+                            <div className="flex flex-col sm:flex-row mb-8 lg:mb-16 space-y-4  sm:justify-left sm:space-y-0 sm:space-x-4 ">
+                                <Link
+                                    href="/Contact"
+                                    className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-light border rounded-lg bg-purple "
                                 >
-                                    <span>Log In</span>
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    variant="gradient"
-                                    size="sm"
-                                    className=""
-                                >
-                                    <span>Sign in</span>
-                                </Button>
+                                    Enroll Now
+                                </Link>
                             </div>
                         </Collapse>
                     </div>
