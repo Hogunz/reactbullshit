@@ -15,7 +15,7 @@ export default function Welcome({
 }) {
     return (
         <>
-            <div className="bg-light dark:bg-dark h-screen ">
+            <div className="bg-light dark:bg-dark h-screen scroll-smooth ">
                 <NavBar />
                 <HeroSection />
                 <AboutUs bscstestimonials={bscstestimonials} />
