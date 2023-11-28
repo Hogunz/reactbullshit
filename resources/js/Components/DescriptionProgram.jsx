@@ -177,7 +177,7 @@ export const BSCSDescriptionProgram = () => {
                                     </h2>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 gap-4 p-8">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-8">
                                 <div className="flex space-x-4 items-center">
                                     <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
                                         <LocationIcon />
@@ -238,32 +238,32 @@ export const BSCSDescriptionProgram = () => {
                     </p>
                     <div>
                         <ul className="list-disc list-inside">
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Articulate the computing theories, principles
                                 and knowledge domain to address real-world
                                 problems.
                             </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Conduct research and determine the latest
                                 developments in the specific field of practice.
                             </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Work effectively with teams and communicate
                                 orally and in writing.
                             </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Understand computing problems, define the
                                 requirements to design an appropriate solution.
                             </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Develop computing solutions utilizing modern
                                 computing tools.
                             </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Demonstrate professional, social and ethical
                                 responsibility.
                             </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Engage in independent learning for continual
                                 development as a computing professional.
                             </li>
@@ -274,35 +274,35 @@ export const BSCSDescriptionProgram = () => {
                     </p>
                     <div>
                         <ul className="list-disc list-inside ">
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Software Developer/Engineer
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Data Scientist
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Computer Systems Analyst
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Web Developer/Designer
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Cybersecurity Analyst
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Database Administrator/Analyst
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Network Administrator/Engineer
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Artificial Intelligence and Machine Learning
                                 Specialist
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 IT Project Manager
                             </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px]">
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Technical Writer
                             </li>
                         </ul>
