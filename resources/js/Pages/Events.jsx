@@ -14,11 +14,11 @@ export default function Events({ events = [] }) {
             <CustomCursor />
             <div className="dark:bg-dark w-full">
                 <NavBar />
-                <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+                <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] pt-[211px] pb-[231px">
                     News & Events
                 </div>
                 <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                    <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-8 pb-[130px]">
+                    <div className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-8 pb-[130px] place-items-center">
                         {events.map((event, index) => (
                             <div
                                 key={index}
@@ -66,7 +66,7 @@ export default function Events({ events = [] }) {
                                             <div className="place-self-center">
                                                 <p className="font-[18px] leading-[27px] font-inter dark:text-white ">
                                                     {formatDate(
-                                                        event.created_at
+                                                        event.created_at,
                                                     )}
                                                 </p>
                                             </div>

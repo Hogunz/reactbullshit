@@ -8,11 +8,11 @@ export default function FacultyPage({ faculties = [] }) {
             <CustomCursor />
             <div className="dark:bg-dark w-full">
                 <NavBar />
-                <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+                <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] pt-[211px] pb-[231px]">
                     Our Instructors
                 </div>
                 <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                    <div className="mx-auto max-w-5xl grid grid-cols-3 gap-8 pb-[130px]">
+                    <div className="mx-auto max-w-5xl grid lg:grid-cols-3 grid-cols-1 gap-8 pb-[130px] place-items-center">
                         {faculties.map((faculty, index) => (
                             <div
                                 key={index}

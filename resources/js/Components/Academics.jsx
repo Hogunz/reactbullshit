@@ -5,7 +5,7 @@ import CustomCursor from "./CustomCursor";
 export const Description = ({ name = "SITE", props }) => (
     <div className="dark:bg-dark w-full">
         {" "}
-        <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+        <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] pt-[211px] pb-[231px]">
             {name} Program Description
         </div>
     </div>
@@ -29,7 +29,7 @@ export default function Academics() {
                             Program Description
                         </h1>
                     </div>
-                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2">
+                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2 content-center place-items-center">
                         <div className="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px] bg-cover bg-no-repeat lg:order-1 sm:order-2">
                             <img
                                 className="object-fill bg-no-repeat bg-cover bg-center object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110"
@@ -69,7 +69,7 @@ export default function Academics() {
                         </div>
                     </div>
                     <hr className="h-px my-8 bg-light border-0 dark:bg-light/75" />
-                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2">
+                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2 content-center place-items-center">
                         <div className="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px]  bg-center bg-cover bg-no-repeat lg:order-1 sm:order-2">
                             <img
                                 className="object-fill bg-no-repeat bg-cover object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110 "

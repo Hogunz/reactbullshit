@@ -13,7 +13,7 @@ export default function BlogDescription({ events = [] }) {
             .toString()
             .padStart(
                 2,
-                "0"
+                "0",
             )} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     };
 
@@ -22,7 +22,7 @@ export default function BlogDescription({ events = [] }) {
             <CustomCursor />
             <div className="dark:bg-dark">
                 <div className="max-w-screen-xl flex flex-col mx-auto p-4">
-                    <div className="font-inter font-bold dark:text-light text-dark text-[60px] text-left leading-[72px] pt-[93.45px]">
+                    <div className="font-inter font-bold dark:text-light text-dark text-left text-[40px] lg:text-[60px]  leading-0 lg:leading-[72px] pt-[93.45px]">
                         {events.name}
                     </div>
                     <div className="flex space-x-[49.63px] pb-[50px]">

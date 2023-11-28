@@ -8,7 +8,7 @@ const VMO = () => {
             <CustomCursor />
             <NavBar />
             <div className="dark:bg-dark w-full">
-                <div className="text-dark dark:text-light text-center font-inter font-bold text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+                <div className="text-dark dark:text-light text-center font-inter font-bold text-[60px] lg:text-[90px] leading-[108px] pt-[211px] pb-[231px]">
                     VMO
                 </div>
                 <section className="dark:bg-[#232323] bg-light pt-[140px]">
