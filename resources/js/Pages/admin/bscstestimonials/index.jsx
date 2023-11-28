@@ -11,7 +11,7 @@ export default function Index({ bscstestimonials }) {
     return (
         <>
             <NavBar />
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg pt-24">
                 <div class="border-b border-gray-200 bg-white p-6">
                     <div class="mb-2 flex justify-end">
                         <a
@@ -73,7 +73,7 @@ export default function Index({ bscstestimonials }) {
                                         <a
                                             href={route(
                                                 "bscstestimonials.edit",
-                                                { id: bscstestimonial.id }
+                                                { id: bscstestimonial.id },
                                             )}
                                             className="href"
                                         >

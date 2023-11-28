@@ -103,7 +103,7 @@ export function NavBar() {
     return (
         <>
             <nav className="bg-light/75 border-gray-200 dark:bg-dark">
-                <Navbar className="max-w-full  mx-auto p-4 lg:fixed static inset-x-0 top-0 z-10 h-max border-transparent bg-light/75 dark:bg-dark/75 shadow-2xl">
+                <Navbar className="max-w-full mx-auto p-4 lg:fixed static inset-x-0 top-0 z-10 h-max border-transparent bg-light/75 dark:bg-dark/75 shadow-2xl">
                     <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto">
                         <a href="/" className="flex items-center">
                             <LogoIcon />

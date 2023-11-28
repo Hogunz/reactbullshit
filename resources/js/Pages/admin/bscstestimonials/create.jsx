@@ -1,19 +1,16 @@
 import InputLabel from "@/Components/InputLabel";
 import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-
-
 export default function Create() {
-     const  { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        position: '',
-        image: '',
-        content:'',
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: "",
+        position: "",
+        image: "",
+        content: "",
     });
-
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -24,18 +21,19 @@ export default function Create() {
     return (
         <>
             <NavBar />
-            <div className="py-12">
+            <div className="py-12 pt-24">
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div className="border-b border-gray-200 bg-white p-6">
                         <form onSubmit={handleSubmit}>
-
                             <div className="mb-2">
                                 <InputLabel>Name</InputLabel>
                                 <input
                                     type="text"
                                     name="name"
                                     value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
+                                    onChange={(e) =>
+                                        setData("name", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -45,7 +43,9 @@ export default function Create() {
                                     type="file"
                                     accepts="images/*"
                                     name="image"
-                                    onChange={(e) => setData('image', e.target.files[0])}
+                                    onChange={(e) =>
+                                        setData("image", e.target.files[0])
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -54,7 +54,9 @@ export default function Create() {
                                 <input
                                     type="text"
                                     name="position"
-                                    onChange={(e) => setData('position', e.target.value)}
+                                    onChange={(e) =>
+                                        setData("position", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -62,8 +64,11 @@ export default function Create() {
                                 <InputLabel>Content</InputLabel>
                                 <textarea
                                     name="content"
-                                    onChange={(e) => setData('content', e.target.value)}
-                                    cols={30} rows={10}
+                                    onChange={(e) =>
+                                        setData("content", e.target.value)
+                                    }
+                                    cols={30}
+                                    rows={10}
                                     required
                                 ></textarea>
                             </div>
@@ -74,8 +79,6 @@ export default function Create() {
                     </div>
                 </div>
             </div>
-
-
         </>
     );
 }

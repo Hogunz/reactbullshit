@@ -21,7 +21,7 @@ export default function Create() {
     return (
         <>
             <NavBar />
-            <div className="py-12">
+            <div className="py-12 pt-24">
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div className="border-b border-gray-200 bg-white p-6">
                         <form onSubmit={handleSubmit}>
