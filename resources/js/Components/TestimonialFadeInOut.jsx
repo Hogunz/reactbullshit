@@ -68,7 +68,7 @@ export function TestimonialFadeInOut({ data }) {
                         className="font-light text-gray-500 sm:text-lg dark:text-light/75 text-center sm:text-left"
                     >
                         <h3 className="font-inter lg:text-[14px] text-[#d399ee]  lg:mb-8 text-lg uppercase font-medium tracking-widest pb-[20px]">
-                            Testoimonials
+                            Testimonials
                         </h3>
                     </div>
                     <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2 content-center place-items-center">

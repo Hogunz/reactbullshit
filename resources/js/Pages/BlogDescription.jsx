@@ -47,7 +47,7 @@ export default function BlogDescription({ events = [] }) {
                             </div>
                         </div>
                     </div>
-                    <div className="">
+                    <div className=" lg:mt-0 lg:col-span-5 lg:flex ">
                         <img
                             className="max-w-full mb-[27px]"
                             src={"/storage/" + events.image}
