@@ -6,7 +6,7 @@ export default function InstructorDescription({ faculties = [] }) {
         <>
             <CustomCursor />
             <div className="dark:bg-dark">
-                <div className="dark:text-light text-dark text-center font-inter font-bold text-[90px] leading-[108px] pt-[100px] pb-[90px]">
+                <div className="dark:text-light text-dark text-center font-inter font-bold text-[40px] lg:text-[90px] leading-[108px] pt-[100px] pb-[90px]">
                     {faculties.name}
                 </div>
             </div>
@@ -14,9 +14,9 @@ export default function InstructorDescription({ faculties = [] }) {
                 <div class="mx-auto max-w-6xl grid grid-cols-2 justify-items-center pt-[130px]">
                     <div className="bg-dark shadow-2xl max-w-xl sticky inset-x-0 top-14 bottom-0 max-h-full lg:p-0 w-[386.09px] h-[495.8px] flex justify-center items-center">
                         <div className="flex flex-col overflow-hidden">
-                            <div className="pt-[20px]">
+                            <div className="pt-[20px]  bg-center flex justify-center">
                                 <img
-                                    className="max-w-xs object-scale-down w-[346.09px] h-[300px]"
+                                    className="max-w-xs object-scale-down w-[346.09px] h-[300px] object-center"
                                     src={"/storage/" + faculties.image}
                                     alt=""
                                 />
