@@ -55,7 +55,7 @@ export default function BlogDescription({ events = [] }) {
                         />
                     </div>
                     <div
-                        className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify"
+                        className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify bg-white"
                         dangerouslySetInnerHTML={{
                             __html: events.content,
                         }}

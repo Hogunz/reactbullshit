@@ -38,7 +38,7 @@ export default function InstructorDescription({ faculties = [] }) {
                         </div>
                     </div>
                     <div
-                        className="max-w-3xl font-inter dark:font-light dark:text-light text-[18px] leading-[27px]"
+                        className="max-w-3xl font-inter dark:font-light dark:text-light text-[18px] leading-[27px] w-full"
                         dangerouslySetInnerHTML={{
                             __html: faculties.content,
                         }}
