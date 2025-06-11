@@ -38,7 +38,7 @@ const VMO = () => {
                                 Core Values
                             </h1>
                             <p className="font-inter font-thin text-[22px] leading-[30px] dark:text-light">
-                                Competence. Unity. Dynamic. Dedicated.
+                                Competence. Unity. Dynamism. Dedicated.
                                 Integrity. Trustworthy
                             </p>
                         </div>

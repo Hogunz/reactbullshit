@@ -78,6 +78,19 @@ Route::get('/ProgramDescription', function () {
 Route::get('/VMO', function () {
     return Inertia::render("VMO");
 });
+Route::get('/PEO', function () {
+    return Inertia::render("PEO");
+});
+
+Route::get('/academics/bsit/MMA', function () {
+    return Inertia::render("BSITMMA");
+});
+Route::get('/academics/bsit/WMAD', function () {
+    return Inertia::render("BSITWMAD");
+});
+Route::get('/academics/bsit/NICS', function () {
+    return Inertia::render("BSITNICS");
+});
 
 Route::get('/Blogs', function (Request $request) {
 

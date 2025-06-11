@@ -54,6 +54,7 @@ export default function HeroSection() {
                 >
                     <img
                         className="object-scale-down bg-cover"
+                        loading="lazy"
                         src="/img/pic1.jpg"
                         alt="mockup"
                     />

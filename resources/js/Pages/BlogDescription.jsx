@@ -55,9 +55,13 @@ export default function BlogDescription({ events = [] }) {
                         />
                     </div>
                     <div
-                        className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify bg-white"
+                        style={{ backgroundColor: "transparent" }}
+                        className="font-inter font-light text-[18px] leading-[27px] dark:text-white text-black text-justify"
                         dangerouslySetInnerHTML={{
-                            __html: events.content,
+                            __html: events.content.replace(
+                                /(background(?:-color)?:\s*[^;]+;)|(color:\s*[^;]+;)/gi,
+                                "",
+                            ), // Removes inline background and text colors
                         }}
                     />
                 </div>

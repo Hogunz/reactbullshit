@@ -12,7 +12,7 @@ export const BSITDescriptionProgram = () => {
         <>
             <CustomCursor />
             <div className=" bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-25% to-[#232323] ">
-                <div className="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
+                {/* <div className="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
                     <div className="border-0 dark:bg-dark relative  ">
                         <div className="flex flex-col">
                             <div className="flex space-x-4 p-8 items-center">
@@ -57,71 +57,76 @@ export const BSITDescriptionProgram = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div class="mx-auto max-w-5xl gap-8 pb-[130px] pt-[63px]">
-                    <p className="text-light font-extralight font-inter leading-[27px] text-[18px] lg:text-left text-justify">
-                        Bachelor of Science in Information Technology (BSIT) is
-                        a 4-year program that equips graduates with
-                        comprehensive knowledge and skills in the realm of
-                        information technology. The curriculum encompasses a
-                        thorough understanding of computing concepts,
-                        foundational theories, and the latest advancements in
-                        the field of information technology.
-                    </p>
-                    <br />
-                    <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
-                        Program Outcomes:
-                    </p>
-                    <div>
-                        <ul className="list-disc list-inside">
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Develop and implement software applications
-                                using various programming languages and tools.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Design and develop websites and web applications
-                                using front-end and back-end technologies.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Analyze complex business problems and design
-                                effective solutions using information
-                                technology.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Use database management systems to store,
-                                organize, and retrieve data efficiently.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Configure and manage computer networks and
-                                network security protocols.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Understand and apply principles of data
-                                structures and algorithms to solve problems in
-                                computer science.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Collaborate with other professionals to develop
-                                and manage technology projects.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Analyze data and apply statistical and
-                                mathematical models to derive insights and
-                                inform decision-making.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Develop and implement mobile applications for
-                                various platforms and devices.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Communicate technical information clearly and
-                                effectively to both technical and non-technical
-                                audiences.
-                            </li>
-                        </ul>
+                    <div class="flex items-center justify-center">
+                        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                            <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
+                                <div class="max-w-full">
+                                    <img
+                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                        src="img/1.jpg"
+                                        alt=""
+                                    />
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                                <div class="absolute inset-0 flex translate-y-[100%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+                                    <h1 class=" text-2xl font-bold text-white mb-3">
+                                        Multimedia Arts and Animation
+                                    </h1>
+                                    <a href="/academics/bsit/MMA">
+                                        <button class="rounded-full bg-neutral-900 py-2 px-3.5 font-com text-sm capitalize text-white shadow shadow-black/60 hover:bg-neutral-600 transition duration-300 ease-in-out">
+                                            See More
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
+                                <div class="max-w-full">
+                                    <img
+                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                        src="img/2.jpg"
+                                        alt=""
+                                    />
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                                <div class="absolute inset-0 flex translate-y-[100%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+                                    <h1 class=" text-2xl font-bold text-white mb-3">
+                                        Web and Mobile Application Development
+                                    </h1>
+                                    <a href="/academics/bsit/WMAD">
+                                        <button class="rounded-full bg-neutral-900 py-2 px-3.5 font-com text-sm capitalize text-white shadow shadow-black/60 hover:bg-neutral-600 transition duration-300 ease-in-out">
+                                            See More
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
+                                <div class="max-w-full">
+                                    <img
+                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                        src="img/3.jpg"
+                                        alt=""
+                                    />
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                                <div class="absolute inset-0 flex translate-y-[100%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+                                    <h1 class=" text-2xl font-bold text-white mb-3">
+                                        Network Infrastructure with
+                                        Cybersecurity
+                                    </h1>
+                                    <a href="/academics/bsit/NICS">
+                                        <button class="rounded-full bg-neutral-900 py-2 px-3.5 font-com text-sm capitalize text-white shadow shadow-black/60 hover:bg-neutral-600 transition duration-300 ease-in-out">
+                                            See More
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
+
+                    {/* <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
                         Career Opportunities:
                     </p>
                     <div>
@@ -157,7 +162,7 @@ export const BSITDescriptionProgram = () => {
                                 Mobile Application Developer
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
@@ -215,61 +220,94 @@ export const BSCSDescriptionProgram = () => {
                 </div>
                 <div className="mx-auto max-w-5xl gap-8 pb-[130px] pt-[130px]">
                     <p className="text-light font-extralight font-inter leading-[27px] text-[18px]">
-                        BS Computer Science is a 4-year course that produces
-                        graduates with the computing concepts and theories,
-                        algorithmic foundations and new developments in
-                        computing. The program prepares students to design and
-                        create algorithmically complex software and develop new
-                        and effective algorithms for solving computing problems.
-                    </p>
-                    <br />
-                    <br />
-                    <p className="dark:text-light font-extralight font-inter leading-[27px] text-[18px]">
-                        The program also includes the study of the standards and
-                        practices in Software Engineering. It prepares students
-                        to acquire skills and disciplines required for
-                        designing, writing and modifying software components,
-                        modules and applications that comprise software
-                        solutions.
+                        The Bachelor of Science in Computer Science specializing
+                        in Data Science is designed to equip students with a
+                        solid foundation in computer science principles while
+                        emphasizing data science techniques and applications.
+                        This program combines rigorous computer science theory
+                        with practical, hands-on experience in data analytics,
+                        machine learning, data visualization, and big data
+                        technologies. Students learn to extract meaningful
+                        insights from vast amounts of data and apply these
+                        insights to solve real-world problems across various
+                        domains, including business, healthcare, finance, and
+                        technology.
                     </p>
                     <br />
                     <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
                         Program Outcomes:
                     </p>
-                    <div>
+
+                    <div className="pt-10 ">
                         <ul className="list-disc list-inside">
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Articulate the computing theories, principles
-                                and knowledge domain to address real-world
-                                problems.
+                                Apply knowledge of computing, science, and
+                                mathematics appropriate to the discipline
                             </li>
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Conduct research and determine the latest
-                                developments in the specific field of practice.
+                                Understand best practices and standards and
+                                their applications
                             </li>
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Work effectively with teams and communicate
-                                orally and in writing.
+                                Analyze complex problem and identify and define
+                                the computing requirements appropriate to its
+                                solution.
                             </li>
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Understand computing problems, define the
-                                requirements to design an appropriate solution.
+                                Identify an analyze user needs and take them
+                                into account in the selection, creation,
+                                evaluation and administration of computer-based
+                                systems.
                             </li>
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Develop computing solutions utilizing modern
-                                computing tools.
+                                Design, implement, and evaluate computer-based
+                                systems, processes, components, or programs to
+                                meet desired needs and requirement under various
+                                constraints
                             </li>
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Demonstrate professional, social and ethical
-                                responsibility.
+                                Integrate IT-based solutions into the user
+                                environment effectively
                             </li>
                             <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Engage in independent learning for continual
-                                development as a computing professional.
+                                Apply knowledge through the use of current
+                                techniques, skills, tools and practices
+                                necessary for the IT profession
+                            </li>
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Function effectively as a member or leader of a
+                                development team recognizing the different roles
+                                within a team to accomplish a common goal
+                            </li>
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Assist in the creation of an effective IT
+                                project plan
+                            </li>
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Communicate effectively with the computer
+                                community and with society at large about
+                                complex computing activities through logical
+                                writing, presentations, and clear instructions
+                            </li>
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Analyze the local and global impact of computing
+                                information technology on individuals,
+                                organizations, and society
+                            </li>
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Understand professional, ethical, legal,
+                                security and social issues and responsibilities
+                                in the utilization of information technology
+                            </li>
+                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Recognize the need for and engage in planning
+                                self-learning and improving performance as a
+                                foundation for continuing professional
+                                development
                             </li>
                         </ul>
                     </div>
-                    <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
+                    <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px] mb-4">
                         Career Opportunities:
                     </p>
                     <div>
@@ -281,26 +319,26 @@ export const BSCSDescriptionProgram = () => {
                                 Data Scientist
                             </li>
                             <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Computer Systems Analyst
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Web Developer/Designer
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Cybersecurity Analyst
+                            </li>
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                Systems Architect
+                            </li>
+                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                AI/ML Engineer
                             </li>
                             <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Database Administrator/Analyst
                             </li>
                             <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Network Administrator/Engineer
+                                IT Consultant
                             </li>
                             <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Artificial Intelligence and Machine Learning
                                 Specialist
                             </li>
                             <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                IT Project Manager
+                                Cloud Solutions Architect
                             </li>
                             <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
                                 Technical Writer
