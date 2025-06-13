@@ -85,7 +85,7 @@ export function NavBar() {
                     VMO
                 </a>
             </Typography>
-            <Typography
+            {/* <Typography
                 as="li"
                 variant="small"
                 color="blue-gray"
@@ -97,7 +97,7 @@ export function NavBar() {
                 >
                     PEO
                 </a>
-            </Typography>
+            </Typography> */}
             <Typography
                 as="li"
                 variant="small"
