@@ -97,7 +97,7 @@ function BSITMMA() {
                     </div>
                 </div>
                 <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
-                    <p className="dark:text-light text-dark font-inter leading-[30px] text-[24px]">
+                    <p className="dark:text-light text-dark font-inter leading-[30px] lg:text-[24px] text-[18px] text-justify lg:text-left">
                         The Multimedia Arts and Animation Specialization is
                         designed to blend Information Technology with creative
                         design that focuses on the creation of interactive and

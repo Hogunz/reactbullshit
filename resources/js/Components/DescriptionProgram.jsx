@@ -63,7 +63,7 @@ export const BSITDescriptionProgram = () => {
                     <div class="flex items-center justify-center">
                         <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
                             <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                                <div class="max-w-full">
+                                <div class="max-w-full p-8 lg:p-0">
                                     <img
                                         class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
                                         src="img/1.jpg"
@@ -83,7 +83,7 @@ export const BSITDescriptionProgram = () => {
                                 </div>
                             </div>
                             <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                                <div class="max-w-full">
+                                <div class="max-w-full p-8 lg:p-0">
                                     <img
                                         class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
                                         src="img/2.jpg"
@@ -103,7 +103,7 @@ export const BSITDescriptionProgram = () => {
                                 </div>
                             </div>
                             <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                                <div class="max-w-full">
+                                <div class="max-w-full p-8 lg:p-0">
                                     <img
                                         class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
                                         src="img/3.jpg"
@@ -166,7 +166,7 @@ export const BSITDescriptionProgram = () => {
                 </div>
             </div>
             <div className="dark:bg-dark w-full">
-                <div className="text-dark dark:text-light text-center font-inter font-bold text-[60px] lg:text-[90px] leading-[108px] pt-[211px] pb-[231px]">
+                <div className="text-dark dark:text-light text-center font-inter font-bold text-[35px] lg:text-[90px] leading-[108px] pt-[211px] pb-[231px]">
                     Program Education Objectives (PEO)
                 </div>
                 <section className="dark:bg-[#232323] bg-light ">
