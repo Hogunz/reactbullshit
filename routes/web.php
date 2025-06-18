@@ -26,7 +26,7 @@ use App\Models\Faculty;
 
 Route::get('/', function () {
     $bscstestimonials = BSCSTestimonial::all();
-    $events = Event::all();
+    $events = Event::orderBy('created_at', 'desc')->get();
     $faculties = Faculty::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

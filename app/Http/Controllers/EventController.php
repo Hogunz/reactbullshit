@@ -18,7 +18,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::with('user')->get();
+        $events = Event::with('user')
+            ->orderBy('created_at', 'desc') // sort newest to oldest
+            ->get();
+
         return Inertia::render('admin/events/Index', [
             'events' => $events,
         ]);
