@@ -2,7 +2,6 @@ import InputLabel from "@/Components/InputLabel";
 import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { useEffect } from "react";
 import JoditEditor from "jodit-react";
 export default function Create() {
     const { data, setData, post, processing, errors, reset } = useForm({

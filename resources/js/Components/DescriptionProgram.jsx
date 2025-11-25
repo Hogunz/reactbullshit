@@ -12,53 +12,6 @@ export const BSITDescriptionProgram = () => {
         <>
             <CustomCursor />
             <div className=" bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-25% to-[#232323] ">
-                {/* <div className="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
-                    <div className="border-0 dark:bg-dark relative  ">
-                        <div className="flex flex-col">
-                            <div className="flex space-x-4 p-8 items-center">
-                                <div>
-                                    <h2 className="font-inter leading-[33.6px] font-semibold text-[28px] text-light">
-                                        Our Contacts
-                                    </h2>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-8">
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <LocationIcon />
-                                    </div>
-                                    <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
-                                            Arellano St, Dagupan City,
-                                            Philippines
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <MessageIcon />
-                                    </div>
-                                    <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
-                                            udd_site@cdd.edu.ph
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <PhoneIcon />
-                                    </div>
-                                    <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
-                                            (075) 522 2405
-                                        </h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-
                 <div class="mx-auto max-w-5xl gap-8 pb-[130px] pt-[63px]">
                     <div class="flex items-center justify-center">
                         <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -125,44 +78,6 @@ export const BSITDescriptionProgram = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
-                        Career Opportunities:
-                    </p>
-                    <div>
-                        <ul className="list-disc list-inside ">
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Software Developer/Engineer
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Web Developer/Designer
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Database Administrator/Analyst
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Network Administrator/Engineer
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Cybersecurity Analyst
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                IT Project Manager
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                IT Consultant
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Data Scientist
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Systems Analyst
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Mobile Application Developer
-                            </li>
-                        </ul>
-                    </div> */}
                 </div>
             </div>
             <div className="dark:bg-dark w-full">
@@ -172,32 +87,46 @@ export const BSITDescriptionProgram = () => {
                 <section className="dark:bg-[#232323] bg-light ">
                     <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
                         <p className=" mb-8 dark:text-light text-dark font-inter leading-[30px] text-[24px]">
-                            The Educational Objectives of the Bachelor of
-                            Science in Information Technology of Universidad de
-                            Dagupan are to produce graduates who, during the
-                            first few years after graduation, are:
+                            The Program Educational Objectives (PEO) of the
+                            Bachelor of Science in Information Technology of
+                            Universidad de Dagupan are to produce graduates that
+                            after three to five years graduation they have:
                         </p>
                         <div>
                             <ul className="list-disc list-inside">
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    capable of solving complex computational
-                                    problems using appropiate models,
-                                    techniques, and abstractions;
+                                    Possessed essential and fundamental
+                                    technological knowledge and skills that make
+                                    them confident to become as IT Specialist in
+                                    local, national and international work
+                                    environment.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    able to communicate effectively and work
-                                    effeciently in a team environment;
+                                    Displayed the appropriate morally and
+                                    ethical behavior of Information Technology
+                                    professional in and out of the workplace.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    capable of measuring the impact of computing
-                                    in society and are able to conduct
-                                    themselves in an ethical and professional
-                                    manner; and,
+                                    Occupied managerial and leadership roles in
+                                    their organizations.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    successful in their professional work or
-                                    graduate studies and are open to life-long
-                                    learning.
+                                    Engaged in life-long learning through
+                                    relevant and comprehensive continuous
+                                    attendance to conferences/seminars/training
+                                    as resource speakers and as participants.
+                                </li>
+                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                    Pursued graduate program and engage in
+                                    academic and research careers.
+                                </li>
+                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                    Engaged in an economic enterprise related to
+                                    the profession.
+                                </li>
+                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                    Acquired global proficiency/competency in
+                                    communication skills.
                                 </li>
                             </ul>
                         </div>
@@ -207,70 +136,73 @@ export const BSITDescriptionProgram = () => {
                         <div>
                             <ul className="list-disc list-inside">
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to apply knowledge of computing
-                                    and mathematics appropriate to the
-                                    discipline.
+                                    Apply knowledge of computing, science, and
+                                    mathematics appropriate to the discipline.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to analyze a problem, and
-                                    identify and define the computing
-                                    requirements appropriate to its solution.
+                                    Understand best practices and standards and
+                                    their applications.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to design, implement, and
-                                    evaluate a computer-based system, process,
-                                    component, or program to meet desired needs.
+                                    Analyze complex problems, and identify and
+                                    define the computing requirements
+                                    appropriate to their solution.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to function effectively on teams
-                                    to accomplish a common goal.
+                                    Identify and analyze user needs and take
+                                    them into account in the selection,
+                                    creation, evaluation, and administration of
+                                    computer-based systems.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An understanding of professional, ethical,
-                                    legal, security and social issues and
-                                    responsibilities.
+                                    Design, implement, and evaluate
+                                    computer-based systems, processes,
+                                    components, or programs to meet desired
+                                    needs and requirements under various
+                                    constraints.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to communicate effectively with a
-                                    range of audiences.
+                                    Integrate IT-based solutions into the user
+                                    environment effectively.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to analyze the local and global
-                                    impact of computing on individuals,
-                                    organizations, and society.
+                                    Apply knowledge through the use of current
+                                    techniques, skills, tools, and practices
+                                    necessary for the IT profession.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Recognition of the need for and an ability
-                                    to engage in continuing professional
-                                    development.
+                                    Function effectively as a member or leader
+                                    of a development team, recognizing the
+                                    different roles within a team to accomplish
+                                    a common goal.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to use current techniques,
-                                    skills, and tools necessary for computing
-                                    practice.
+                                    Assist in the creation of an effective IT
+                                    project plan.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to use and apply current
-                                    technical concepts and practices in the core
-                                    information technologies.
+                                    Communicate effectively with the computing
+                                    community and with society at large about
+                                    complex computing activities through logical
+                                    writing, presentations, and clear
+                                    instructions.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to identify and analyze user
-                                    needs and take them into account in the
-                                    selection, creation, evaluation, and
-                                    administration of computer-based systems.
+                                    Analyze the local and global impact of
+                                    computing and information technology on
+                                    individuals, organizations, and society.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to effectively integrate IT-based
-                                    solutions into the user environment.
+                                    Understand professional, ethical, legal,
+                                    security, and social issues and
+                                    responsibilities in the utilization of
+                                    information technology.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An understanding of best practices and
-                                    standards and their application.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to assist in the creation of an
-                                    effective project plan.
+                                    Recognize the need for, and engage in,
+                                    planning self-learning and improving
+                                    performance as a foundation for continuing
+                                    professional development.
                                 </li>
                             </ul>
                         </div>

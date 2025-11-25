@@ -8,37 +8,51 @@ export default function PEO() {
             <NavBar />
             <div className="dark:bg-dark w-full">
                 <div className="text-dark dark:text-light text-center font-inter font-bold text-[60px] lg:text-[90px] leading-[108px] pt-[211px] pb-[231px]">
-                    Program Education Objectives (PEO)
+                    Program Education Objectives (PEOs)
                 </div>
                 <section className="dark:bg-[#232323] bg-light ">
                     <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
                         <p className=" mb-8 dark:text-light text-dark font-inter leading-[30px] text-[24px]">
-                            The Educational Objectives of the Bachelor of
-                            Science in Information Technology of Universidad de
-                            Dagupan are to produce graduates who, during the
-                            first few years after graduation, are:
+                            The Program Education Objectives (PEOs) of the
+                            Bachelor of Science in Information Technology of
+                            Universidad de Dagupan are to produce graduates who,
+                            within a few years after graduation they have:
                         </p>
                         <div>
                             <ul className="list-disc list-inside">
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    capable of solving complex computational
-                                    problems using appropiate models,
-                                    techniques, and abstractions;
+                                    Possessed essential and fundamental
+                                    technological knowledge and skills that make
+                                    them confident to become as IT Specialist in
+                                    local, national and international work
+                                    environment.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    able to communicate effectively and work
-                                    effeciently in a team environment;
+                                    Displayed the appropriate morally and
+                                    ethical behavior of Information Technology
+                                    professional in and out of the workplace.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    capable of measuring the impact of computing
-                                    in society and are able to conduct
-                                    themselves in an ethical and professional
-                                    manner; and,
+                                    Occupied managerial and leadership roles in
+                                    their organizations.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    successful in their professional work or
-                                    graduate studies and are open to life-long
-                                    learning.
+                                    Engaged in life-long learning through
+                                    relevant and comprehensive continuous
+                                    attendance to conferences/seminars/training
+                                    as resource speakers and as participants.
+                                </li>
+                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                    Pursued graduate program and engage in
+                                    academic and research careers.
+                                </li>
+                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                    Engaged in an economic enterprise related to
+                                    the profession.
+                                </li>
+                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
+                                    Acquired global proficiency/competency in
+                                    communication skills.
                                 </li>
                             </ul>
                         </div>
