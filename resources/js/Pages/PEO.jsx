@@ -62,70 +62,73 @@ export default function PEO() {
                         <div>
                             <ul className="list-disc list-inside">
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to apply knowledge of computing
-                                    and mathematics appropriate to the
-                                    discipline.
+                                    Apply knowledge of computing, science, and
+                                    mathematics appropriate to the discipline.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to analyze a problem, and
-                                    identify and define the computing
-                                    requirements appropriate to its solution.
+                                    Understand best practices and standards and
+                                    their applications.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to design, implement, and
-                                    evaluate a computer-based system, process,
-                                    component, or program to meet desired needs.
+                                    Analyze complex problems, and identify and
+                                    define the computing requirements
+                                    appropriate to their solution.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to function effectively on teams
-                                    to accomplish a common goal.
+                                    Identify and analyze user needs and take
+                                    them into account in the selection,
+                                    creation, evaluation, and administration of
+                                    computer-based systems.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An understanding of professional, ethical,
-                                    legal, security and social issues and
-                                    responsibilities.
+                                    Design, implement, and evaluate
+                                    computer-based systems, processes,
+                                    components, or programs to meet desired
+                                    needs and requirements under various
+                                    constraints.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to communicate effectively with a
-                                    range of audiences.
+                                    Integrate IT-based solutions into the user
+                                    environment effectively.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to analyze the local and global
-                                    impact of computing on individuals,
-                                    organizations, and society.
+                                    Apply knowledge through the use of current
+                                    techniques, skills, tools, and practices
+                                    necessary for the IT profession.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Recognition of the need for and an ability
-                                    to engage in continuing professional
-                                    development.
+                                    Function effectively as a member or leader
+                                    of a development team, recognizing the
+                                    different roles within a team to accomplish
+                                    a common goal.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to use current techniques,
-                                    skills, and tools necessary for computing
-                                    practice.
+                                    Assist in the creation of an effective IT
+                                    project plan.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to use and apply current
-                                    technical concepts and practices in the core
-                                    information technologies.
+                                    Communicate effectively with the computing
+                                    community and with society at large about
+                                    complex computing activities through logical
+                                    writing, presentations, and clear
+                                    instructions.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to identify and analyze user
-                                    needs and take them into account in the
-                                    selection, creation, evaluation, and
-                                    administration of computer-based systems.
+                                    Analyze the local and global impact of
+                                    computing and information technology on
+                                    individuals, organizations, and society.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to effectively integrate IT-based
-                                    solutions into the user environment.
+                                    Understand professional, ethical, legal,
+                                    security, and social issues and
+                                    responsibilities in the utilization of
+                                    information technology.
                                 </li>
                                 <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An understanding of best practices and
-                                    standards and their application.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    An ability to assist in the creation of an
-                                    effective project plan.
+                                    Recognize the need for, and engage in,
+                                    planning self-learning and improving
+                                    performance as a foundation for continuing
+                                    professional development.
                                 </li>
                             </ul>
                         </div>
