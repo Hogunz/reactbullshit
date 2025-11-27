@@ -1,199 +1,106 @@
 import React from "react";
 import ButtonLink from "./ButtonLink";
-
-// export const blogData = [
-//     {
-//         id: 1,
-//         author: "CJ Dela Cruz",
-//         avatar: "https://site.steps.com.ph/storage/BzkPmaVo1D60tHV5PxweTgdrPsvpKfSZj6Bgp6ew.jpg",
-//         title: "New Computers",
-//         date: "November 15, 2023",
-//         description: (
-//             <>
-//                 <p className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4">
-//                     As UdD rises and SITE's preparations to become the Center of
-//                     Excellence in IT Education continue, newly purchased
-//                     computer units with I7 processors have been installed at
-//                     L301. These computers are in addition to the new computers
-//                     that UdD students are now using in L302, L303, and the open
-//                     laboratory. A room for Computer System Servicing is
-//                     currently under construction with new computer units to
-//                     watch out for.These are just a few of the accomplishments of
-//                     the School of Information Technology Education.
-//                 </p>
-//             </>
-//         ),
-//         content: (
-//             <>
-//                 <p className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify">
-//                     As UdD rises and SITE's preparations to become the Center of
-//                     Excellence in IT Education continue, newly purchased
-//                     computer units with I7 processors have been installed at
-//                     L301. These computers are in addition to the new computers
-//                     that UdD students are now using in L302, L303, and the open
-//                     laboratory. A room for Computer System Servicing is
-//                     currently under construction with new computer units to
-//                     watch out for.These are just a few of the accomplishments of
-//                     the School of Information Technology Education.
-//                 </p>
-//             </>
-//         ),
-//     },
-//     {
-//         id: 2,
-//         author: "CJ Dela Cruz",
-//         avatar: "",
-//         title: "Mr. and Ms. SITE",
-//         date: "November 15, 2023",
-//         description: (
-//             <>
-//                 <div className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4">
-//                     𝐋𝐢𝐠𝐡𝐭𝐬, 𝐂𝐚𝐦𝐞𝐫𝐚, 𝐀𝐜𝐭𝐢𝐨𝐧! ✨ The moment we've all been waiting
-//                     for is finally here! ✨ The stage is ablaze with excitement,
-//                     and the spotlight is poised to capture the essence of true
-//                     brilliance as the 𝑺𝒄𝒉𝒐𝒐𝒍 𝒐𝒇 𝑰𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝑻𝒆𝒄𝒉𝒏𝒐𝒍𝒐𝒈𝒚 𝑬𝒅𝒖𝒄𝒂𝒕𝒊𝒐𝒏
-//                     embarks on the quest to crown 𝗠𝗿. 𝗮𝗻𝗱 𝗠𝘀. 𝐒𝐈𝐓𝐄 𝟮𝟬𝟮𝟯! Get
-//                     ready to witness a dazzling display of talent, intelligence,
-//                     and charisma as our contestants take center stage to
-//                     showcase not only their technical prowess but also their
-//                     unique personalities that set them apart. As we navigate
-//                     through this thrilling search, may the spotlight shine on
-//                     those who embody the spirit of SITE, where 𝒊𝒏𝒏𝒐𝒗𝒂𝒕𝒊𝒐𝒏 𝒎𝒆𝒆𝒕𝒔
-//                     𝒆𝒍𝒆𝒈𝒂𝒏𝒄𝒆, and 𝒊𝒏𝒕𝒆𝒍𝒍𝒊𝒈𝒆𝒏𝒄𝒆 𝒅𝒂𝒏𝒄𝒆𝒔 𝒘𝒊𝒕𝒉 𝒈𝒓𝒂𝒄𝒆. 👑 On 𝗡𝗼𝘃𝗲𝗺𝗯𝗲𝗿
-//                     𝟮𝟰, 𝟮𝟬𝟮𝟯, the stage will come alive as we present an
-//                     unforgettable showcase of beauty and brilliance. Mark your
-//                     calendars and join us for a celebration like no other, where
-//                     every moment is a highlight and every participant is a star
-//                     in the making. Here's to the enchanting journey of our 𝗠𝗿.
-//                     𝗮𝗻𝗱 𝗠𝘀. 𝐒𝐈𝐓𝐄 𝟮𝟬𝟮𝟯, where dreams unfold and where every
-//                     contestant is a story waiting to be told.
-//                 </div>
-//             </>
-//         ),
-//         content: (
-//             <>
-//                 <h1 className="font-inter font-light text-[18px] leading-[27px] dark:text-light text-justify">
-//                     <p className="pb-[16px]">𝐋𝐢𝐠𝐡𝐭𝐬, 𝐂𝐚𝐦𝐞𝐫𝐚, 𝐀𝐜𝐭𝐢𝐨𝐧! ✨ </p>
-//                     <p className="pb-[16px]">
-//                         The moment we've all been waiting for is finally here!
-//                         ✨
-//                     </p>{" "}
-//                     <p className="pb-[16px]">
-//                         The stage is ablaze with excitement, and the spotlight
-//                         is poised to capture the essence of true brilliance as
-//                         the 𝑺𝒄𝒉𝒐𝒐𝒍 𝒐𝒇 𝑰𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝑻𝒆𝒄𝒉𝒏𝒐𝒍𝒐𝒈𝒚 𝑬𝒅𝒖𝒄𝒂𝒕𝒊𝒐𝒏 embarks
-//                         on the quest to crown 𝗠𝗿. 𝗮𝗻𝗱 𝗠𝘀. 𝐒𝐈𝐓𝐄 𝟮𝟬𝟮𝟯!
-//                     </p>{" "}
-//                     <p className="pb-[16px]">
-//                         {" "}
-//                         Get ready to witness a dazzling display of talent,
-//                         intelligence, and charisma as our contestants take
-//                         center stage to showcase not only their technical
-//                         prowess but also their unique personalities that set
-//                         them apart. As we navigate through this thrilling
-//                         search, may the spotlight shine on those who embody the
-//                         spirit of SITE, where 𝒊𝒏𝒏𝒐𝒗𝒂𝒕𝒊𝒐𝒏 𝒎𝒆𝒆𝒕𝒔 𝒆𝒍𝒆𝒈𝒂𝒏𝒄𝒆, and
-//                         𝒊𝒏𝒕𝒆𝒍𝒍𝒊𝒈𝒆𝒏𝒄𝒆 𝒅𝒂𝒏𝒄𝒆𝒔 𝒘𝒊𝒕𝒉 𝒈𝒓𝒂𝒄𝒆. 👑{" "}
-//                     </p>
-//                     <p className="pb-[16px]">
-//                         On 𝗡𝗼𝘃𝗲𝗺𝗯𝗲𝗿 𝟮𝟰, 𝟮𝟬𝟮𝟯, the stage will come alive as we
-//                         present an unforgettable showcase of beauty and
-//                         brilliance. Mark your calendars and join us for a
-//                         celebration like no other, where every moment is a
-//                         highlight and every participant is a star in the making.
-//                     </p>{" "}
-//                     <p className="pb-[16px]">
-//                         {" "}
-//                         Here's to the enchanting journey of our 𝗠𝗿. 𝗮𝗻𝗱 𝗠𝘀. 𝐒𝐈𝐓𝐄
-//                         𝟮𝟬𝟮𝟯, where dreams unfold and where every contestant is
-//                         a story waiting to be told.
-//                     </p>
-//                 </h1>
-//             </>
-//         ),
-//     },
-// ];
+import { Link } from "@inertiajs/react";
 
 export default function Blogs({ events = [] }) {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        // Example formatting: YYYY-MM-DD HH:MM:SS
         const options = { month: "long", day: "numeric", year: "numeric" };
         return date.toLocaleDateString("en-US", options);
     };
 
     return (
         <>
-            <div className="dark:bg-[#232323] bg-light/75 pt-[90px]">
-                <div data-aos="fade-up" data-aos-duration="800">
-                    <h3 className="font-inter text-center text-[14px] text-[#d399ee] uppercase font-medium tracking-widest mb-4">
-                        Blog / News
-                    </h3>
-                    <h1 className="dark:text-light text-dark/75 text-3xl text-center font-inter font-semibold pb-[50px]">
-                        Latest News
-                    </h1>
-                </div>
-                <div
-                    data-aos="fade-up"
-                    data-aos-duration="600"
-                    className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 justify-items-center justify-self-center gap-8 pb-[130px]"
-                >
-                    {events.map((event, index) => (
-                        <div
-                            key={index}
-                            className="relative max-w-xs overflow-hidden bg-cover bg-no-repeat"
-                        >
-                            <a
-                                href={route("events.show", {
-                                    id: event.id,
-                                })}
-                            >
-                                <img
-                                    className=" max-w-full bg-cover object-cover aspect-square mb-[27px] transition duration-300 ease-in-out hover:scale-110 w-[370px] h-[280px]"
-                                    src={"/storage/" + event.image}
-                                    alt=""
-                                />
-                            </a>
-                            <div className="">
-                                <a
-                                    href={route("events.show", {
-                                        id: event.id,
-                                    })}
-                                    className="line-clamp-1 font-inter font-semibold text-[22px] text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
-                                >
-                                    {event.name}
-                                </a>
-                                <div className="space-y-8">
-                                    <div
-                                        className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4"
-                                        // dangerouslySetInnerHTML={{
-                                        //     __html: event.content,
-                                        // }}
-                                    />
+            <section className="relative overflow-hidden bg-light dark:bg-dark py-20 lg:py-32">
+                {/* Background Elements */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
 
-                                    <div className="flex justify-between">
-                                        <div>
-                                            {" "}
-                                            <a
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Header */}
+                    <div
+                        data-aos="fade-up"
+                        data-aos-duration="800"
+                        className="text-center mb-16 lg:mb-24"
+                    >
+                        <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
+                            Blog / News
+                        </h3>
+                        <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light">
+                            Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">News</span>
+                        </h1>
+                    </div>
+
+                    {/* Blog Grid */}
+                    <div
+                        data-aos="fade-up"
+                        data-aos-duration="600"
+                        className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10"
+                    >
+                        {events.map((event, index) => (
+                            <div
+                                key={index}
+                                className="group relative flex flex-col h-full"
+                            >
+                                <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-2xl blur opacity-0 group-hover:opacity-50 transition duration-500"></div>
+                                <div className="relative flex flex-col h-full bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20 shadow-xl transform transition-all duration-300 group-hover:-translate-y-2">
+                                    {/* Image */}
+                                    <Link
+                                        href={route("events.show", {
+                                            id: event.id,
+                                        })}
+                                        className="relative block h-64 overflow-hidden"
+                                    >
+                                        <img
+                                            className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                                            src={"/storage/" + event.image}
+                                            alt={event.name}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    </Link>
+
+                                    {/* Content */}
+                                    <div className="flex flex-col flex-grow p-6 sm:p-8">
+                                        <div className="flex-grow">
+                                            <p className="text-sm font-medium text-purple mb-3">
+                                                {formatDate(event.created_at)}
+                                            </p>
+                                            <Link
                                                 href={route("events.show", {
                                                     id: event.id,
                                                 })}
+                                                className="block"
                                             >
-                                                <ButtonLink />{" "}
-                                            </a>
+                                                <h3 className="text-xl font-bold text-dark dark:text-light mb-4 line-clamp-2 hover:text-purple dark:hover:text-purple transition-colors">
+                                                    {event.name}
+                                                </h3>
+                                            </Link>
+                                            <div
+                                                className="text-gray-600 dark:text-gray-300 line-clamp-3 text-sm leading-relaxed mb-6"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: event.content,
+                                                }}
+                                            />
                                         </div>
-                                        <div className="place-self-center">
-                                            <p className="font-[18px] leading-[27px] font-inter dark:text-white ">
-                                                {formatDate(event.created_at)}
-                                            </p>
+
+                                        <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                                            <Link
+                                                href={route("events.show", {
+                                                    id: event.id,
+                                                })}
+                                                className="inline-flex items-center gap-2 text-sm font-bold text-purple hover:text-fuchsia-600 transition-colors"
+                                            >
+                                                Read More
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </section>
         </>
     );
 }

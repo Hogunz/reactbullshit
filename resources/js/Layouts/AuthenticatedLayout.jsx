@@ -74,9 +74,7 @@ export default function Authenticated({ user, header, children }) {
                                             News & Events
                                         </Dropdown.Link>
                                         <Dropdown.Link
-                                            href={route(
-                                                "bscstestimonials.index"
-                                            )}
+                                            href={route("bscstestimonials.index")}
                                         >
                                             Testimonials
                                         </Dropdown.Link>

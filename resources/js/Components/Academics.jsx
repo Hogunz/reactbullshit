@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import ButtonLink from "./ButtonLink";
 import CustomCursor from "./CustomCursor";
-
+import { Link } from "@inertiajs/react";
 export const Description = ({ name = "SITE", props }) => (
     <div className="dark:bg-dark w-full">
         {" "}
@@ -15,113 +15,128 @@ export default function Academics() {
     return (
         <>
             <CustomCursor />
-            <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
+            <section className="relative overflow-hidden bg-light dark:bg-dark py-20 lg:py-32">
+                {/* Background Elements */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Header */}
                     <div
                         data-aos="fade-up"
                         data-aos-duration="800"
-                        className="font-light text-gray-500 sm:text-lg dark:text-light/75 text-center sm:text-left"
+                        className="text-center mb-16 lg:mb-24"
                     >
-                        <h3 className="font-inter lg:text-[14px] text-[#d399ee]  lg:mb-8 text-lg uppercase font-medium tracking-widest pb-[20px]">
+                        <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
                             Academics
                         </h3>
-                        <h1 className="text-dark dark:text-light text-3xl font-inter font-semibold pb-[50px]">
-                            Program Description
+                        <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light">
+                            Program <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Description</span>
                         </h1>
                     </div>
-                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2 content-center place-items-center">
-                        <div className="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px] bg-cover bg-no-repeat lg:order-1 sm:order-2">
-                            <img
-                                className="object-fill bg-no-repeat bg-cover bg-center object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110"
-                                src="/img/pic4.jpg"
-                                alt="office content 1"
-                            />
+
+                    {/* BSIT Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24 lg:mb-32">
+                        {/* 3D Image */}
+                        <div className="relative perspective-1000 group order-2 lg:order-1" data-aos="fade-right" data-aos-duration="800">
+                            <div className="relative transform transition-all duration-500 group-hover:scale-105 group-hover:rotate-y-6">
+                                <div className="absolute inset-0 bg-purple/20 rounded-2xl transform translate-x-4 translate-y-4 -z-10"></div>
+                                <img
+                                    className="w-full h-[300px] lg:h-[400px] object-cover rounded-2xl shadow-2xl border-2 border-white dark:border-gray-800"
+                                    src="/img/pic4.jpg"
+                                    alt="BSIT"
+                                />
+                                <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-purple rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                            </div>
                         </div>
 
-                        <div
-                            className="flex items-center p-4 md:p-8 aos-disabled aos-init aos-animate"
-                            data-aos="fade-up"
-                            data-aos-duration="600"
-                        >
-                            <div className="mt-4 md:mt-0">
-                                <h2 className=" text-purple text-[22px] font-inter font-semibold pb-[23px]">
-                                    BSIT
-                                </h2>
-                                <p className="mb-[33px] text-[18px]">
-                                    The information technology curriculum
-                                    prepares students for a career,
-                                    postsecondary education, and lifetime
-                                    professional development in the program's
-                                    computer field by integrating technical,
-                                    professional, and general education
-                                    components. Additionally, the curriculum
-                                    offers both foundational and advanced
-                                    courses on information technology planning,
-                                    development, integration, and management.
-                                </p>
-                                <p className="mb-[33px] text-[18px]">
-                                    The curriculum for BSIT includes the
-                                    required GE courses, six (6) core courses
-                                    common to all ITE programs, professional
-                                    courses required for the BSIT program, and
-                                    electives. The students are also required to
-                                    undertake practicum work and complete a
-                                    capstone project. Moreover, it is composed
-                                    of three (3) Specializations.
-                                </p>
-                                <a
-                                    href="/Program?program=BSIT"
-                                    className="href"
-                                >
-                                    {" "}
-                                    <ButtonLink />
-                                </a>
+                        {/* Content Card */}
+                        <div className="order-1 lg:order-2" data-aos="fade-left" data-aos-duration="800">
+                            <div className="relative p-8 rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl">
+                                <h2 className="text-3xl font-bold text-purple mb-6">BSIT</h2>
+                                <div className="space-y-6 text-gray-600 dark:text-gray-300 leading-relaxed text-lg font-light">
+                                    <p>
+                                        The information technology curriculum
+                                        prepares students for a career,
+                                        postsecondary education, and lifetime
+                                        professional development in the program's
+                                        computer field by integrating technical,
+                                        professional, and general education
+                                        components. Additionally, the curriculum
+                                        offers both foundational and advanced
+                                        courses on information technology planning,
+                                        development, integration, and management.
+                                    </p>
+                                    <p>
+                                        The curriculum for BSIT includes the
+                                        required GE courses, six (6) core courses
+                                        common to all ITE programs, professional
+                                        courses required for the BSIT program, and
+                                        electives. The students are also required to
+                                        undertake practicum work and complete a
+                                        capstone project. Moreover, it is composed
+                                        of three (3) Specializations.
+                                    </p>
+                                </div>
+                                <div className="mt-8">
+                                    <a
+                                        href="/Program?program=BSIT"
+                                        className="href"
+                                    >
+                                        {" "}
+                                        <ButtonLink />
+                                    </a>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <hr className="h-px my-8 bg-light border-0 dark:bg-light/75" />
-                    <div className="text-dark/75 dark:text-light/75 grid grid-cols-1 md:grid-cols-2 content-center place-items-center">
-                        <div className="flex items-center relative max-w-full overflow-hidden h-[270px] w-[470px]  bg-center bg-cover bg-no-repeat lg:order-1 sm:order-2">
-                            <img
-                                className="object-fill bg-no-repeat bg-cover object-center aspect-square h-[270px] w-[470px] transition duration-300 ease-in-out hover:scale-110 "
-                                src="/img/pic5.jpg"
-                                alt="office content 1"
-                            />
+
+                    {/* BSCS Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                        {/* Content Card */}
+                        <div className="order-1" data-aos="fade-right" data-aos-duration="800">
+                            <div className="relative p-8 rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl">
+                                <h2 className="text-3xl font-bold text-purple mb-6">BSCS</h2>
+                                <div className="space-y-6 text-gray-600 dark:text-gray-300 leading-relaxed text-lg font-light">
+                                    <p>
+                                        The Bachelor of Science in Computer Science
+                                        specializing in Data Science is designed to
+                                        equip students with a solid foundation in
+                                        computer science principles while
+                                        emphasizing data science techniques and
+                                        applications. This program combines rigorous
+                                        computer science theory with practical,
+                                        hands-on experience in data analytics,
+                                        machine learning, data visualization, and
+                                        big data technologies. Students learn to
+                                        extract meaningful insights from vast
+                                        amounts of data and apply these insights to
+                                        solve real-world problems across various
+                                        domains, including business, healthcare,
+                                        finance, and technology.
+                                    </p>
+                                </div>
+                                <div className="mt-8">
+                                    <a href="/Program?program=BSCS"
+                                        className="href"
+                                    >
+                                        <ButtonLink />
+                                    </a>
+                                </div>
+                            </div>
                         </div>
 
-                        <div
-                            className="flex items-center p-4 md:p-8 aos-disabled aos-init aos-animate"
-                            data-aos="fade-up"
-                            data-aos-duration="600"
-                        >
-                            <div className="mt-4 md:mt-0">
-                                <h2 className=" text-purple text-[22px] font-inter font-semibold pb-[23px]">
-                                    BSCS
-                                </h2>
-                                <p className="mb-[33px] text-[18px]">
-                                    The Bachelor of Science in Computer Science
-                                    specializing in Data Science is designed to
-                                    equip students with a solid foundation in
-                                    computer science principles while
-                                    emphasizing data science techniques and
-                                    applications. This program combines rigorous
-                                    computer science theory with practical,
-                                    hands-on experience in data analytics,
-                                    machine learning, data visualization, and
-                                    big data technologies. Students learn to
-                                    extract meaningful insights from vast
-                                    amounts of data and apply these insights to
-                                    solve real-world problems across various
-                                    domains, including business, healthcare,
-                                    finance, and technology. <br />
-                                    <br />
-                                </p>
-                                <a
-                                    href="/Program?program=BSCS"
-                                    className="href"
-                                >
-                                    <ButtonLink />
-                                </a>
+                        {/* 3D Image */}
+                        <div className="relative perspective-1000 group order-2" data-aos="fade-left" data-aos-duration="800">
+                            <div className="relative transform transition-all duration-500 group-hover:scale-105 group-hover:-rotate-y-6">
+                                <div className="absolute inset-0 bg-purple/20 rounded-2xl transform translate-x-4 translate-y-4 -z-10"></div>
+                                <img
+                                    className="w-full h-[300px] lg:h-[400px] object-cover rounded-2xl shadow-2xl border-2 border-white dark:border-gray-800"
+                                    src="/img/pic5.jpg"
+                                    alt="BSCS"
+                                />
+                                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-fuchsia-500 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
                             </div>
                         </div>
                     </div>

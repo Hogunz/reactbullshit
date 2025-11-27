@@ -18,7 +18,7 @@ class BSCSTestimonialController extends Controller
     public function index()
     {
         $bscstestimonials = BSCSTestimonial::withTrashed()->get();
-        return Inertia::render('admin/bscstestimonials/Index', [
+        return Inertia::render('admin/bscstestimonials/index', [
             'bscstestimonials' => $bscstestimonials,
         ]);
     }
@@ -30,7 +30,7 @@ class BSCSTestimonialController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/bscstestimonials/Create');
+       return Inertia::render('admin/bscstestimonials/create');
     }
 
     /**

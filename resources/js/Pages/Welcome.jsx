@@ -5,6 +5,7 @@ import Academics from "@/Components/Academics";
 import Instructors from "@/Components/Instructors";
 import Blogs from "@/Components/Blogs";
 import EnrollSpin from "@/Components/EnrollSpin";
+import Partnership from "@/Pages/Partnership";
 export default function Welcome({
     auth,
     laravelVersion,
@@ -15,9 +16,10 @@ export default function Welcome({
 }) {
     return (
         <>
-            <div className="bg-light dark:bg-dark h-screen scroll-smooth ">
+            <div className="bg-light dark:bg-dark min-h-screen scroll-smooth ">
                 <NavBar />
                 <HeroSection />
+                <Partnership />
                 <AboutUs bscstestimonials={bscstestimonials} />
                 <Academics />
                 <Instructors faculties={faculties} />

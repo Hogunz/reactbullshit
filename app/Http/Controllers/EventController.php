@@ -13,13 +13,14 @@ class EventController extends Controller
     {
         $this->middleware(['auth'])->except(['index', 'show']);
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $events = Event::with('user')
-            ->orderBy('created_at', 'desc') // sort newest to oldest
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return Inertia::render('admin/events/Index', [
@@ -40,23 +41,20 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'required|image',
             'content' => 'required',
         ]);
 
-        $imagePath = $request->file('image')->store('public');
-        $imageName = basename($imagePath);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('events', 'public');
+            $validated['image'] = basename($imagePath);
+        }
 
-        $event = new Event;
-        $event->name = $request->input('name');
-        $event->image = $imageName;
-        $event->content = $request->input('content');
-        //who created the event
-        $event->user_id = Auth::id();
-        $event->save();
+        $validated['user_id'] = Auth::id();
+
+        Event::create($validated);
 
         return redirect()->route('events.index');
     }
@@ -86,7 +84,7 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'nullable',
@@ -94,12 +92,10 @@ class EventController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('events', 'public');
-            $event->image = $imagePath;
+            $validated['image'] = basename($imagePath);
         }
 
-        $event->name = $request->name;
-        $event->content = $request->input('content');
-        $event->save();
+        $event->update($validated);
 
         return redirect()->route('events.index');
     }

@@ -2,6 +2,8 @@ import { NavBar } from "@/Components/NavBar";
 import React from "react";
 import ButtonLink from "@/Components/ButtonLink";
 import CustomCursor from "@/Components/CustomCursor";
+import { Link } from "@inertiajs/react";
+
 export default function Events({ events = [] }) {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -12,59 +14,60 @@ export default function Events({ events = [] }) {
     return (
         <>
             <CustomCursor />
-            <div className="dark:bg-dark w-full">
+            <div className="dark:bg-dark w-full min-h-screen">
                 <NavBar />
-                <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] pt-[211px] pb-[231px">
+                <div className="text-dark dark:text-light text-center font-inter font-bold text-6xl lg:text-8xl py-32 lg:py-52">
                     News & Events
                 </div>
-                <section className="dark:bg-[#232323] bg-light pt-[140px]">
-                    <div className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-8 pb-[130px] place-items-center">
-                        {events.map((event, index) => (
+                <section className="dark:bg-[#232323] bg-light py-20 lg:pt-36">
+                    <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32 place-items-center px-4">
+                        {events.map((event) => (
                             <div
-                                key={index}
-                                className="relative max-w-xs overflow-hidden bg-cover bg-no-repeat"
+                                key={event.id}
+                                className="relative w-full max-w-sm overflow-hidden bg-cover bg-no-repeat group"
                             >
-                                <a
+                                <Link
                                     href={route("events.show", {
                                         id: event.id,
                                     })}
                                 >
                                     <img
-                                        className=" max-w-full bg-cover object-cover aspect-square mb-[27px] transition duration-300 ease-in-out hover:scale-110 w-[370px] h-[280px]"
+                                        className="w-full aspect-[4/3] object-cover mb-6 transition duration-300 ease-in-out group-hover:scale-110"
                                         src={"/storage/" + event.image}
-                                        alt=""
+                                        alt={event.name}
                                     />
-                                </a>
+                                </Link>
                                 <div className="">
-                                    <a
-                                        href=""
-                                        className="line-clamp-1 font-inter font-semibold text-[22px] text-[#a352cc] leading-[26.4px] hover:text-light transition duration-300 ease-in-out"
+                                    <Link
+                                        href={route("events.show", {
+                                            id: event.id,
+                                        })}
+                                        className="line-clamp-1 font-inter font-semibold text-2xl text-[#a352cc] hover:text-dark dark:hover:text-light transition duration-300 ease-in-out"
                                     >
                                         {event.name}
-                                    </a>
-                                    <div className="space-y-8">
+                                    </Link>
+                                    <div className="space-y-6 mt-4">
                                         <div>
                                             <p
-                                                className="line-clamp-2 font-inter font-normal text-light/75 leading-[26.4px] pb-[23px] pt-4"
-                                                // dangerouslySetInnerHTML={{
-                                                //     __html: event.content,
-                                                // }}
+                                                className="line-clamp-2 font-inter font-normal text-gray-600 dark:text-light/75 pb-6"
+                                            // dangerouslySetInnerHTML={{
+                                            //     __html: event.content,
+                                            // }}
                                             />
                                         </div>
 
-                                        <div className="flex justify-between">
+                                        <div className="flex justify-between items-center">
                                             <div>
-                                                {" "}
-                                                <a
+                                                <Link
                                                     href={route("events.show", {
                                                         id: event.id,
                                                     })}
                                                 >
-                                                    <ButtonLink />{" "}
-                                                </a>
+                                                    <ButtonLink />
+                                                </Link>
                                             </div>
-                                            <div className="place-self-center">
-                                                <p className="font-[18px] leading-[27px] font-inter dark:text-white ">
+                                            <div>
+                                                <p className="text-lg font-inter dark:text-white">
                                                     {formatDate(
                                                         event.created_at,
                                                     )}
