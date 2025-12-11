@@ -7,387 +7,257 @@ import {
     FinderIcon,
 } from "./svg/SVGicon";
 import CustomCursor from "./CustomCursor";
+
 export const BSITDescriptionProgram = () => {
+    const specializations = [
+        {
+            title: "Multimedia Arts and Animation",
+            image: "img/1.jpg",
+            link: "/academics/bsit/MMA",
+        },
+        {
+            title: "Web and Mobile Application Development",
+            image: "img/2.jpg",
+            link: "/academics/bsit/WMAD",
+        },
+        {
+            title: "Network Infrastructure with Cybersecurity",
+            image: "img/3.jpg",
+            link: "/academics/bsit/NICS",
+        },
+    ];
+
+    const peoList = [
+        "Possessed essential and fundamental technological knowledge and skills that make them confident to become as IT Specialist in local, national and international work environment.",
+        "Displayed the appropriate morally and ethical behavior of Information Technology professional in and out of the workplace.",
+        "Occupied managerial and leadership roles in their organizations.",
+        "Engaged in life-long learning through relevant and comprehensive continuous attendance to conferences/seminars/training as resource speakers and as participants.",
+        "Pursued graduate program and engage in academic and research careers.",
+        "Engaged in an economic enterprise related to the profession.",
+        "Acquired global proficiency/competency in communication skills.",
+    ];
+
+    const outcomesList = [
+        "Apply knowledge of computing, science, and mathematics appropriate to the discipline.",
+        "Understand best practices and standards and their applications.",
+        "Analyze complex problems, and identify and define the computing requirements appropriate to their solution.",
+        "Identify and analyze user needs and take them into account in the selection, creation, evaluation, and administration of computer-based systems.",
+        "Design, implement, and evaluate computer-based systems, processes, components, or programs to meet desired needs and requirements under various constraints.",
+        "Integrate IT-based solutions into the user environment effectively.",
+        "Apply knowledge through the use of current techniques, skills, tools, and practices necessary for the IT profession.",
+        "Function effectively as a member or leader of a development team, recognizing the different roles within a team to accomplish a common goal.",
+        "Assist in the creation of an effective IT project plan.",
+        "Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations, and clear instructions.",
+        "Analyze the local and global impact of computing and information technology on individuals, organizations, and society.",
+        "Understand professional, ethical, legal, security, and social issues and responsibilities in the utilization of information technology.",
+        "Recognize the need for, and engage in, planning self-learning and improving performance as a foundation for continuing professional development.",
+    ];
+
     return (
         <>
             <CustomCursor />
-            <div className=" bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-25% to-[#232323] ">
-                <div class="mx-auto max-w-5xl gap-8 pb-[130px] pt-[63px]">
-                    <div class="flex items-center justify-center">
-                        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-                            <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                                <div class="max-w-full p-8 lg:p-0">
-                                    <img
-                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                        src="img/1.jpg"
-                                        alt=""
-                                    />
-                                </div>
-                                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
-                                <div class="absolute inset-0 flex translate-y-[100%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
-                                    <h1 class=" text-2xl font-bold text-white mb-3">
-                                        Multimedia Arts and Animation
-                                    </h1>
-                                    <a href="/academics/bsit/MMA">
-                                        <button class="rounded-full bg-neutral-900 py-2 px-3.5 font-com text-sm capitalize text-white shadow shadow-black/60 hover:bg-neutral-600 transition duration-300 ease-in-out">
-                                            See More
+            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden">
+                {/* Background Elements */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+                    {/* Specializations Grid */}
+                    <div className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3 mb-16 md:mb-24">
+                        {specializations.map((spec, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                className="group relative h-80 md:h-96 cursor-pointer overflow-hidden rounded-3xl shadow-2xl"
+                            >
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
+                                    src={spec.image}
+                                    alt={spec.title}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90"></div>
+                                <div className="absolute inset-0 flex flex-col items-center justify-end p-6 md:p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <h3 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6 drop-shadow-md leading-tight">
+                                        {spec.title}
+                                    </h3>
+                                    <a href={spec.link}>
+                                        <button className="rounded-full bg-white/20 backdrop-blur-md border border-white/30 py-2 md:py-3 px-6 md:px-8 text-sm font-bold text-white shadow-lg hover:bg-white hover:text-purple transition-all duration-300 transform hover:-translate-y-1">
+                                            Explore Program
                                         </button>
                                     </a>
                                 </div>
-                            </div>
-                            <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                                <div class="max-w-full p-8 lg:p-0">
-                                    <img
-                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                        src="img/2.jpg"
-                                        alt=""
-                                    />
-                                </div>
-                                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
-                                <div class="absolute inset-0 flex translate-y-[100%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
-                                    <h1 class=" text-2xl font-bold text-white mb-3">
-                                        Web and Mobile Application Development
-                                    </h1>
-                                    <a href="/academics/bsit/WMAD">
-                                        <button class="rounded-full bg-neutral-900 py-2 px-3.5 font-com text-sm capitalize text-white shadow shadow-black/60 hover:bg-neutral-600 transition duration-300 ease-in-out">
-                                            See More
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30">
-                                <div class="max-w-full p-8 lg:p-0">
-                                    <img
-                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                        src="img/3.jpg"
-                                        alt=""
-                                    />
-                                </div>
-                                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
-                                <div class="absolute inset-0 flex translate-y-[100%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
-                                    <h1 class=" text-2xl font-bold text-white mb-3">
-                                        Network Infrastructure with
-                                        Cybersecurity
-                                    </h1>
-                                    <a href="/academics/bsit/NICS">
-                                        <button class="rounded-full bg-neutral-900 py-2 px-3.5 font-com text-sm capitalize text-white shadow shadow-black/60 hover:bg-neutral-600 transition duration-300 ease-in-out">
-                                            See More
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        ))}
                     </div>
-                </div>
-            </div>
-            <div className="dark:bg-dark w-full">
-                <div className="text-dark dark:text-light text-center font-inter font-bold text-[35px] lg:text-[90px] leading-[108px] pt-[211px] pb-[231px]">
-                    Program Education Objectives (PEO)
-                </div>
-                <section className="dark:bg-[#232323] bg-light ">
-                    <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
-                        <p className=" mb-8 dark:text-light text-dark font-inter leading-[30px] text-[24px]">
-                            The Program Educational Objectives (PEO) of the
-                            Bachelor of Science in Information Technology of
-                            Universidad de Dagupan are to produce graduates that
-                            after three to five years graduation they have:
-                        </p>
-                        <div>
-                            <ul className="list-disc list-inside">
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Possessed essential and fundamental
-                                    technological knowledge and skills that make
-                                    them confident to become as IT Specialist in
-                                    local, national and international work
-                                    environment.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Displayed the appropriate morally and
-                                    ethical behavior of Information Technology
-                                    professional in and out of the workplace.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Occupied managerial and leadership roles in
-                                    their organizations.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Engaged in life-long learning through
-                                    relevant and comprehensive continuous
-                                    attendance to conferences/seminars/training
-                                    as resource speakers and as participants.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Pursued graduate program and engage in
-                                    academic and research careers.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Engaged in an economic enterprise related to
-                                    the profession.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Acquired global proficiency/competency in
-                                    communication skills.
-                                </li>
-                            </ul>
-                        </div>
-                        <h1 className="text-dark dark:text-light text-3xl font-inter font-semibold pb-[50px] pt-[50px]">
-                            Program Outcomes
-                        </h1>
-                        <div>
-                            <ul className="list-disc list-inside">
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Apply knowledge of computing, science, and
-                                    mathematics appropriate to the discipline.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Understand best practices and standards and
-                                    their applications.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Analyze complex problems, and identify and
-                                    define the computing requirements
-                                    appropriate to their solution.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Identify and analyze user needs and take
-                                    them into account in the selection,
-                                    creation, evaluation, and administration of
-                                    computer-based systems.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Design, implement, and evaluate
-                                    computer-based systems, processes,
-                                    components, or programs to meet desired
-                                    needs and requirements under various
-                                    constraints.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Integrate IT-based solutions into the user
-                                    environment effectively.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Apply knowledge through the use of current
-                                    techniques, skills, tools, and practices
-                                    necessary for the IT profession.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Function effectively as a member or leader
-                                    of a development team, recognizing the
-                                    different roles within a team to accomplish
-                                    a common goal.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Assist in the creation of an effective IT
-                                    project plan.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Communicate effectively with the computing
-                                    community and with society at large about
-                                    complex computing activities through logical
-                                    writing, presentations, and clear
-                                    instructions.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Analyze the local and global impact of
-                                    computing and information technology on
-                                    individuals, organizations, and society.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Understand professional, ethical, legal,
-                                    security, and social issues and
-                                    responsibilities in the utilization of
-                                    information technology.
-                                </li>
-                                <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                    Recognize the need for, and engage in,
-                                    planning self-learning and improving
-                                    performance as a foundation for continuing
-                                    professional development.
-                                </li>
+
+                    {/* PEO Section */}
+                    <div className="mb-16 md:mb-24">
+                        <h2 className="text-3xl md:text-5xl font-extrabold text-center text-dark dark:text-light mb-10 md:mb-16 tracking-tight">
+                            Program Educational <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Objectives</span>
+                        </h2>
+                        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-3xl p-6 md:p-12 border border-white/20 shadow-xl">
+                            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-center max-w-4xl mx-auto">
+                                The Program Educational Objectives (PEO) of the Bachelor of Science in Information Technology of Universidad de Dagupan are to produce graduates that after three to five years graduation they have:
+                            </p>
+                            <ul className="flex flex-col gap-4 md:gap-6">
+                                {peoList.map((item, index) => (
+                                    <li key={index} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-purple/5 dark:hover:bg-white/5 transition-colors duration-200">
+                                        <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple/10 text-purple flex items-center justify-center font-bold text-sm mt-1">
+                                            {index + 1}
+                                        </span>
+                                        <span className="text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed">
+                                            {item}
+                                        </span>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
-                </section>
+
+                    {/* Outcomes Section */}
+                    <div>
+                        <h2 className="text-3xl md:text-5xl font-extrabold text-center text-dark dark:text-light mb-10 md:mb-16 tracking-tight">
+                            Program <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Outcomes</span>
+                        </h2>
+                        <div className="grid gap-4 md:gap-6 md:grid-cols-2">
+                            {outcomesList.map((item, index) => (
+                                <div key={index} className="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                                    <div className="flex items-start space-x-4">
+                                        <div className="flex-shrink-0 mt-1">
+                                            <svg className="w-6 h-6 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">
+                                            {item}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );
 };
+
 export const BSCSDescriptionProgram = () => {
+    const outcomesList = [
+        "Apply knowledge of computing, science, and mathematics appropriate to the discipline",
+        "Understand best practices and standards and their applications",
+        "Analyze complex problem and identify and define the computing requirements appropriate to its solution.",
+        "Identify an analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.",
+        "Design, implement, and evaluate computer-based systems, processes, components, or programs to meet desired needs and requirement under various constraints",
+        "Integrate IT-based solutions into the user environment effectively",
+        "Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession",
+        "Function effectively as a member or leader of a development team recognizing the different roles within a team to accomplish a common goal",
+        "Assist in the creation of an effective IT project plan",
+        "Communicate effectively with the computer community and with society at large about complex computing activities through logical writing, presentations, and clear instructions",
+        "Analyze the local and global impact of computing information technology on individuals, organizations, and society",
+        "Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology",
+        "Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development"
+    ];
+
+    const careersList = [
+        "Software Developer/Engineer",
+        "Data Scientist",
+        "Cybersecurity Analyst",
+        "Systems Architect",
+        "AI/ML Engineer",
+        "Database Administrator/Analyst",
+        "IT Consultant",
+        "Artificial Intelligence and Machine Learning Specialist",
+        "Cloud Solutions Architect",
+        "Technical Writer"
+    ];
+
     return (
         <>
-            <div className=" bg-gradient-to-br from-purple from-5% via-[#2B2B2B] via-25% to-[#232323] ">
-                <div class="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[130px]">
-                    <div className="border-0 dark:bg-dark relative  ">
-                        <div className="flex flex-col">
-                            <div className="flex space-x-4 p-8 items-center">
-                                <div>
-                                    <h2 className="font-inter leading-[33.6px] font-semibold text-[28px] text-light">
-                                        Our Contacts
-                                    </h2>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-8">
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <LocationIcon />
+            <CustomCursor />
+            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
+                {/* Background Elements */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Contact Section */}
+                    <div className="mb-16 md:mb-20">
+                        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-3xl p-6 md:p-12 border border-white/20 shadow-2xl">
+                            <h2 className="text-2xl md:text-3xl font-bold text-dark dark:text-light mb-6 md:mb-8 border-b border-gray-200 dark:border-gray-700 pb-4">
+                                Contact Information
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                                <div className="flex items-center space-x-4 group">
+                                    <div className="p-3 rounded-full bg-purple/10 text-purple group-hover:bg-purple group-hover:text-white transition-colors duration-300">
+                                        <LocationIcon className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
-                                            Arellano St, Dagupan City,
-                                            Philippines
-                                        </h2>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Address</p>
+                                        <p className="text-base md:text-lg text-dark dark:text-light font-medium">Arellano St, Dagupan City</p>
                                     </div>
                                 </div>
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <MessageIcon />
+                                <div className="flex items-center space-x-4 group">
+                                    <div className="p-3 rounded-full bg-purple/10 text-purple group-hover:bg-purple group-hover:text-white transition-colors duration-300">
+                                        <MessageIcon className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
-                                            udd_site@cdd.edu.ph
-                                        </h2>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Email</p>
+                                        <p className="text-base md:text-lg text-dark dark:text-light font-medium">udd_site@cdd.edu.ph</p>
                                     </div>
                                 </div>
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <PhoneIcon />
+                                <div className="flex items-center space-x-4 group">
+                                    <div className="p-3 rounded-full bg-purple/10 text-purple group-hover:bg-purple group-hover:text-white transition-colors duration-300">
+                                        <PhoneIcon className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-light/75 text-[18px] ">
-                                            (075) 522 2405
-                                        </h2>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Phone</p>
+                                        <p className="text-base md:text-lg text-dark dark:text-light font-medium">(075) 522 2405</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="mx-auto max-w-5xl gap-8 pb-[130px] pt-[130px]">
-                    <p className="text-light font-extralight font-inter leading-[27px] text-[18px]">
-                        The Bachelor of Science in Computer Science specializing
-                        in Data Science is designed to equip students with a
-                        solid foundation in computer science principles while
-                        emphasizing data science techniques and applications.
-                        This program combines rigorous computer science theory
-                        with practical, hands-on experience in data analytics,
-                        machine learning, data visualization, and big data
-                        technologies. Students learn to extract meaningful
-                        insights from vast amounts of data and apply these
-                        insights to solve real-world problems across various
-                        domains, including business, healthcare, finance, and
-                        technology.
-                    </p>
-                    <br />
-                    <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px]">
-                        Program Outcomes:
-                    </p>
 
-                    <div className="pt-10 ">
-                        <ul className="list-disc list-inside">
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Apply knowledge of computing, science, and
-                                mathematics appropriate to the discipline
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Understand best practices and standards and
-                                their applications
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Analyze complex problem and identify and define
-                                the computing requirements appropriate to its
-                                solution.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Identify an analyze user needs and take them
-                                into account in the selection, creation,
-                                evaluation and administration of computer-based
-                                systems.
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Design, implement, and evaluate computer-based
-                                systems, processes, components, or programs to
-                                meet desired needs and requirement under various
-                                constraints
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Integrate IT-based solutions into the user
-                                environment effectively
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Apply knowledge through the use of current
-                                techniques, skills, tools and practices
-                                necessary for the IT profession
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Function effectively as a member or leader of a
-                                development team recognizing the different roles
-                                within a team to accomplish a common goal
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Assist in the creation of an effective IT
-                                project plan
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Communicate effectively with the computer
-                                community and with society at large about
-                                complex computing activities through logical
-                                writing, presentations, and clear instructions
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Analyze the local and global impact of computing
-                                information technology on individuals,
-                                organizations, and society
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Understand professional, ethical, legal,
-                                security and social issues and responsibilities
-                                in the utilization of information technology
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Recognize the need for and engage in planning
-                                self-learning and improving performance as a
-                                foundation for continuing professional
-                                development
-                            </li>
-                        </ul>
+                    {/* Program Description */}
+                    <div className="mb-16 md:mb-20 text-center max-w-4xl mx-auto">
+                        <h2 className="text-3xl md:text-5xl font-extrabold text-dark dark:text-light mb-6 md:mb-8 tracking-tight">
+                            BSCS <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Data Science</span>
+                        </h2>
+                        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                            The Bachelor of Science in Computer Science specializing in Data Science is designed to equip students with a solid foundation in computer science principles while emphasizing data science techniques and applications. This program combines rigorous computer science theory with practical, hands-on experience in data analytics, machine learning, data visualization, and big data technologies.
+                        </p>
                     </div>
-                    <p className="font-inter font-semibold text-[28px] leading-[33.6px] text-light pt-[27px] mb-4">
-                        Career Opportunities:
-                    </p>
+
+                    {/* Outcomes Section */}
+                    <div className="mb-16 md:mb-20">
+                        <h3 className="text-2xl font-bold text-dark dark:text-light mb-6 md:mb-8 text-center">Program Outcomes</h3>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            {outcomesList.map((item, index) => (
+                                <div key={index} className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/60 dark:hover:bg-white/10 transition-colors duration-200">
+                                    <div className="flex items-start space-x-3">
+                                        <span className="text-purple mt-1">•</span>
+                                        <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed">{item}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Career Opportunities */}
                     <div>
-                        <ul className="list-disc list-inside ">
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Software Developer/Engineer
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Data Scientist
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Cybersecurity Analyst
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Systems Architect
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                AI/ML Engineer
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Database Administrator/Analyst
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                IT Consultant
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Artificial Intelligence and Machine Learning
-                                Specialist
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Cloud Solutions Architect
-                            </li>
-                            <li className="marker:text-purple font-inter font-normal text-[18px] leading-[27px] text-light pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Technical Writer
-                            </li>
-                        </ul>
+                        <h3 className="text-2xl font-bold text-dark dark:text-light mb-6 md:mb-8 text-center">Career Opportunities</h3>
+                        <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                            {careersList.map((career, index) => (
+                                <span
+                                    key={index}
+                                    className="px-5 md:px-6 py-2 md:py-3 rounded-full bg-white/80 dark:bg-white/10 backdrop-blur-md border border-purple/20 text-dark dark:text-light text-sm md:text-base font-medium shadow-sm hover:shadow-lg hover:bg-purple hover:text-white hover:border-transparent transition-all duration-300 transform hover:-translate-y-1 cursor-default"
+                                >
+                                    {career}
+                                </span>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

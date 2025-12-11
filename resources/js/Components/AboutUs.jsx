@@ -52,7 +52,7 @@ export default function AboutUs({ bscstestimonials = [] }) {
                                 alt="Campus Life"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                                <span className="text-white font-bold text-xl">State-of-the-art Facilities</span>
+                                <span className="text-white font-bold text-xl"></span>
                             </div>
                         </div>
 
@@ -63,7 +63,7 @@ export default function AboutUs({ bscstestimonials = [] }) {
                                 alt="Student Collaboration"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                                <span className="text-white font-bold text-xl">Collaborative Learning</span>
+                                <span className="text-white font-bold text-xl"></span>
                             </div>
                         </div>
 
