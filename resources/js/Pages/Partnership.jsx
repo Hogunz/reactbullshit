@@ -4,10 +4,10 @@ export default function Partnership() {
     const partners = [
         { name: 'Adobe', logo: '/img/partners/logo/ADOBE.jpg' },
         { name: 'Maya', logo: '/img/partners/logo/MAYA.jpg' },
-        { name: 'Cisco', logo: '/img/partners/CISCO.jpg' },
         { name: 'GDAP', logo: '/img/partners/logo/GDAP.jpg' },
         { name: 'Oracle', logo: '/img/partners/logo/ORACLE.jpg' },
         { name: 'SmartBridge', logo: '/img/partners/logo/smartbridge.jpg' },
+        { name: 'Cisco', logo: '/img/partners/logo/CISCO.jpg' },
     ];
 
     return (
