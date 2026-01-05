@@ -8,7 +8,6 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.jsx",
-        "./node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
         "./node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
         "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
     ],
@@ -34,5 +33,5 @@ export default {
         },
     },
 
-    plugins: [forms, "flowbite / plugin"],
+    plugins: [forms],
 };

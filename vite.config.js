@@ -10,4 +10,20 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        warmup: {
+            clientFiles: [
+                'resources/js/app.jsx',
+                'resources/js/Pages/**/*.jsx',
+            ],
+        },
+    },
+    optimizeDeps: {
+        include: [
+            '@material-tailwind/react',
+            'framer-motion',
+            'react-dom/client',
+            '@inertiajs/react',
+        ],
+    },
 });
