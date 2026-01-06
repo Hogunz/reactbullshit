@@ -79,6 +79,11 @@ export default function Authenticated({ user, header, children }) {
                                             Testimonials
                                         </Dropdown.Link>
                                         <Dropdown.Link
+                                            href={route("program-attributes.index")}
+                                        >
+                                            Program Attributes
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
                                             href={route("logout")}
                                             method="post"
                                             as="button"
@@ -172,6 +177,11 @@ export default function Authenticated({ user, header, children }) {
                                 href={route("bscstestimonials.index")}
                             >
                                 BSCS Testimonials
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route("program-attributes.index")}
+                            >
+                                Program Attributes
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"

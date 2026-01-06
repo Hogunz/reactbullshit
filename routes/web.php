@@ -11,6 +11,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BSCSTestimonialController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\ProgramAttributeController;
 use App\Models\Faculty;
 
 /*
@@ -62,6 +63,9 @@ Route::get('/Faculty', function () {
     ]);
 });
 
+// Program Attributes (Admin)
+Route::resource('program-attributes', ProgramAttributeController::class);
+
 Route::get('/News&Events', function () {
     $events = Event::with('user')->get();
     return Inertia::render('Events', [
@@ -78,18 +82,21 @@ Route::get('/ProgramDescription', function () {
 Route::get('/VMO', function () {
     return Inertia::render("VMO");
 });
-Route::get('/PEO', function () {
-    return Inertia::render("PEO");
-});
+
+
+use App\Models\ProgramAttribute;
 
 Route::get('/academics/bsit/MMA', function () {
-    return Inertia::render("BSITMMA");
+    $programAttributes = ProgramAttribute::where('program', 'BSIT')->get();
+    return Inertia::render("BSITMMA", ['programAttributes' => $programAttributes]);
 });
 Route::get('/academics/bsit/WMAD', function () {
-    return Inertia::render("BSITWMAD");
+    $programAttributes = ProgramAttribute::where('program', 'BSIT')->get();
+    return Inertia::render("BSITWMAD", ['programAttributes' => $programAttributes]);
 });
 Route::get('/academics/bsit/NICS', function () {
-    return Inertia::render("BSITNICS");
+    $programAttributes = ProgramAttribute::where('program', 'BSIT')->get();
+    return Inertia::render("BSITNICS", ['programAttributes' => $programAttributes]);
 });
 
 Route::get('/Blogs', function (Request $request) {
@@ -99,8 +106,12 @@ Route::get('/Blogs', function (Request $request) {
     ]);
 });
 Route::get('/Program', function (Request $request) {
+    // Determine program type from request if possible, or fetch all?
+    // Assuming ProgramDescriptions handles selection, we might need all or specific
+    $attributes = ProgramAttribute::all(); 
     return Inertia::render("ProgramDescriptions", [
         'program' => $request->program,
+        'allAttributes' => $attributes,
     ]);
 });
 Route::get('/dashboard', function () {

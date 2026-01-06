@@ -6,15 +6,15 @@ import {
     BSITDescriptionProgram,
     BSCSDescriptionProgram,
 } from "@/Components/DescriptionProgram";
-const ProgramDescriptions = ({ program, ...props }) => {
+const ProgramDescriptions = ({ program, allAttributes, ...props }) => {
     return (
         <>
             <NavBar />
             <Description name={program} />
             {program == "BSIT" ? (
-                <BSITDescriptionProgram />
+                <BSITDescriptionProgram attributes={allAttributes} />
             ) : (
-                <BSCSDescriptionProgram />
+                <BSCSDescriptionProgram attributes={allAttributes} />
             )}
         </>
     );

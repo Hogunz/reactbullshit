@@ -8,7 +8,7 @@ import {
 } from "./svg/SVGicon";
 import CustomCursor from "./CustomCursor";
 
-export const BSITDescriptionProgram = () => {
+export const BSITDescriptionProgram = ({ attributes }) => {
     const specializations = [
         {
             title: "Multimedia Arts and Animation",
@@ -27,31 +27,13 @@ export const BSITDescriptionProgram = () => {
         },
     ];
 
-    const peoList = [
-        "Possessed essential and fundamental technological knowledge and skills that make them confident to become as IT Specialist in local, national and international work environment.",
-        "Displayed the appropriate morally and ethical behavior of Information Technology professional in and out of the workplace.",
-        "Occupied managerial and leadership roles in their organizations.",
-        "Engaged in life-long learning through relevant and comprehensive continuous attendance to conferences/seminars/training as resource speakers and as participants.",
-        "Pursued graduate program and engage in academic and research careers.",
-        "Engaged in an economic enterprise related to the profession.",
-        "Acquired global proficiency/competency in communication skills.",
-    ];
-
-    const outcomesList = [
-        "Apply knowledge of computing, science, and mathematics appropriate to the discipline.",
-        "Understand best practices and standards and their applications.",
-        "Analyze complex problems, and identify and define the computing requirements appropriate to their solution.",
-        "Identify and analyze user needs and take them into account in the selection, creation, evaluation, and administration of computer-based systems.",
-        "Design, implement, and evaluate computer-based systems, processes, components, or programs to meet desired needs and requirements under various constraints.",
-        "Integrate IT-based solutions into the user environment effectively.",
-        "Apply knowledge through the use of current techniques, skills, tools, and practices necessary for the IT profession.",
-        "Function effectively as a member or leader of a development team, recognizing the different roles within a team to accomplish a common goal.",
-        "Assist in the creation of an effective IT project plan.",
-        "Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations, and clear instructions.",
-        "Analyze the local and global impact of computing and information technology on individuals, organizations, and society.",
-        "Understand professional, ethical, legal, security, and social issues and responsibilities in the utilization of information technology.",
-        "Recognize the need for, and engage in, planning self-learning and improving performance as a foundation for continuing professional development.",
-    ];
+    // Filter attributes for BSIT
+    const peos = attributes?.filter(attr => attr.program === 'BSIT' && attr.type === 'PEO') || [];
+    const pos = attributes?.filter(attr => attr.program === 'BSIT' && attr.type === 'PO') || [];
+    const ios = attributes?.filter(attr => attr.program === 'BSIT' && attr.type === 'IO') || [];
+    const heis = attributes?.filter(attr => attr.program === 'BSIT' && attr.type === 'HEI') || [];
+    const pathfits = attributes?.filter(attr => attr.program === 'BSIT' && attr.type === 'PATHFIT') || [];
+    const advocacies = attributes?.filter(attr => attr.program === 'BSIT' && attr.type === 'ADVOCACY') || [];
 
     return (
         <>
@@ -103,13 +85,13 @@ export const BSITDescriptionProgram = () => {
                                 The Program Educational Objectives (PEO) of the Bachelor of Science in Information Technology of Universidad de Dagupan are to produce graduates that after three to five years graduation they have:
                             </p>
                             <ul className="flex flex-col gap-4 md:gap-6">
-                                {peoList.map((item, index) => (
-                                    <li key={index} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-purple/5 dark:hover:bg-white/5 transition-colors duration-200">
+                                {peos.map((item, index) => (
+                                    <li key={item.id} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-purple/5 dark:hover:bg-white/5 transition-colors duration-200">
                                         <span className="flex-shrink-0 w-8 h-8 rounded-full bg-purple/10 text-purple flex items-center justify-center font-bold text-sm mt-1">
                                             {index + 1}
                                         </span>
                                         <span className="text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed">
-                                            {item}
+                                            {item.content}
                                         </span>
                                     </li>
                                 ))}
@@ -123,42 +105,105 @@ export const BSITDescriptionProgram = () => {
                             Program <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Outcomes</span>
                         </h2>
                         <div className="grid gap-4 md:gap-6 md:grid-cols-2">
-                            {outcomesList.map((item, index) => (
-                                <div key={index} className="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            {pos.map((item, index) => (
+                                <div key={item.id} className="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                                     <div className="flex items-start space-x-4">
                                         <div className="flex-shrink-0 mt-1">
-                                            <svg className="w-6 h-6 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <span className="font-bold text-purple whitespace-nowrap">PO {index + 1}</span>
                                         </div>
                                         <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">
-                                            {item}
+                                            {item.content}
                                         </p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
+
+                    {/* Institutional Outcomes */}
+                    {ios.length > 0 && (
+                        <div className="mb-16 md:mb-24 mt-16 md:mt-24">
+                            <h2 className="text-3xl md:text-5xl font-extrabold text-center text-dark dark:text-light mb-10 md:mb-16 tracking-tight">
+                                Institutional <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Outcomes</span>
+                            </h2>
+                            <ul className="grid gap-4 md:grid-cols-2">
+                                {ios.map((item, index) => (
+                                    <li key={item.id} className="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-sm">
+                                        <div className="flex items-start space-x-3">
+                                            <span className="font-bold text-purple whitespace-nowrap">IO {index + 1}</span>
+                                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">{item.content}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* Outcomes Common to all HEIs */}
+                    {heis.length > 0 && (
+                        <div className="mb-16 md:mb-24">
+                            <h2 className="text-2xl md:text-4xl font-extrabold text-center text-dark dark:text-light mb-8 md:mb-12 tracking-tight">
+                                Outcomes Common to all HEIs
+                            </h2>
+                            <ul className="flex flex-col gap-4">
+                                {heis.map((item, index) => (
+                                    <li key={item.id} className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                                        <div className="flex items-start space-x-3">
+                                            <span className="font-bold text-purple whitespace-nowrap">{index + 1}.</span>
+                                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">{item.content}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* PATHFIT */}
+                    {pathfits.length > 0 && (
+                        <div className="mb-16 md:mb-24">
+                            <h2 className="text-2xl md:text-4xl font-extrabold text-center text-dark dark:text-light mb-8 md:mb-12 tracking-tight">
+                                PATHFIT
+                            </h2>
+                            <ul className="flex flex-col gap-4">
+                                {pathfits.map((item, index) => (
+                                    <li key={item.id} className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                                        <div className="flex items-start space-x-3">
+                                            <span className="font-bold text-purple whitespace-nowrap">{index + 1}.</span>
+                                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">{item.content}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* ADVOCACY AND ACTION */}
+                    {advocacies.length > 0 && (
+                        <div className="mb-16 md:mb-24">
+                            <h2 className="text-2xl md:text-4xl font-extrabold text-center text-dark dark:text-light mb-8 md:mb-12 tracking-tight">
+                                ADVOCACY AND ACTION
+                            </h2>
+                            <ul className="flex flex-col gap-4">
+                                {advocacies.map((item, index) => (
+                                    <li key={item.id} className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                                        <div className="flex items-start space-x-3">
+                                            <span className="font-bold text-purple whitespace-nowrap">{index + 1}.</span>
+                                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">{item.content}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
     );
 };
 
-export const BSCSDescriptionProgram = () => {
-    const outcomesList = [
-        "Apply knowledge of computing, science, and mathematics appropriate to the discipline",
-        "Understand best practices and standards and their applications",
-        "Analyze complex problem and identify and define the computing requirements appropriate to its solution.",
-        "Identify an analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.",
-        "Design, implement, and evaluate computer-based systems, processes, components, or programs to meet desired needs and requirement under various constraints",
-        "Integrate IT-based solutions into the user environment effectively",
-        "Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession",
-        "Function effectively as a member or leader of a development team recognizing the different roles within a team to accomplish a common goal",
-        "Assist in the creation of an effective IT project plan",
-        "Communicate effectively with the computer community and with society at large about complex computing activities through logical writing, presentations, and clear instructions",
-        "Analyze the local and global impact of computing information technology on individuals, organizations, and society",
-        "Understand professional, ethical, legal, security and social issues and responsibilities in the utilization of information technology",
-        "Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development"
-    ];
+export const BSCSDescriptionProgram = ({ attributes }) => {
+    // Filter attributes for BSCS
+    const pos = attributes?.filter(attr => attr.program === 'BSCS' && attr.type === 'PO') || [];
 
     const careersList = [
         "Software Developer/Engineer",
@@ -234,11 +279,11 @@ export const BSCSDescriptionProgram = () => {
                     <div className="mb-16 md:mb-20">
                         <h3 className="text-2xl font-bold text-dark dark:text-light mb-6 md:mb-8 text-center">Program Outcomes</h3>
                         <div className="grid gap-4 md:grid-cols-2">
-                            {outcomesList.map((item, index) => (
-                                <div key={index} className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/60 dark:hover:bg-white/10 transition-colors duration-200">
+                            {pos.map((item, index) => (
+                                <div key={item.id} className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/60 dark:hover:bg-white/10 transition-colors duration-200">
                                     <div className="flex items-start space-x-3">
-                                        <span className="text-purple mt-1">•</span>
-                                        <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed">{item}</p>
+                                        <span className="text-purple mt-1 font-bold whitespace-nowrap">PO {index + 1}</span>
+                                        <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base leading-relaxed">{item.content}</p>
                                     </div>
                                 </div>
                             ))}
