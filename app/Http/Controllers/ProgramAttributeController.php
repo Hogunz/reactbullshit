@@ -25,7 +25,7 @@ class ProgramAttributeController extends Controller
     {
         $request->validate([
             'program' => 'required|string',
-            'type' => 'required|string|in:PEO,PO',
+            'type' => 'required|string|in:PEO,PO,IO,HEI,PATHFIT,ADVOCACY',
             'content' => 'required|string',
         ]);
 
@@ -45,7 +45,7 @@ class ProgramAttributeController extends Controller
     {
         $request->validate([
             'program' => 'required|string',
-            'type' => 'required|string|in:PEO,PO',
+            'type' => 'required|string|in:PEO,PO,IO,HEI,PATHFIT,ADVOCACY',
             'content' => 'required|string',
         ]);
 
