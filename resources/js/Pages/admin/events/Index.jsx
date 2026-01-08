@@ -42,6 +42,7 @@ export default function Index({ events }) {
                                     <tr className="border-b border-white/20 bg-purple/5 dark:bg-purple/20">
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">ID</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Title</th>
+                                        <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Category</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Status</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Date</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider text-right">Actions</th>
@@ -58,6 +59,11 @@ export default function Index({ events }) {
                                             </td>
                                             <td className="px-6 py-4 text-sm font-bold text-gray-800 dark:text-white">
                                                 {event.name}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800">
+                                                    {event.category || 'News'}
+                                                </span>
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${event.status === 'active'
@@ -99,7 +105,7 @@ export default function Index({ events }) {
                                     ))}
                                     {events.length === 0 && (
                                         <tr>
-                                            <td colSpan="5" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                            <td colSpan="6" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                                 No events found.
                                             </td>
                                         </tr>

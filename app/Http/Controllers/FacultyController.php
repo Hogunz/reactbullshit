@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Faculty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FacultyController extends Controller
 {
@@ -18,7 +19,7 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        $faculties = Faculty::get();
+        $faculties = Faculty::latest()->paginate(10);
         return Inertia::render('admin/faculties/Index', [
             'faculties' => $faculties,
         ]);
@@ -44,12 +45,11 @@ class FacultyController extends Controller
             'position' => 'required',
         ]);
 
-        $imagePath = $request->file('image')->store('public');
-        $imageName = basename($imagePath);
+        $imagePath = $request->file('image')->store('faculties', 'public');
 
         $faculty = new Faculty();
         $faculty->name = $request->input('name');
-        $faculty->image = $imageName;
+        $faculty->image = $imagePath;
         $faculty->position = $request->input('position');
         $faculty->content = $request->input('content');
         $faculty->user_id = Auth::id();
@@ -91,7 +91,10 @@ class FacultyController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
+            if ($faculty->image) {
+                Storage::disk('public')->delete($faculty->image);
+            }
+            $imagePath = $request->file('image')->store('faculties', 'public');
             $faculty->image = $imagePath;
         }
 
@@ -108,6 +111,9 @@ class FacultyController extends Controller
      */
     public function destroy(Faculty $faculty)
     {
+        if ($faculty->image) {
+            Storage::disk('public')->delete($faculty->image);
+        }
         $faculty->delete();
         return redirect()->route('faculties.index');
     }

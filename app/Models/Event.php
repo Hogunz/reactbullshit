@@ -10,11 +10,13 @@ class Event extends Model
 
     protected $fillable = [
         'name', // Add the name field to the fillable array
+        'category',
         'image',
         'content',
         'status',
         'start_time',
         'end_time',
+        'user_id',
         // Add any other fields that can be mass assigned here
     ];
     use HasFactory;

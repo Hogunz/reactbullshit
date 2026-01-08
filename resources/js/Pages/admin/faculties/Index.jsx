@@ -1,4 +1,5 @@
 import { NavBar } from "@/Components/NavBar";
+import Pagination from "@/Components/Pagination";
 import { Link, useForm } from "@inertiajs/react";
 import React from "react";
 
@@ -41,6 +42,7 @@ export default function Index({ faculties }) {
                                 <thead>
                                     <tr className="border-b border-white/20 bg-purple/5 dark:bg-purple/20">
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">ID</th>
+                                        <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Image</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Name</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Position</th>
                                         <th className="px-6 py-5 text-sm font-bold dark:text-light uppercase tracking-wider">Content</th>
@@ -49,13 +51,20 @@ export default function Index({ faculties }) {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/10">
-                                    {faculties.map((faculty) => (
+                                    {faculties.data.map((faculty) => (
                                         <tr
                                             key={faculty.id}
                                             className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors duration-200"
                                         >
                                             <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 #{faculty.id}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                <img
+                                                    src={`/storage/${faculty.image}`}
+                                                    alt={faculty.name}
+                                                    className="h-10 w-10 rounded-full object-cover border-2 border-purple/30"
+                                                />
                                             </td>
                                             <td className="px-6 py-4 text-sm font-bold text-gray-800 dark:text-white">
                                                 {faculty.name}
@@ -98,7 +107,7 @@ export default function Index({ faculties }) {
                                             </td>
                                         </tr>
                                     ))}
-                                    {faculties.length === 0 && (
+                                    {faculties.data.length === 0 && (
                                         <tr>
                                             <td colSpan="6" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                                 No faculty members found.
@@ -108,6 +117,11 @@ export default function Index({ faculties }) {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="mt-6">
+                        <Pagination links={faculties.links} />
                     </div>
                 </div>
             </div>

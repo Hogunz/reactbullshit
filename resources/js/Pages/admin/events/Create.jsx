@@ -7,6 +7,10 @@ import JoditEditor from "jodit-react";
 export default function Create() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
+        category: "News",
+        status: "active",
+        start_time: "",
+        end_time: "",
         image: "",
         content: "",
     });
@@ -35,6 +39,53 @@ export default function Create() {
                                     }
                                     required
                                 ></input>
+                            </div>
+                            <div className="mb-2">
+                                <InputLabel>Category</InputLabel>
+                                <select
+                                    name="category"
+                                    value={data.category}
+                                    onChange={(e) => setData("category", e.target.value)}
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                >
+                                    <option value="News">News</option>
+                                    <option value="Event">Event</option>
+                                    <option value="Announcement">Announcement</option>
+                                </select>
+                            </div>
+                            <div className="mb-2">
+                                <InputLabel>Status</InputLabel>
+                                <select
+                                    name="status"
+                                    value={data.status}
+                                    onChange={(e) => setData("status", e.target.value)}
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                >
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4 mb-2">
+                                <div>
+                                    <InputLabel>Start Date</InputLabel>
+                                    <input
+                                        type="datetime-local"
+                                        name="start_time"
+                                        value={data.start_time}
+                                        onChange={(e) => setData("start_time", e.target.value)}
+                                        className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    />
+                                </div>
+                                <div>
+                                    <InputLabel>End Date</InputLabel>
+                                    <input
+                                        type="datetime-local"
+                                        name="end_time"
+                                        value={data.end_time}
+                                        onChange={(e) => setData("end_time", e.target.value)}
+                                        className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    />
+                                </div>
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Image</InputLabel>

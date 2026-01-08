@@ -45,7 +45,6 @@ export default function Edit({ faculty }) {
                                     onChange={(e) =>
                                         setData("image", e.target.files[0])
                                     }
-                                    required
                                 ></input>
                             </div>
                             <div className="mb-2">

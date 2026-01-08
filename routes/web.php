@@ -27,7 +27,7 @@ use App\Models\Faculty;
 
 Route::get('/', function () {
     $bscstestimonials = BSCSTestimonial::all();
-    $events = Event::orderBy('created_at', 'desc')->get();
+    $events = Event::where('status', 'active')->orderBy('created_at', 'desc')->get();
     $faculties = Faculty::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -67,7 +67,7 @@ Route::get('/Faculty', function () {
 Route::resource('program-attributes', ProgramAttributeController::class);
 
 Route::get('/News&Events', function () {
-    $events = Event::with('user')->get();
+    $events = Event::where('status', 'active')->with('user')->orderBy('created_at', 'desc')->get();
     return Inertia::render('Events', [
         'events' => $events,
     ]);

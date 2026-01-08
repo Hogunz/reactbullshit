@@ -12,8 +12,6 @@ class Faculty extends Model
         'image',
         'position',
         'content',
-        'start_time',
-        'end_time',
     ];
     use HasFactory;
     public function user()

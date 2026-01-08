@@ -43,13 +43,17 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'required|string|in:News,Event,Announcement',
             'image' => 'required|image',
             'content' => 'required',
+            'status' => 'required|in:active,inactive',
+            'start_time' => 'nullable|date',
+            'end_time' => 'nullable|date|after_or_equal:start_time',
         ]);
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('events', 'public');
-            $validated['image'] = basename($imagePath);
+            $validated['image'] = $imagePath;
         }
 
         $validated['user_id'] = Auth::id();
@@ -86,13 +90,19 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'required|string|in:News,Event,Announcement',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'nullable',
+            'status' => 'required|in:active,inactive',
+            'start_time' => 'nullable|date',
+            'end_time' => 'nullable|date|after_or_equal:start_time',
         ]);
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('events', 'public');
-            $validated['image'] = basename($imagePath);
+            $validated['image'] = $imagePath;
+        } else {
+            unset($validated['image']);
         }
 
         $event->update($validated);
