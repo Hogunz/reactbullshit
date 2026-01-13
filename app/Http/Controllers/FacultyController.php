@@ -85,7 +85,7 @@ class FacultyController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'position' => 'nullable',
             'content' => 'nullable',
         ]);

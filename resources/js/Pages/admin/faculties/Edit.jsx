@@ -1,11 +1,12 @@
 import InputLabel from "@/Components/InputLabel";
+import InputError from "@/Components/InputError";
 import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import JoditEditor from "jodit-react";
 export default function Edit({ faculty }) {
-    const { data, setData, post } = useForm({
+    const { data, setData, post, errors } = useForm({
         name: faculty.name,
         position: faculty.position,
         content: faculty.content,
@@ -35,17 +36,19 @@ export default function Edit({ faculty }) {
                                     }
                                     required
                                 ></input>
+                                <InputError message={errors.name} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Image</InputLabel>
                                 <input
                                     type="file"
-                                    accepts="images/*"
+                                    accept="images/*"
                                     name="image"
                                     onChange={(e) =>
                                         setData("image", e.target.files[0])
                                     }
                                 ></input>
+                                <InputError message={errors.image} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Position</InputLabel>
@@ -58,6 +61,7 @@ export default function Edit({ faculty }) {
                                     }
                                     required
                                 ></input>
+                                <InputError message={errors.position} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Content</InputLabel>
@@ -71,6 +75,7 @@ export default function Edit({ faculty }) {
                                     rows={10}
                                     required
                                 ></JoditEditor>
+                                <InputError message={errors.content} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <Button type="submit">Update</Button>

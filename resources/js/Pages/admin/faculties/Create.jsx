@@ -1,4 +1,5 @@
 import InputLabel from "@/Components/InputLabel";
+import InputError from "@/Components/InputError";
 import { NavBar } from "@/Components/NavBar";
 import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
@@ -35,18 +36,20 @@ export default function Create() {
                                     }
                                     required
                                 ></input>
+                                <InputError message={errors.name} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Image</InputLabel>
                                 <input
                                     type="file"
-                                    accepts="images/*"
+                                    accept="images/*"
                                     name="image"
                                     onChange={(e) =>
                                         setData("image", e.target.files[0])
                                     }
                                     required
                                 ></input>
+                                <InputError message={errors.image} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Position</InputLabel>
@@ -58,6 +61,7 @@ export default function Create() {
                                     }
                                     required
                                 ></input>
+                                <InputError message={errors.position} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Content</InputLabel>
@@ -70,6 +74,7 @@ export default function Create() {
                                     cols={30}
                                     rows={10}
                                 ></JoditEditor>
+                                <InputError message={errors.content} className="mt-2" />
                             </div>
                             <div className="mb-2">
                                 <Button type="submit">Create</Button>
