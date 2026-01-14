@@ -85,18 +85,47 @@ Route::get('/VMO', function () {
 
 
 use App\Models\ProgramAttribute;
+use App\Models\ProgramCategory;
+use App\Http\Controllers\ShowcaseController;
+use App\Models\ProgramShowcase;
+
+// Admin Specialization Routes
+Route::get('admin/specializations/{program}', [ShowcaseController::class, 'edit'])->name('admin.specializations.edit');
+Route::post('admin/specializations/{program}/video', [ShowcaseController::class, 'updateVideo'])->name('admin.specializations.update-video');
+Route::post('admin/specializations/{program}/gallery', [ShowcaseController::class, 'storeGalleryItem'])->name('admin.specializations.store-gallery');
+Route::delete('admin/specializations/gallery/{id}', [ShowcaseController::class, 'destroyGalleryItem'])->name('admin.specializations.destroy-gallery');
+Route::post('admin/specializations/{program}/category', [ShowcaseController::class, 'storeCategory'])->name('admin.specializations.store-category');
+Route::delete('admin/specializations/category/{id}', [ShowcaseController::class, 'destroyCategory'])->name('admin.specializations.destroy-category');
 
 Route::get('/academics/bsit/MMA', function () {
-    $programAttributes = ProgramAttribute::where('program', 'BSIT')->get();
-    return Inertia::render("BSITMMA", ['programAttributes' => $programAttributes]);
+    $video = ProgramAttribute::where('program', 'MMA')->where('type', 'VIDEO_PATH')->value('content');
+    $galleryItems = ProgramShowcase::where('program', 'MMA')->get();
+    $categories = ProgramCategory::where('program', 'MMA')->get();
+    return Inertia::render("BSITMMA", [
+        'video' => $video,
+        'galleryItems' => $galleryItems,
+        'categories' => $categories
+    ]);
 });
 Route::get('/academics/bsit/WMAD', function () {
-    $programAttributes = ProgramAttribute::where('program', 'BSIT')->get();
-    return Inertia::render("BSITWMAD", ['programAttributes' => $programAttributes]);
+    $video = ProgramAttribute::where('program', 'WMAD')->where('type', 'VIDEO_PATH')->value('content');
+    $galleryItems = ProgramShowcase::where('program', 'WMAD')->get();
+    $categories = ProgramCategory::where('program', 'WMAD')->get();
+    return Inertia::render("BSITWMAD", [
+        'video' => $video,
+        'galleryItems' => $galleryItems,
+        'categories' => $categories
+    ]);
 });
 Route::get('/academics/bsit/NICS', function () {
-    $programAttributes = ProgramAttribute::where('program', 'BSIT')->get();
-    return Inertia::render("BSITNICS", ['programAttributes' => $programAttributes]);
+    $video = ProgramAttribute::where('program', 'NICS')->where('type', 'VIDEO_PATH')->value('content');
+    $galleryItems = ProgramShowcase::where('program', 'NICS')->get();
+    $categories = ProgramCategory::where('program', 'NICS')->get();
+    return Inertia::render("BSITNICS", [
+        'video' => $video,
+        'galleryItems' => $galleryItems,
+        'categories' => $categories
+    ]);
 });
 
 Route::get('/Blogs', function (Request $request) {

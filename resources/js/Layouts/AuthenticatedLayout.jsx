@@ -83,6 +83,22 @@ export default function Authenticated({ user, header, children }) {
                                         >
                                             Program Attributes
                                         </Dropdown.Link>
+                                        <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+                                        <Dropdown.Link
+                                            href={route("admin.specializations.edit", { program: "MMA" })}
+                                        >
+                                            MMA Showcase
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("admin.specializations.edit", { program: "NICS" })}
+                                        >
+                                            NICS Showcase
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("admin.specializations.edit", { program: "WMAD" })}
+                                        >
+                                            WMAD Showcase
+                                        </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("logout")}
                                             method="post"
@@ -182,6 +198,21 @@ export default function Authenticated({ user, header, children }) {
                                 href={route("program-attributes.index")}
                             >
                                 Program Attributes
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route("admin.specializations.edit", { program: "MMA" })}
+                            >
+                                MMA Showcase
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route("admin.specializations.edit", { program: "NICS" })}
+                            >
+                                NICS Showcase
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route("admin.specializations.edit", { program: "WMAD" })}
+                            >
+                                WMAD Showcase
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"

@@ -4,6 +4,7 @@ import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { Link } from "@inertiajs/react";
+import GalleryModal from "@/Components/GalleryModal";
 
 // --- Animation Components ---
 
@@ -49,7 +50,8 @@ const Magnetic = ({ children }) => {
     );
 };
 
-const TiltCard = ({ children, className, color }) => {
+
+const TiltCard = ({ children, className, color, onClick }) => {
     const ref = useRef(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -91,6 +93,7 @@ const TiltCard = ({ children, className, color }) => {
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            onClick={onClick}
             style={{
                 rotateY: isMobile ? 0 : rotateY,
                 rotateX: isMobile ? 0 : rotateX,
@@ -149,26 +152,33 @@ const StaggerText = ({ text, className, delay = 0 }) => {
 
 // --- Main Component ---
 
-function BSITMMA() {
+function BSITMMA({ video, galleryItems, categories }) {
     const { scrollYProgress } = useScroll();
     const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
     const rotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
     const careersList = [
         "Animator", "Graphic Designer", "Game Artist", "3D Modeler",
-        "VFX Artist", "Storyboard Artist", "Web Designer", "Motion Graphics",
+        "VFX Artist", "Storyboard Artist", "Web Designer", "Motion Graphics", "Filmmaker", "Photography",
+        "Layout Artist",
     ];
 
     const toolsList = [
-        "Adobe Creative Cloud", "Maya", "Blender", "Toon Boom", "Cinema 4D", "Unreal Engine"
+        "Adobe Creative Cloud", "Autodesk Maya", "Blender", "Unity"
     ];
 
-    const showcaseItems = [
+    // Fallback if no dynamic items
+    const staticShowcaseItems = [
         { title: "Character Design", category: "3D Art", color: "bg-rose-500", span: "md:col-span-2" },
         { title: "Motion Reel", category: "Animation", color: "bg-purple-600", span: "md:col-span-1" },
         { title: "UI Prototypes", category: "Interactive", color: "bg-blue-500", span: "md:col-span-1" },
-        { title: "Concept Art", category: "Illustration", color: "bg-amber-500", span: "md:col-span-2" },
+        { title: " Storyboard", category: "Illustration", color: "bg-amber-500", span: "md:col-span-2" },
     ];
+
+    const itemsToDisplay = galleryItems && galleryItems.length > 0 ? galleryItems : staticShowcaseItems;
 
     return (
         <>
@@ -203,17 +213,17 @@ function BSITMMA() {
                                 <StaggerText
                                     text="ARTS"
                                     delay={0.5}
-                                    className="text-[12vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500"
+                                    className="text-[12vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
                                 />
                                 <StaggerText
                                     text="&"
                                     delay={0.5}
-                                    className="text-[12vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500"
+                                    className="text-[12vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
                                 />
                                 <StaggerText
                                     text="ANIMATION"
                                     delay={0.5}
-                                    className="text-[14vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500"
+                                    className="text-[14vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
                                 />
                                 <motion.div
                                     initial={{ scaleX: 0 }}
@@ -355,30 +365,84 @@ function BSITMMA() {
                 <section className="relative z-10 py-16 md:py-24 bg-dark text-light perspective-1000">
                     <div className="max-w-[90rem] mx-auto px-4">
                         <div className="flex justify-between items-end mb-12 md:mb-16">
-                            <StaggerText text="STUDENT GALLERY" className="text-3xl md:text-6xl font-black tracking-tighter" />
+
                             {/* <span className="text-sm md:text-xl font-mono text-purple block">
                                 // STUDENT GALLERY
                             </span> */}
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                            {showcaseItems.map((item, index) => (
-                                <TiltCard
-                                    key={index}
-                                    className={`${item.span} aspect-[4/3] md:aspect-auto md:h-[500px]`}
-                                    color={item.color}
-                                >
-                                    <div className="absolute inset-0 bg-black/20 hover:bg-transparent transition-all duration-500" />
-                                    <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full">
-                                        <p className="text-xs md:text-sm font-mono mb-2 opacity-70">{item.category}</p>
-                                        <h3 className="text-2xl md:text-3xl font-bold">{item.title}</h3>
-                                        <div className="w-full h-[1px] bg-white/30 mt-4 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                                    </div>
-                                </TiltCard>
-                            ))}
+
+
+                        <div className="mb-12 shadow-2xl border border-white/10 group aspect-video" color="bg-dark">
+                            <div className="absolute inset-0 bg-purple/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none z-10" />
+                            <video
+                                src={video || "/video/showreel/showreel_2024.mp4"}
+                                className="w-full h-full object-cover"
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                controls
+                            />
+                        </div>
+                        <StaggerText text="STUDENT GALLERY" className="text-3xl md:text-6xl font-black tracking-tighter mb-12" />
+
+                        {/* Categories Masonry Grid */}
+                        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
+                            {categories && categories.length > 0 ? (
+                                categories.map((cat, index) => {
+                                    // Find a representative image for the category
+                                    const categoryImage = galleryItems?.find(item => item.category === cat.name)?.image_path;
+
+                                    const colors = ["bg-rose-500", "bg-purple", "bg-blue-500", "bg-amber-500", "bg-emerald-500", "bg-indigo-500"];
+                                    const cardColor = colors[index % colors.length];
+
+                                    // Masonry Logic: Randomize aspect ratios for visual variety
+                                    // Cycles through: Standard, Tall, Square, Wide-ish
+                                    const aspectClasses = [
+                                        "aspect-[16/10]",
+                                        "aspect-[4/5]",
+                                        "aspect-square",
+                                        "aspect-[16/9]"
+                                    ];
+                                    const aspectClass = aspectClasses[index % aspectClasses.length];
+
+                                    return (
+                                        <div key={cat.id} className="break-inside-avoid mb-6 md:mb-8">
+                                            <TiltCard
+                                                className={`w-full ${aspectClass} group cursor-pointer`}
+                                                color={cardColor}
+                                                onClick={() => {
+                                                    setSelectedCategory(cat.name);
+                                                    setModalOpen(true);
+                                                }}
+                                            >
+
+                                                <div className="absolute inset-0 flex items-end p-8 md:p-12 z-20">
+                                                    <div>
+                                                        <p className="text-xs md:text-sm font-mono mb-2 opacity-70 text-white tracking-widest uppercase">{cat.program} Specialization</p>
+                                                        <h3 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-none tracking-tighter break-words">{cat.name}</h3>
+                                                    </div>
+                                                </div>
+                                            </TiltCard>
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <div className="w-full py-12 text-center text-gray-500 border-2 border-dashed border-gray-700 rounded-3xl">
+                                    <p>No categories found.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </section>
+
+                <GalleryModal
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    initialCategory={selectedCategory}
+                    allItems={galleryItems}
+                />
 
 
 

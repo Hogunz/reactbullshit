@@ -1,8 +1,119 @@
 import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
-function BSITWMAD() {
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import GalleryModal from "@/Components/GalleryModal";
+
+// --- Animation Components ---
+const TiltCard = ({ children, className, color, onClick }) => {
+    const ref = useRef(null);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    const mouseXSpring = useSpring(x);
+    const mouseYSpring = useSpring(y);
+
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+    const handleMouseMove = (e) => {
+        if (isMobile) return;
+        const rect = ref.current.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const xPct = mouseX / width - 0.5;
+        const yPct = mouseY / height - 0.5;
+        x.set(xPct);
+        y.set(yPct);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onClick={onClick}
+            style={{
+                rotateY: isMobile ? 0 : rotateY,
+                rotateX: isMobile ? 0 : rotateX,
+                transformStyle: "preserve-3d",
+            }}
+            whileTap={{ scale: 0.98 }}
+            className={`relative overflow-hidden rounded-3xl ${className} ${color}`}
+        >
+            <div style={{ transform: isMobile ? "none" : "translateZ(50px)", transformStyle: "preserve-3d" }} className="relative z-10 h-full">
+                {children}
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        </motion.div>
+    );
+};
+
+const StaggerText = ({ text, className, delay = 0 }) => {
+    const letters = Array.from(text);
+    const container = {
+        hidden: { opacity: 0 },
+        visible: (i = 1) => ({
+            opacity: 1,
+            transition: { staggerChildren: 0.03, delayChildren: delay },
+        }),
+    };
+    const child = {
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { type: "spring", damping: 12, stiffness: 100 },
+        },
+        hidden: {
+            opacity: 0,
+            y: 50,
+            transition: { type: "spring", damping: 12, stiffness: 100 },
+        },
+    };
+
+    return (
+        <motion.div
+            style={{ display: "flex", flexWrap: "wrap" }}
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className={className}
+        >
+            {letters.map((letter, index) => (
+                <motion.span variants={child} key={index}>
+                    {letter === " " ? "\u00A0" : letter}
+                </motion.span>
+            ))}
+        </motion.div>
+    );
+};
+
+function BSITWMAD({ video, galleryItems, categories }) {
+    const itemsToDisplay = galleryItems || [];
+    const { scrollYProgress } = useScroll();
+    const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+    const rotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
     return (
         <>
             <CustomCursor />
@@ -15,13 +126,6 @@ function BSITWMAD() {
                             className="w-full rounded-lg shadow-lg  object-cover object-center bg-auto"
                             src="/img/wma.png"
                         ></img>
-                        {/* <div class="absolute bottom-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-black pointer-events-none"></div>
-                        <div class="absolute bottom-0 left-0 w-full h-[100px] bg-gradient-to-b from-transparent to-black pointer-events-none"></div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <h1 className="text-white font-bold text-[40px] lg:text-[60px] leading-tight drop-shadow-md">
-                                Web and Mobile Application Development
-                            </h1>
-                        </div> */}
                     </div>
                 </div>
             </div>
@@ -125,6 +229,75 @@ function BSITWMAD() {
                             </li>
                         </ul>
                     </div>
+
+                    {/* Dynamic Showcase & Video Section */}
+                    {(video || itemsToDisplay.length > 0) && (
+                        <div className="mt-24">
+                            {/* Video Section */}
+                            {video && (
+                                <div className="mb-12 shadow-2xl border border-white/10 group aspect-video rounded-3xl overflow-hidden bg-black relative">
+                                    <video
+                                        src={video}
+                                        className="w-full h-full object-cover"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        controls
+                                    />
+                                </div>
+                            )}
+
+                            {/* Gallery Section */}
+                            {itemsToDisplay.length > 0 && (
+                                <>
+                                    <StaggerText text="STUDENT GALLERY" className="text-3xl md:text-6xl font-black tracking-tighter mb-12" />
+
+                                    {/* Categories Grid */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                                        {categories && categories.length > 0 ? (
+                                            categories.map((cat, index) => {
+                                                // Assign a color based on index or hash
+                                                const colors = ["bg-rose-500", "bg-purple", "bg-blue-500", "bg-amber-500", "bg-emerald-500", "bg-indigo-500"];
+                                                const cardColor = colors[index % colors.length];
+
+                                                return (
+                                                    <TiltCard
+                                                        key={cat.id}
+                                                        className="aspect-[16/9] md:h-[400px] group cursor-pointer"
+                                                        color={cardColor}
+                                                        onClick={() => {
+                                                            setSelectedCategory(cat.name);
+                                                            setModalOpen(true);
+                                                        }}
+                                                    >
+                                                        <div className="absolute inset-0 flex items-end p-8 md:p-12 z-20">
+                                                            <div>
+                                                                <p className="text-xs md:text-sm font-mono mb-2 opacity-70 text-white tracking-widest uppercase">{cat.program} Specialization</p>
+                                                                <h3 className="text-4xl md:text-6xl font-black text-white leading-none tracking-tighter">{cat.name}</h3>
+                                                            </div>
+                                                        </div>
+                                                    </TiltCard>
+                                                );
+                                            })
+                                        ) : (
+                                            <div className="col-span-full py-12 text-center text-gray-500 border-2 border-dashed border-gray-700 rounded-3xl">
+                                                <p>No categories found.</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
+
+                    <GalleryModal
+                        isOpen={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        initialCategory={selectedCategory}
+                        allItems={itemsToDisplay}
+                    />
+
                 </div>
             </section>
         </>
