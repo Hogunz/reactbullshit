@@ -134,7 +134,7 @@ const StaggerText = ({ text, className, delay = 0 }) => {
 
     return (
         <motion.div
-            style={{ display: "flex", flexWrap: "wrap" }}
+            style={{ display: "flex", flexWrap: "nowrap" }}
             variants={container}
             initial="hidden"
             whileInView="visible"
@@ -209,27 +209,27 @@ function BSITMMA({ video, galleryItems, categories }) {
                                 text="MULTIMEDIA"
                                 className="text-[12vw] md:text-[10vw] leading-[0.85] font-black tracking-tighter text-dark dark:text-light mix-blend-difference"
                             />
-                            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12">
+                            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 flex-wrap">
                                 <StaggerText
                                     text="ARTS"
                                     delay={0.5}
-                                    className="text-[12vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
+                                    className="text-[12vw] md:text-[7.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
                                 />
                                 <StaggerText
                                     text="&"
                                     delay={0.5}
-                                    className="text-[12vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
+                                    className="text-[12vw] md:text-[7.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
                                 />
                                 <StaggerText
                                     text="ANIMATION"
                                     delay={0.5}
-                                    className="text-[14vw] md:text-[8vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
+                                    className="text-[12vw] md:text-[7.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
                                 />
                                 <motion.div
                                     initial={{ scaleX: 0 }}
                                     animate={{ scaleX: 1 }}
                                     transition={{ delay: 1, duration: 1, ease: "circOut" }}
-                                    className="h-[2px] bg-dark dark:bg-light flex-grow hidden md:block origin-left"
+                                    className="h-[2px] bg-dark dark:bg-light flex-grow hidden lg:block origin-left"
                                 />
 
                             </div>
