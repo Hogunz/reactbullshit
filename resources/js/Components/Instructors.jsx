@@ -41,10 +41,10 @@ export default function Instructors({ faculties = [] }) {
                                         href={route("faculties.show", {
                                             id: faculty.id,
                                         })}
-                                        className="block relative  mb-6  overflow-hidden dark:border-white/10 shadow-lg group-hover:border-purple transition-colors duration-300"
+                                        className="block relative aspect-[5/7] mb-6 overflow-hidden dark:border-white/10 shadow-lg group-hover:border-purple transition-colors duration-300"
                                     >
                                         <img
-                                            className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
+                                            className="w-full h-full object-cover object-top transition duration-500 group-hover:scale-110"
                                             src={"/storage/" + faculty.image}
                                             alt={faculty.name}
                                         />

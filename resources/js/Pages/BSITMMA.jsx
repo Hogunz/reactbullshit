@@ -398,11 +398,11 @@ function BSITMMA({ video, galleryItems, categories }) {
                                             >
                                                 {/* Media Background - Now Relative to define height */}
                                                 {categoryImage ? (
-                                                    <div className="relative w-full">
+                                                    <div className="relative w-full aspect-[3/4]">
                                                         {galleryItems?.find(item => item.category === cat.name)?.media_type === 'video' ? (
                                                             <video
                                                                 src={categoryImage}
-                                                                className="w-full h-auto object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
+                                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
                                                                 muted
                                                                 loop
                                                                 onMouseOver={e => e.target.play()}
@@ -412,7 +412,7 @@ function BSITMMA({ video, galleryItems, categories }) {
                                                             <img
                                                                 src={categoryImage}
                                                                 alt={cat.name}
-                                                                className="w-full h-auto object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
+                                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
                                                             />
                                                         )}
                                                         <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent z-10" />
