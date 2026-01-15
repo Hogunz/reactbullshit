@@ -20,9 +20,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //asd
-        if($this->app->environment('production')) {
-            URL::forceScheme('https');
+        // Force HTTPS if not localhost, or just force it for the live server fix
+        if ($this->app->environment('production') || env('APP_ENV') === 'production' || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') {
+             URL::forceScheme('https');
+        }
+        // Fallback for the user's specific case where env might be wrong
+        if (request()->server('HTTP_HOST') !== 'localhost' && request()->server('REMOTE_ADDR') !== '127.0.0.1') {
+             URL::forceScheme('https');
         }
     }
 }
