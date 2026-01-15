@@ -93,13 +93,23 @@ export default function GalleryModal({ isOpen, onClose, initialItem, initialCate
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-dark"
+                                className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-dark flex items-center justify-center p-2"
                             >
-                                <img
-                                    src={currentItem?.image_path}
-                                    alt={currentItem?.title}
-                                    className="w-full h-full object-contain"
-                                />
+                                {currentItem?.media_type === 'video' ? (
+                                    <video
+                                        src={currentItem?.media_path}
+                                        className="w-full h-full object-contain"
+                                        controls
+                                        autoPlay
+                                        controlsList="nodownload"
+                                    />
+                                ) : (
+                                    <img
+                                        src={currentItem?.media_path}
+                                        alt={currentItem?.title}
+                                        className="w-full h-full object-contain"
+                                    />
+                                )}
                             </motion.div>
                         </div>
 
@@ -134,7 +144,11 @@ export default function GalleryModal({ isOpen, onClose, initialItem, initialCate
                                             className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 transition-all ${idx === currentIndex ? "ring-2 ring-purple opacity-100" : "opacity-50 hover:opacity-100"
                                                 }`}
                                         >
-                                            <img src={item.image_path} alt={item.title} className="w-full h-full object-cover" />
+                                            {item.media_type === 'video' ? (
+                                                <video src={item.media_path} className="w-full h-full object-cover" muted />
+                                            ) : (
+                                                <img src={item.media_path} alt={item.title} className="w-full h-full object-cover" />
+                                            )}
                                         </button>
                                     ))}
                                 </div>

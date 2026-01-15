@@ -58,16 +58,22 @@ class ShowcaseController extends Controller
         $request->validate([
             'title' => 'required|string',
             'category' => 'required|string',
-            'image' => 'required|image|max:10240', // 10MB max
+            'file' => 'required|file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,qt|max:512000', // 50MB max, renamed 'image' to 'file'
         ]);
 
-        $path = $request->file('image')->store('showcase', 'public');
+        $file = $request->file('file');
+        $mimeType = $file->getMimeType();
+        $isVideo = str_contains($mimeType, 'video');
+        $mediaType = $isVideo ? 'video' : 'image';
+
+        $path = $file->store('showcase', 'public');
 
         ProgramShowcase::create([
             'program' => $program,
             'title' => $request->title,
             'category' => $request->category,
-            'image_path' => '/storage/' . $path,
+            'media_path' => '/storage/' . $path,
+            'media_type' => $mediaType,
         ]);
 
         return redirect()->back()->with('success', 'Gallery item added successfully.');

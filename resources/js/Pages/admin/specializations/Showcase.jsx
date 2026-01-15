@@ -14,7 +14,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
     const { data: galleryData, setData: setGalleryData, post: postGallery, processing: processingGallery, errors: galleryErrors, reset: resetGallery } = useForm({
         title: "",
         category: "",
-        image: null,
+        file: null,
     });
 
     const [showVideoPreview, setShowVideoPreview] = useState(false);
@@ -213,14 +213,14 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                     {galleryErrors.category && <p className="mt-1 text-xs text-red-500">{galleryErrors.category}</p>}
                                 </div>
                                 <div className="md:col-span-1">
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Media (Image/Video)</label>
                                     <input
                                         type="file"
-                                        accept="image/*"
-                                        onChange={(e) => setGalleryData("image", e.target.files[0])}
+                                        accept="image/*,video/mp4,video/quicktime,video/x-m4v"
+                                        onChange={(e) => setGalleryData("file", e.target.files[0])}
                                         className="block w-full text-xs text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple/10 file:text-purple hover:file:bg-purple/20 cursor-pointer"
                                     />
-                                    {galleryErrors.image && <p className="mt-1 text-xs text-red-500">{galleryErrors.image}</p>}
+                                    {galleryErrors.file && <p className="mt-1 text-xs text-red-500">{galleryErrors.file}</p>}
                                 </div>
                                 <div className="md:col-span-1">
                                     <button
@@ -333,7 +333,15 @@ function CategorySection({ title, color, items, onDelete, isUncategorized = fals
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {currentItems.map((item) => (
                     <div key={item.id} className={`group relative aspect-[4/3] rounded-2xl overflow-hidden bg-black shadow-lg border border-white/10 ${isUncategorized ? 'opacity-75 hover:opacity-100 transition-opacity' : ''}`}>
-                        <img src={item.image_path} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        {item.media_type === 'video' ? (
+                            <div className="w-full h-full flex items-center justify-center bg-black">
+                                <video src={item.media_path} className="w-full h-full object-contain pointer-events-none" muted loop onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()} />
+                            </div>
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-black">
+                                <img src={item.media_path} alt={item.title} className="w-full h-full object-contain" />
+                            </div>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
 
                         <div className="absolute bottom-0 left-0 p-6 w-full">

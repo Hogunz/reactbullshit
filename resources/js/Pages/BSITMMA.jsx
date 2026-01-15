@@ -102,10 +102,10 @@ const TiltCard = ({ children, className, color, onClick }) => {
             whileTap={{ scale: 0.98 }}
             className={`relative overflow-hidden rounded-3xl ${className} ${color}`}
         >
-            <div style={{ transform: isMobile ? "none" : "translateZ(50px)", transformStyle: "preserve-3d" }} className="relative z-10 h-full">
+            <div style={{ transform: isMobile ? "none" : "translateZ(50px)", transformStyle: "preserve-3d" }} className="relative z-10 h-full w-full">
                 {children}
             </div>
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none z-30" />
         </motion.div>
     );
 };
@@ -373,18 +373,7 @@ function BSITMMA({ video, galleryItems, categories }) {
 
 
 
-                        <div className="mb-12 shadow-2xl border border-white/10 group aspect-video" color="bg-dark">
-                            <div className="absolute inset-0 bg-purple/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none z-10" />
-                            <video
-                                src={video || "/video/showreel/showreel_2024.mp4"}
-                                className="w-full h-full object-cover"
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                controls
-                            />
-                        </div>
+
                         <StaggerText text="STUDENT GALLERY" className="text-3xl md:text-6xl font-black tracking-tighter mb-12" />
 
                         {/* Categories Masonry Grid */}
@@ -392,39 +381,58 @@ function BSITMMA({ video, galleryItems, categories }) {
                             {categories && categories.length > 0 ? (
                                 categories.map((cat, index) => {
                                     // Find a representative image for the category
-                                    const categoryImage = galleryItems?.find(item => item.category === cat.name)?.image_path;
+                                    const categoryImage = galleryItems?.find(item => item.category === cat.name)?.media_path;
 
                                     const colors = ["bg-rose-500", "bg-purple", "bg-blue-500", "bg-amber-500", "bg-emerald-500", "bg-indigo-500"];
                                     const cardColor = colors[index % colors.length];
 
-                                    // Masonry Logic: Randomize aspect ratios for visual variety
-                                    // Cycles through: Standard, Tall, Square, Wide-ish
-                                    const aspectClasses = [
-                                        "aspect-[16/10]",
-                                        "aspect-[4/5]",
-                                        "aspect-square",
-                                        "aspect-[16/9]"
-                                    ];
-                                    const aspectClass = aspectClasses[index % aspectClasses.length];
-
                                     return (
                                         <div key={cat.id} className="break-inside-avoid mb-6 md:mb-8">
                                             <TiltCard
-                                                className={`w-full ${aspectClass} group cursor-pointer`}
+                                                className={`w-full group cursor-pointer`}
                                                 color={cardColor}
                                                 onClick={() => {
                                                     setSelectedCategory(cat.name);
                                                     setModalOpen(true);
                                                 }}
                                             >
+                                                {/* Media Background - Now Relative to define height */}
+                                                {categoryImage ? (
+                                                    <div className="relative w-full">
+                                                        {galleryItems?.find(item => item.category === cat.name)?.media_type === 'video' ? (
+                                                            <video
+                                                                src={categoryImage}
+                                                                className="w-full h-auto object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
+                                                                muted
+                                                                loop
+                                                                onMouseOver={e => e.target.play()}
+                                                                onMouseOut={e => e.target.pause()}
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src={categoryImage}
+                                                                alt={cat.name}
+                                                                className="w-full h-auto object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
+                                                            />
+                                                        )}
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent z-10" />
+                                                    </div>
+                                                ) : (
+                                                    // Fallback height for empty categories
+                                                    <div className="h-64 relative">
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent z-10" />
+                                                    </div>
+                                                )}
 
-                                                <div className="absolute inset-0 flex items-end p-8 md:p-12 z-20">
+                                                <div className="absolute inset-0 flex items-end p-8 md:p-12 z-20 pointer-events-none">
                                                     <div>
                                                         <p className="text-xs md:text-sm font-mono mb-2 opacity-70 text-white tracking-widest uppercase">{cat.program} Specialization</p>
                                                         <h3 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-none tracking-tighter break-words">{cat.name}</h3>
                                                     </div>
                                                 </div>
                                             </TiltCard>
+
+
                                         </div>
                                     );
                                 })
@@ -435,7 +443,7 @@ function BSITMMA({ video, galleryItems, categories }) {
                             )}
                         </div>
                     </div>
-                </section>
+                </section >
 
                 <GalleryModal
                     isOpen={modalOpen}
@@ -495,7 +503,7 @@ function BSITMMA({ video, galleryItems, categories }) {
                     </div>
                 </section>
 
-            </div>
+            </div >
         </>
     );
 }

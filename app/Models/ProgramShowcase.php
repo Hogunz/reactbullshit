@@ -13,6 +13,7 @@ class ProgramShowcase extends Model
         'program',
         'title',
         'category',
-        'image_path',
+        'media_path',
+        'media_type',
     ];
 }
