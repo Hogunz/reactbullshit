@@ -8,6 +8,8 @@ export default function Partnership() {
         { name: 'Oracle', logo: '/img/partners/logo/ORACLE.jpg' },
         { name: 'SmartBridge', logo: '/img/partners/logo/smartbridge.jpg' },
         { name: 'Cisco', logo: '/img/partners/logo/CISCO.jpg' },
+        { name: 'PaloAlto', logo: '/img/partners/logo/palo_alto.png' },
+
     ];
 
     return (
