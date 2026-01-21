@@ -9,64 +9,89 @@ export default function HeroSection() {
     }, []);
     return (
         <>
-            <section className="relative bg-light dark:bg-dark min-h-screen w-full flex items-center justify-center overflow-hidden py-20 lg:py-0">
-                {/* Background Gradient Blob */}
-                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-purple/20 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-purple/10 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+            <section className="relative bg-white dark:bg-dark min-h-screen w-full flex items-center overflow-hidden">
+                {/* Abstract Background Shapes */}
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple/10 rounded-full blur-[120px] animate-pulse"></div>
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-fuchsia-500/10 rounded-full blur-[100px]"></div>
+                </div>
 
-                <div className="grid max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto lg:gap-12 xl:gap-0 lg:grid-cols-12 items-center z-10">
-                    <div className="mr-auto place-self-center lg:col-span-7 order-2 lg:order-1">
-                        <h1 className="max-w-3xl mb-6 text-4xl font-extrabold tracking-tight leading-tight text-dark dark:text-light md:text-5xl xl:text-7xl text-center lg:text-left">
-                            Center of Development in{" "}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">
-                                Information Technology Education
-                            </span>
-                        </h1>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full h-full">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center h-full">
 
-                        <p
-                            data-aos="fade-up"
-                            data-aos-duration="700"
-                            className="max-w-2xl mb-8 font-light text-gray-600 dark:text-gray-300 text-center lg:text-left md:text-lg lg:text-xl leading-relaxed"
-                        >
-                            Unlock Your Potential at the Center of Development in
-                            Information Technology Education. Ignite Your Future in
-                            IT. Enroll Today and Build a Path to Success.
-                        </p>
+                        {/* Text Content */}
+                        <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left pt-20 lg:pt-0 order-2 lg:order-1 flex flex-col justify-center">
+                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-dark dark:text-light mb-8">
+                                Center of <br /> Development in{" "}
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-400">
+                                    Information Technology Education
+                                </span>
+                            </h1>
+
+                            <p
+                                className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed font-light"
+                                data-aos="fade-up"
+                                data-aos-duration="700"
+                            >
+                                Unlock Your Potential at the Center of Development in
+                                Information Technology Education. Ignite Your Future in
+                                IT. Enroll Today and Build a Path to Success.
+                            </p>
+
+                            <div
+                                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                                data-aos="fade-up"
+                                data-aos-duration="800"
+                                data-aos-delay="200"
+                            >
+                                <Link
+                                    href="/Contact"
+                                    className="inline-flex justify-center items-center py-4 px-10 text-lg font-bold text-white rounded-full bg-gradient-to-r from-purple to-fuchsia-600 shadow-xl shadow-purple/30 hover:shadow-purple/50 hover:scale-105 transition-all duration-300"
+                                >
+                                    Enroll Now
+                                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                </Link>
+                                <a
+                                    href="/ProgramDescription"
+                                    className="inline-flex justify-center items-center py-4 px-10 text-lg font-bold text-dark dark:text-white bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
+                                >
+                                    See Our Programs
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Image Content - Bigger and Modern */}
                         <div
-                            className="flex flex-col sm:flex-row mb-8 lg:mb-16 space-y-4 sm:justify-center lg:justify-start sm:space-y-0 sm:space-x-6"
-                            data-aos="fade-up"
-                            data-aos-duration="600"
-                            data-aos-delay="200"
+                            className="relative lg:h-[90vh] w-full flex items-center justify-center order-1 lg:order-2"
+                            data-aos="fade-left"
+                            data-aos-duration="1000"
                         >
-                            <Link
-                                href="/Contact"
-                                className="inline-flex justify-center items-center py-4 px-8 text-base font-bold text-center text-white rounded-full bg-purple shadow-lg hover:bg-purple/90 hover:shadow-purple/50 transform hover:-translate-y-1 transition duration-300 ease-in-out"
-                            >
-                                Enroll Now
-                                <svg className="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                            </Link>
-                            <a
-                                href="/ProgramDescription"
-                                className="inline-flex justify-center items-center py-4 px-8 text-base font-bold text-center text-dark dark:text-white border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-transparent shadow-sm hover:shadow-md transition duration-300 ease-in-out"
-                            >
-                                See Our Programs
-                            </a>
+                            <div className="relative w-full h-[50vh] lg:h-[85%] rounded-3xl overflow-hidden shadow-2xl shadow-purple/20 rotate-[-1deg] hover:rotate-0 transition-all duration-700 ease-out border-4 border-white dark:border-white/5 bg-gray-900 group">
+                                {/* Blurred Background for Fill */}
+                                <img
+                                    src="/img/hero_section.jpg"
+                                    alt="Background"
+                                    className="absolute inset-0 w-full h-full object-cover opacity-50 blur-xl scale-110"
+                                    loading="eager"
+                                    fetchPriority="high"
+                                />
+
+                                {/* Main Full Image */}
+                                <img
+                                    src="/img/hero_section.jpg"
+                                    alt="UDD Faculty and Students"
+                                    className="relative z-10 w-full h-full object-contain transform transition-transform duration-1000 group-hover:scale-[1.02]"
+                                    loading="eager"
+                                    fetchPriority="high"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent z-20 pointer-events-none"></div>
+                            </div>
+
+                            {/* Decorative Elements */}
+                            <div className="absolute -z-10 top-20 right-10 w-72 h-72 bg-purple/30 rounded-full blur-[80px]"></div>
+                            <div className="absolute -z-10 bottom-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-[80px]"></div>
                         </div>
-                    </div>
-                    <div
-                        className="mt-10 lg:mt-0 lg:col-span-5 flex justify-center order-1 lg:order-2 mb-10 lg:mb-0"
-                        data-aos="fade-left"
-                        data-aos-duration="800"
-                    >
-                        <div className="relative w-full max-w-sm lg:max-w-md">
-                            <div className="absolute inset-0 bg-purple blur-2xl opacity-20 rounded-full"></div>
-                            <img
-                                className="relative rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500 ease-in-out object-cover h-[300px] sm:h-[400px] lg:h-[500px] w-full border-4 border-white dark:border-gray-800"
-                                loading="lazy"
-                                src="/img/pic1.jpg"
-                                alt="Student Mockup"
-                            />
-                        </div>
+
                     </div>
                 </div>
             </section>
