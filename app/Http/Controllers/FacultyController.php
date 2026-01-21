@@ -19,10 +19,29 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        $faculties = Faculty::latest()->paginate(10);
+        $faculties = Faculty::orderBy('row_number')->orderBy('sort_order')->paginate(100);
         return Inertia::render('admin/faculties/Index', [
             'faculties' => $faculties,
         ]);
+    }
+
+    public function reorder(Request $request)
+    {
+        $request->validate([
+            'items' => 'required|array',
+            'items.*.id' => 'required|exists:faculties,id',
+            'items.*.sort_order' => 'required|integer',
+            'items.*.row_number' => 'required|integer',
+        ]);
+
+        foreach ($request->items as $item) {
+            Faculty::where('id', $item['id'])->update([
+                'sort_order' => $item['sort_order'],
+                'row_number' => $item['row_number']
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -46,12 +65,14 @@ class FacultyController extends Controller
         ]);
 
         $imagePath = $request->file('image')->store('faculties', 'public');
+        $maxOrder = Faculty::max('sort_order') ?? 0;
 
         $faculty = new Faculty();
         $faculty->name = $request->input('name');
         $faculty->image = $imagePath;
         $faculty->position = $request->input('position');
         $faculty->content = $request->input('content');
+        $faculty->sort_order = $maxOrder + 1;
         $faculty->user_id = Auth::id();
         $faculty->save();
 

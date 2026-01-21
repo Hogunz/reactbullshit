@@ -28,7 +28,7 @@ use App\Models\Faculty;
 Route::get('/', function () {
     $bscstestimonials = BSCSTestimonial::all();
     $events = Event::where('status', 'active')->orderBy('created_at', 'desc')->get();
-    $faculties = Faculty::all();
+    $faculties = Faculty::orderBy('row_number')->orderBy('sort_order')->get();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -36,6 +36,15 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'bscstestimonials' => $bscstestimonials,
         'events' => $events,
+        'faculties' => $faculties,
+    ]);
+});
+
+// ... (omitted lines)
+
+Route::get('/Faculty', function () {
+    $faculties = Faculty::with('user')->orderBy('row_number')->orderBy('sort_order')->get();
+    return Inertia::render('FacultyPage', [
         'faculties' => $faculties,
     ]);
 });
@@ -52,12 +61,14 @@ Route::post('events/{event}', [EventController::class, 'update'])->name('events.
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 //Faculties
+//Faculties
+Route::post('faculties/reorder', [FacultyController::class, 'reorder'])->name('faculties.reorder');
 Route::resource('faculties', FacultyController::class)->except(['update']);
 Route::post('faculties/{faculty}', [FacultyController::class, 'update'])->name('faculties.update');
 Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])->name('faculties.show');
 
 Route::get('/Faculty', function () {
-    $faculties = Faculty::with('user')->get();
+    $faculties = Faculty::with('user')->orderBy('row_number')->orderBy('sort_order')->get();
     return Inertia::render('FacultyPage', [
         'faculties' => $faculties,
     ]);
