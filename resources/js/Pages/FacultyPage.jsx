@@ -7,7 +7,7 @@ export default function FacultyPage({ faculties = [] }) {
     return (
         <>
             <CustomCursor />
-            <div className="dark:bg-dark w-full min-h-screen relative overflow-hidden">
+            <div className="dark:bg-dark w-full min-h-screen relative">
                 <NavBar />
 
                 {/* Background Elements */}

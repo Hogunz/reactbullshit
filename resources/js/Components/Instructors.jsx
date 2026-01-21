@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/react";
 export default function Instructors({ faculties = [] }) {
     return (
         <>
-            <section className="relative overflow-hidden bg-light dark:bg-dark py-20 lg:py-32">
+            <section className="relative bg-light dark:bg-dark py-20 lg:py-32">
                 {/* Background Elements */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
@@ -12,8 +12,6 @@ export default function Instructors({ faculties = [] }) {
                 <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div
-                        data-aos="fade-up"
-                        data-aos-duration="800"
                         className="text-center mb-16 lg:mb-24"
                     >
                         <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
@@ -31,8 +29,6 @@ export default function Instructors({ faculties = [] }) {
                             return (
                                 <div
                                     key={rowNum}
-                                    data-aos="fade-up"
-                                    data-aos-duration="600"
                                     className="flex flex-wrap justify-center gap-8 lg:gap-10"
                                 >
                                     {rowItems.map((faculty, index) => (
