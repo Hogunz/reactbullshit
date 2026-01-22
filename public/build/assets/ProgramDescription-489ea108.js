@@ -1,1 +1,0 @@
-import{j as r}from"./app-67284b8e.js";import{N as s}from"./NavBar-b842fd83.js";import{D as o,A as t}from"./Academics-cc726c6c.js";import"./SVGicon-69c0ec64.js";import"./CustomCursor-0444cd38.js";const n=()=>r.jsxs(r.Fragment,{children:[r.jsx(s,{}),r.jsx(o,{}),r.jsx(t,{})]});export{n as default};
