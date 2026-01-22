@@ -18,6 +18,7 @@ export function NavBar() {
         <ul className="flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-8">
             {[
                 ['Home', '/'],
+                ['History', '/History'],
                 ['Academics', '/ProgramDescription'],
                 ['Faculty', '/Faculty'],
                 ['News & Events', '/News&Events'],

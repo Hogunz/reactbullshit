@@ -90,6 +90,10 @@ Route::get('/ProgramDescription', function () {
     return Inertia::render("ProgramDescription");
 });
 
+Route::get('/History', function () {
+    return Inertia::render("History");
+});
+
 Route::get('/VMO', function () {
     return Inertia::render("VMO");
 });
