@@ -204,7 +204,7 @@ const History = () => {
                             </h2>
                             <div className="relative space-y-6">
                                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
-                                    Universidad de Dagupan remains dedicated to its mission of shaping well-rounded individuals, nurturing critical thinking, and fostering a spirit of lifelong learning. With a proud history behind and a bright future ahead, the university eagerly anticipates the continued growth, success, and positive impact it will undoubtedly bring to the educational landscape.
+                                    Universidad de Dagupan is a private and non-sectarian university that remains dedicated to its mission of shaping well-rounded individuals, nurturing critical thinking, and fostering a spirit of lifelong learning. With a proud history behind and a bright future ahead, the university eagerly anticipates the continued growth, success, and positive impact it will undoubtedly bring to the educational landscape.
                                 </p>
                                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                                     As we celebrate the achievements of the past and embrace the challenges of the future, Universidad de Dagupan stands poised to empower minds, transform lives, and contribute meaningfully to the ever-evolving tapestry of education.
