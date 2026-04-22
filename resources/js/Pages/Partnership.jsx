@@ -9,6 +9,7 @@ export default function Partnership() {
         { name: 'SmartBridge', logo: '/img/partners/logo/smartbridge.jpg' },
         { name: 'Cisco', logo: '/img/partners/logo/CISCO.jpg' },
         { name: 'PaloAlto', logo: '/img/partners/logo/palo_alto.png' },
+        { name: 'Wacom', logo: '/img/partners/logo/WACOM.jpg' },
 
     ];
 
