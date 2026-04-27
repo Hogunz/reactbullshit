@@ -122,6 +122,7 @@ export function NavBar() {
 
             {[
                 ['News & Events', '/News&Events'],
+                ['Partners', '/Partners'],
                 ['Contact', '/Contact'],
             ].map(([title, url]) => (
                 <li key={title} className="p-1 font-medium">

@@ -12,7 +12,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BSCSTestimonialController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\ProgramAttributeController;
+use App\Http\Controllers\PartnerController;
 use App\Models\Faculty;
+use App\Models\Partner;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,7 @@ Route::get('/', function () {
     $bscstestimonials = BSCSTestimonial::all();
     $events = Event::where('status', 'active')->orderBy('created_at', 'desc')->get();
     $faculties = Faculty::orderBy('row_number')->orderBy('sort_order')->get();
+    $partners = Partner::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -37,6 +40,7 @@ Route::get('/', function () {
         'bscstestimonials' => $bscstestimonials,
         'events' => $events,
         'faculties' => $faculties,
+        'partners' => $partners,
     ]);
 });
 
@@ -66,6 +70,17 @@ Route::post('faculties/reorder', [FacultyController::class, 'reorder'])->name('f
 Route::resource('faculties', FacultyController::class)->except(['update']);
 Route::post('faculties/{faculty}', [FacultyController::class, 'update'])->name('faculties.update');
 Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])->name('faculties.show');
+
+// Partners
+Route::resource('partners', PartnerController::class)->except(['update']);
+Route::post('partners/{partner}', [PartnerController::class, 'update'])->name('partners.update');
+
+Route::get('/Partners', function () {
+    $partners = App\Models\Partner::all();
+    return Inertia::render('PartnersPage', [
+        'partners' => $partners,
+    ]);
+});
 
 Route::get('/Faculty', function () {
     $faculties = Faculty::with('user')->orderBy('row_number')->orderBy('sort_order')->get();

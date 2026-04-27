@@ -13,13 +13,14 @@ export default function Welcome({
     bscstestimonials,
     events,
     faculties,
+    partners,
 }) {
     return (
         <>
             <div className="bg-light dark:bg-dark min-h-screen scroll-smooth ">
                 <NavBar />
                 <HeroSection />
-                <Partnership />
+                <Partnership partners={partners} />
                 <AboutUs bscstestimonials={bscstestimonials} />
                 <Academics />
                 <Instructors faculties={faculties} />

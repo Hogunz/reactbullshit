@@ -83,6 +83,11 @@ export default function Authenticated({ user, header, children }) {
                                         >
                                             Program Attributes
                                         </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("partners.index")}
+                                        >
+                                            Partners
+                                        </Dropdown.Link>
                                         <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
                                         <Dropdown.Link
                                             href={route("admin.specializations.edit", { program: "MMA" })}
@@ -198,6 +203,9 @@ export default function Authenticated({ user, header, children }) {
                                 href={route("program-attributes.index")}
                             >
                                 Program Attributes
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route("partners.index")}>
+                                Partners
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 href={route("admin.specializations.edit", { program: "MMA" })}
