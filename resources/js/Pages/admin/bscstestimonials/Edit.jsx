@@ -4,19 +4,19 @@ import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-export default function Edit({ bscstestimonial }) {
-    const { data, setData, post, errors } = useForm({
-        name: bscstestimonial.name,
-        position: bscstestimonial.position,
-        image: "",
-        content: bscstestimonial.content,
+export default function Edit({ bscstestimonial = {} }) {
+    const { data, setData, post, errors, processing } = useForm({
+        name: bscstestimonial.name || "",
+        position: bscstestimonial.position || "",
+        image: null,
+        content: bscstestimonial.content || "",
     });
 
     function handleSubmit(e) {
         e.preventDefault();
         // console.log(data);
 
-        post(route("bscstestimonials.update", bscstestimonial.id));
+        post(route("bscstestimonials.update", bscstestimonial?.id));
     }
 
     return (
@@ -37,6 +37,7 @@ export default function Edit({ bscstestimonial }) {
                                     }
                                     required
                                 ></input>
+                                {errors.name && <div className="text-red-500 text-xs mt-1">{errors.name}</div>}
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Image (Leave blank to keep current)</InputLabel>
@@ -48,6 +49,7 @@ export default function Edit({ bscstestimonial }) {
                                         setData("image", e.target.files[0])
                                     }
                                 ></input>
+                                {errors.image && <div className="text-red-500 text-xs mt-1">{errors.image}</div>}
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Position</InputLabel>
@@ -60,6 +62,7 @@ export default function Edit({ bscstestimonial }) {
                                     }
                                     required
                                 ></input>
+                                {errors.position && <div className="text-red-500 text-xs mt-1">{errors.position}</div>}
                             </div>
                             <div className="mb-2">
                                 <InputLabel>Content</InputLabel>
@@ -73,9 +76,10 @@ export default function Edit({ bscstestimonial }) {
                                     rows={10}
                                     required
                                 ></textarea>
+                                {errors.content && <div className="text-red-500 text-xs mt-1">{errors.content}</div>}
                             </div>
                             <div className="mb-2">
-                                <Button type="submit">Update</Button>
+                                <Button type="submit" disabled={processing}>Update</Button>
                             </div>
                         </form>
                     </div>
