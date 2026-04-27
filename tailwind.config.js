@@ -1,4 +1,5 @@
 import forms from "@tailwindcss/forms";
+import colors from "tailwindcss/colors";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -20,7 +21,10 @@ export default {
             },
             colors: {
                 dark: "#2b2b2b",
-                purple: "#63307D",
+                purple: {
+                    ...colors.purple,
+                    DEFAULT: "#63307D",
+                },
                 light: "#f5f5f5",
             },
             listStyleType: {

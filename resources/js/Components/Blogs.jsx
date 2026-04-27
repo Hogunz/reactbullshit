@@ -1,106 +1,195 @@
-import React from "react";
-import ButtonLink from "./ButtonLink";
-import { Link } from "@inertiajs/react";
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Blogs({ events = [] }) {
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = { month: "long", day: "numeric", year: "numeric" };
-        return date.toLocaleDateString("en-US", options);
+    const sectionRef = useRef(null);
+
+    // Dummy data for the editorial layout fallback
+    const featuredArticle = {
+        category: "Achievements",
+        date: "October 15, 2026",
+        title: "SITE Students Sweep National Cybersecurity Hackathon",
+        excerpt: "Our senior IT students took home the grand prize at the annual CyberDefend Philippines competition, showcasing advanced penetration testing and network defense techniques.",
+        imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200", 
     };
 
+    const newsList = [
+        {
+            category: "Events",
+            date: "October 10, 2026",
+            title: "Annual Global Tech Symposium Returns to Universidad de Dagupan",
+        },
+        {
+            category: "Partnerships",
+            date: "September 28, 2026",
+            title: "SITE Announces New Cloud Computing Curriculum with Industry Leaders",
+        },
+        {
+            category: "Student Life",
+            date: "September 15, 2026",
+            title: "Exploring the New State-of-the-Art Mac Laboratories",
+        }
+    ];
+
+    const displayFeatured = events.length > 0 ? {
+        category: events[0].category,
+        date: new Date(events[0].created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        title: events[0].name,
+        excerpt: (events[0].content || '').replace(/<[^>]+>/g, '').substring(0, 150) + '...',
+        imageUrl: events[0].image || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+        id: events[0].id
+    } : featuredArticle;
+
+    const displayNewsList = events.length > 1 
+        ? events.slice(1, 4).map(e => ({
+            category: e.category,
+            date: new Date(e.created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+            title: e.name,
+            id: e.id
+        }))
+        : newsList;
+
+    useGSAP(() => {
+        // Section Header Animation
+        gsap.from(".news-header", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 80%",
+            }
+        });
+
+        // Featured Article (Left Side) slides up
+        gsap.from(".news-featured", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: ".news-grid",
+                start: "top 75%",
+            }
+        });
+
+        // News List (Right Side) staggers in
+        gsap.from(".news-list-item", {
+            x: 50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.15,
+            scrollTrigger: {
+                trigger: ".news-grid",
+                start: "top 70%",
+            }
+        });
+
+    }, { scope: sectionRef });
+
     return (
-        <>
-            <section className="relative overflow-hidden bg-light dark:bg-dark py-20 lg:py-32">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+        <section ref={sectionRef} className="relative py-24 lg:py-32 bg-[#FDFDFC] dark:bg-[#080212] overflow-hidden selection:bg-purple-500 selection:text-white border-t border-gray-100 dark:border-white/5">
 
-                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    {/* Header */}
-                    <div
-                        data-aos="fade-up"
-                        data-aos-duration="800"
-                        className="text-center mb-16 lg:mb-24"
-                    >
-                        <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
-                            Blog / News
-                        </h3>
-                        <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light">
-                            Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">News</span>
-                        </h1>
+            {/* Deep Purple Ambient Lighting */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/20 dark:bg-fuchsia-900/30 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-60"></div>
+            </div>
+
+            <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+
+                {/* Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 lg:mb-24 gap-6">
+                    <div className="max-w-2xl">
+                        <div className="news-header inline-flex items-center gap-3 px-4 py-2 rounded-full bg-purple-50 dark:bg-white/5 border border-purple-100 dark:border-white/10 shadow-sm mb-6">
+                            <span className="text-sm font-bold text-purple-600 tracking-widest uppercase">The Latest</span>
+                        </div>
+                        <h2 className="news-header text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                            News & <span className="text-purple-600 dark:text-purple-500">Stories</span>
+                        </h2>
                     </div>
-
-                    {/* Blog Grid */}
-                    <div
-                        data-aos="fade-up"
-                        data-aos-duration="600"
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10"
-                    >
-                        {events.map((event, index) => (
-                            <div
-                                key={index}
-                                className="group relative flex flex-col h-full"
-                            >
-                                <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-2xl blur opacity-0 group-hover:opacity-50 transition duration-500"></div>
-                                <div className="relative flex flex-col h-full bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20 shadow-xl transform transition-all duration-300 group-hover:-translate-y-2">
-                                    {/* Image */}
-                                    <Link
-                                        href={route("events.show", {
-                                            id: event.id,
-                                        })}
-                                        className="relative block h-64 overflow-hidden"
-                                    >
-                                        <img
-                                            className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                                            src={"/storage/" + event.image}
-                                            alt={event.name}
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                    </Link>
-
-                                    {/* Content */}
-                                    <div className="flex flex-col flex-grow p-6 sm:p-8">
-                                        <div className="flex-grow">
-                                            <p className="text-sm font-medium text-purple mb-3">
-                                                {formatDate(event.created_at)}
-                                            </p>
-                                            <Link
-                                                href={route("events.show", {
-                                                    id: event.id,
-                                                })}
-                                                className="block"
-                                            >
-                                                <h3 className="text-xl font-bold text-dark dark:text-light mb-4 line-clamp-2 hover:text-purple dark:hover:text-purple transition-colors">
-                                                    {event.name}
-                                                </h3>
-                                            </Link>
-                                            <div
-                                                className="text-gray-600 dark:text-gray-300 line-clamp-3 text-sm leading-relaxed mb-6"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: event.content,
-                                                }}
-                                            />
-                                        </div>
-
-                                        <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                                            <Link
-                                                href={route("events.show", {
-                                                    id: event.id,
-                                                })}
-                                                className="inline-flex items-center gap-2 text-sm font-bold text-purple hover:text-fuchsia-600 transition-colors"
-                                            >
-                                                Read More
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                    <div className="news-header">
+                        <a href="#" className="inline-flex items-center gap-2 group font-semibold text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                            View All Articles
+                            <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
-            </section>
-        </>
+
+                {/* Asymmetrical Editorial Grid */}
+                <div className="news-grid grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+                    {/* Left Column: Featured Hero Article (60% width) */}
+                    <article className="news-featured lg:col-span-7 group cursor-pointer">
+                        <div className="relative overflow-hidden rounded-3xl aspect-[4/3] mb-8 shadow-2xl border border-gray-100 dark:border-white/5">
+                            <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                            <img
+                                src={displayFeatured.imageUrl}
+                                alt={displayFeatured.title}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase">
+                                <span className="text-purple-600 dark:text-purple-400">{displayFeatured.category}</span>
+                                <span className="text-gray-400 dark:text-gray-500">&bull;</span>
+                                <span className="text-gray-500 dark:text-gray-400">{displayFeatured.date}</span>
+                            </div>
+                            <h3 className="text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 break-words">
+                                {displayFeatured.title}
+                            </h3>
+                            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed md:max-w-2xl break-words">
+                                {displayFeatured.excerpt}
+                            </p>
+                            <div className="pt-4 inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                Read Full Story
+                                <span className="transform transition-transform group-hover:translate-x-2">→</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    {/* Right Column: Sleek Vertical List (40% width) */}
+                    <div className="lg:col-span-5 flex flex-col justify-start">
+                        <div className="border-t-2 border-gray-900 dark:border-white mb-2"></div>
+
+                        {displayNewsList.map((news, i) => (
+                            <article key={i} className="news-list-item group flex flex-col py-8 border-b border-gray-200 dark:border-white/10 cursor-pointer">
+                                <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-3">
+                                    <span className="text-blue-600 dark:text-blue-400">{news.category}</span>
+                                    <span className="text-gray-400 dark:text-gray-500">&bull;</span>
+                                    <span className="text-gray-500 dark:text-gray-400">{news.date}</span>
+                                </div>
+
+                                <div className="flex items-start justify-between gap-4 w-full">
+                                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 pr-4 sm:pr-8 break-words flex-1">
+                                        {news.title}
+                                    </h3>
+
+                                    {/* Animated Arrow */}
+                                    <div className="mt-1 shrink-0 w-10 h-10 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-400 group-hover:border-blue-600 group-hover:bg-blue-600 dark:group-hover:text-white group-hover:text-white transition-all duration-300">
+                                        <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
     );
 }

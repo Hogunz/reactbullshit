@@ -52,8 +52,13 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
-            $validated['image'] = $imagePath;
+            $file = $request->file('image');
+            $filename = \Illuminate\Support\Str::random(40) . '.' . $file->getClientOriginalExtension();
+            \Illuminate\Support\Facades\Storage::disk('public')->put(
+                'events/' . $filename,
+                file_get_contents($file->getPathname())
+            );
+            $validated['image'] = '/storage/events/' . $filename;
         }
 
         $validated['user_id'] = Auth::id();
@@ -99,8 +104,13 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
-            $validated['image'] = $imagePath;
+            $file = $request->file('image');
+            $filename = \Illuminate\Support\Str::random(40) . '.' . $file->getClientOriginalExtension();
+            \Illuminate\Support\Facades\Storage::disk('public')->put(
+                'events/' . $filename,
+                file_get_contents($file->getPathname())
+            );
+            $validated['image'] = '/storage/events/' . $filename;
         } else {
             unset($validated['image']);
         }

@@ -19,8 +19,8 @@ const EnrollSpin = () => {
                 }
                 `}
             </style>
-            <div className="sm:flex hidden fixed z-10 left-20 bottom-20 items-center justify-center overflow-hidden">
-                <div className="w-48 h-auto flex items-center justify-center relative">
+            <div className="sm:flex hidden fixed z-[999] right-8 bottom-8 items-center justify-center overflow-hidden">
+                <div className="w-32 md:w-40 h-auto flex items-center justify-center relative hover:scale-105 transition-transform duration-300">
                     <img
                         className="spin-animation "
                         src="/img/spin.png"

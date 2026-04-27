@@ -17,8 +17,8 @@ export default function Welcome({
 }) {
     return (
         <>
-            <div className="bg-light dark:bg-dark min-h-screen scroll-smooth ">
-                <NavBar />
+            <div className="bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth ">
+                <NavBar isWelcomePage={true} />
                 <HeroSection />
                 <Partnership partners={partners} />
                 <AboutUs bscstestimonials={bscstestimonials} />

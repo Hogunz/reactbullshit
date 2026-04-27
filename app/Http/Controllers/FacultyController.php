@@ -64,7 +64,13 @@ class FacultyController extends Controller
             'position' => 'required',
         ]);
 
-        $imagePath = $request->file('image')->store('faculties', 'public');
+        $file = $request->file('image');
+        $filename = \Illuminate\Support\Str::random(40) . '.' . $file->getClientOriginalExtension();
+        \Illuminate\Support\Facades\Storage::disk('public')->put(
+            'faculties/' . $filename,
+            file_get_contents($file->getPathname())
+        );
+        $imagePath = 'faculties/' . $filename;
         $maxOrder = Faculty::max('sort_order') ?? 0;
 
         $faculty = new Faculty();
@@ -115,8 +121,13 @@ class FacultyController extends Controller
             if ($faculty->image) {
                 Storage::disk('public')->delete($faculty->image);
             }
-            $imagePath = $request->file('image')->store('faculties', 'public');
-            $faculty->image = $imagePath;
+            $file = $request->file('image');
+            $filename = \Illuminate\Support\Str::random(40) . '.' . $file->getClientOriginalExtension();
+            \Illuminate\Support\Facades\Storage::disk('public')->put(
+                'faculties/' . $filename,
+                file_get_contents($file->getPathname())
+            );
+            $faculty->image = 'faculties/' . $filename;
         }
 
         $faculty->name = $request->name;

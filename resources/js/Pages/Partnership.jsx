@@ -4,13 +4,10 @@ export default function Partnership({ partners = [] }) {
 
     return (
         <>
-            <section className="relative py-16 bg-light dark:bg-dark overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-
+            <section className="relative py-16 bg-[#FDFDFC] dark:bg-[#0a0a0a] overflow-hidden border-t border-gray-100 dark:border-white/5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
-                    <h2 className="text-3xl font-extrabold text-dark dark:text-light tracking-tight">
-                        Industry <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Partners</span>
+                    <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                        Industry <span className="text-purple-600 dark:text-purple-500">Partners</span>
                     </h2>
                     <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
                         Collaborating with global leaders to shape the future of technology.
@@ -19,8 +16,8 @@ export default function Partnership({ partners = [] }) {
 
                 <div className="relative w-full">
                     {/* Gradient Masks for smooth fade effect at edges */}
-                    <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-light dark:from-dark to-transparent z-10"></div>
-                    <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-light dark:from-dark to-transparent z-10"></div>
+                    <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#FDFDFC] dark:from-[#0a0a0a] to-transparent z-10"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#FDFDFC] dark:from-[#0a0a0a] to-transparent z-10"></div>
 
                     {/* Scrolling Track */}
                     <div className="flex overflow-hidden group">

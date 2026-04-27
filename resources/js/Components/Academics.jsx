@@ -3,10 +3,16 @@ import ButtonLink from "./ButtonLink";
 import CustomCursor from "./CustomCursor";
 import { Link } from "@inertiajs/react";
 export const Description = ({ name = "SITE", props }) => (
-    <div className="dark:bg-dark w-full">
-        {" "}
-        <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] pt-[211px] pb-[231px]">
-            {name} Specializations
+    <div className="relative w-full overflow-hidden bg-[#FDFDFC] dark:bg-[#080212] pt-[160px] pb-[100px] border-b border-gray-100 dark:border-white/5">
+        {/* Deep Purple Ambient Lighting */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+        </div>
+
+        <div className="relative z-10 text-center px-4">
+            <h1 className="text-5xl md:text-7xl lg:text-[90px] font-extrabold tracking-tight text-dark dark:text-light drop-shadow-lg">
+                {name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Specializations</span>
+            </h1>
         </div>
     </div>
 );
@@ -15,10 +21,12 @@ export default function Academics() {
     return (
         <>
             <CustomCursor />
-            <section className="relative overflow-hidden bg-light dark:bg-dark py-20 lg:py-32">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+            <section className="relative overflow-hidden bg-[#FDFDFC] dark:bg-[#080212] pt-32 pb-20 lg:pt-40 lg:pb-32 min-h-screen">
+                {/* Deep Purple Ambient Lighting */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                    <div className="absolute top-1/4 left-[-5%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-60"></div>
+                    <div className="absolute bottom-1/4 right-[-5%] w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+                </div>
 
                 <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Header */}
@@ -79,13 +87,11 @@ export default function Academics() {
                                     </p>
                                 </div>
                                 <div className="mt-8">
-                                    <a
+                                    <Link
                                         href="/Program?program=BSIT"
-                                        className="href"
                                     >
-                                        {" "}
                                         <ButtonLink />
-                                    </a>
+                                    </Link>
 
                                 </div>
                             </div>
@@ -118,11 +124,9 @@ export default function Academics() {
                                     </p>
                                 </div>
                                 <div className="mt-8">
-                                    <a href="/Program?program=BSCS"
-                                        className="href"
-                                    >
+                                    <Link href="/Program?program=BSCS">
                                         <ButtonLink />
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

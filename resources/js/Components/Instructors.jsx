@@ -1,81 +1,162 @@
-import React from "react";
-import { Link } from "@inertiajs/react";
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+const sampleImages = [
+    '/img/faculties/KDP03699.jpg',
+    '/img/faculties/KDP03974.jpg'
+];
+
+// Generate exactly 1 Dean, 1 Program Head, 23 Instructors (25 unique people)
+const baseFacultiesData = Array.from({ length: 25 }).map((_, i) => {
+    if (i === 0) {
+        return { name: "Dr. Jane Doe", role: "Dean of SITE", isDean: true, isProgramHead: false, imageUrl: sampleImages[0] };
+    } else if (i === 1) {
+        return { name: "Prof. John Smith", role: "Program Head", isDean: false, isProgramHead: true, imageUrl: sampleImages[1] };
+    } else {
+        return { name: `Faculty Member ${i - 1}`, role: "Instructor", isDean: false, isProgramHead: false, imageUrl: sampleImages[(i) % sampleImages.length] };
+    }
+});
+
+// Create a fallback reel array by duplicating the Dean at the absolute end. 
+// Total length: 26 items. 
+const fallbackReelData = [...baseFacultiesData, { ...baseFacultiesData[0] }];
 
 export default function Instructors({ faculties = [] }) {
+    const displayFaculties = faculties.length > 0 
+        ? faculties.map(f => ({
+            name: f.name,
+            role: f.position,
+            isDean: f.position.toLowerCase().includes('dean'),
+            isProgramHead: f.position.toLowerCase().includes('program head'),
+            imageUrl: f.image && f.image.startsWith('/') ? f.image : `/storage/${f.image}`
+        }))
+        : baseFacultiesData;
+
+    const reelData = displayFaculties.length > 0 ? [...displayFaculties, { ...displayFaculties[0] }] : fallbackReelData;
+    const sectionRef = useRef(null);
+    const sliderContainerRef = useRef(null);
+
+    useGSAP(() => {
+        // Standard header entrance
+        gsap.from(".fac-header", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 80%",
+            }
+        });
+
+        // Horizontal Reel Scroll Animation
+        const section = sectionRef.current;
+        const slider = sliderContainerRef.current;
+
+        if (section && slider) {
+
+            // Calculate precisely how far the container needs to travel horizontally 
+            // to reach the exact right edge of the screen
+            const getScrollDistance = () => slider.scrollWidth - window.innerWidth;
+
+            gsap.to(slider, {
+                x: () => -getScrollDistance(),
+                ease: "none", // Linear movement locked perfectly to the scroll position
+                scrollTrigger: {
+                    trigger: section,
+                    pin: true,
+                    scrub: 1.5, // Butter smooth momentum
+                    start: "top top",
+                    end: () => "+=" + (slider.scrollWidth / 1.5), // The scroll duration scales naturally with the amount of cards
+                    invalidateOnRefresh: true, // Auto-recalculates if window is resized
+                }
+            });
+        }
+    }, { scope: sectionRef });
+
     return (
-        <>
-            <section className="relative bg-light dark:bg-dark py-20 lg:py-32">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+        <section ref={sectionRef} className="relative bg-[#FDFDFC] dark:bg-[#080212] min-h-screen overflow-hidden selection:bg-purple-500 selection:text-white flex flex-col justify-center">
 
-                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    {/* Header */}
-                    <div
-                        className="text-center mb-16 lg:mb-24"
-                    >
-                        <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
-                            Faculty
-                        </h3>
-                        <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light">
-                            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Instructors</span>
-                        </h1>
-                    </div>
+            {/* Deep Purple Ambient Lighting Background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-purple-600/20 to-indigo-600/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+                <div className="absolute top-0 right-[-10%] w-[500px] h-[500px] bg-fuchsia-600/20 dark:bg-fuchsia-900/30 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-60"></div>
+            </div>
 
-                    {/* Faculty Grid by Rows */}
-                    <div className="space-y-12 lg:space-y-16">
-                        {Array.from(new Set(faculties.map(f => f.row_number || 1))).sort((a, b) => a - b).map(rowNum => {
-                            const rowItems = faculties.filter(f => (f.row_number || 1) === rowNum);
-                            return (
-                                <div
-                                    key={rowNum}
-                                    className="flex flex-wrap justify-center gap-8 lg:gap-10"
-                                >
-                                    {rowItems.map((faculty, index) => (
-                                        <div
-                                            key={faculty.id}
-                                            className="group relative w-full sm:w-[280px] max-w-[300px]"
-                                        >
-                                            <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                                            <div className="relative h-full bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-lg flex flex-col items-center text-center transform transition-transform duration-300 group-hover:-translate-y-1">
-                                                <Link
-                                                    href={route("faculties.show", {
-                                                        id: faculty.id,
-                                                    })}
-                                                    className="block relative aspect-[5/7] w-full mb-6 overflow-hidden dark:border-white/10 shadow-md group-hover:shadow-xl transition-all duration-300 rounded-xl"
-                                                >
-                                                    <img
-                                                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                                        src={"/storage/" + faculty.image}
-                                                        alt={faculty.name}
-                                                        loading="lazy"
-                                                    />
-                                                </Link>
-
-                                                <div className="flex-grow flex flex-col justify-between w-full">
-                                                    <div>
-                                                        <Link
-                                                            href={route("faculties.show", {
-                                                                id: faculty.id,
-                                                            })}
-                                                            className="block text-xl font-bold text-dark dark:text-light mb-2 hover:text-purple dark:hover:text-purple transition-colors"
-                                                        >
-                                                            {faculty.name}
-                                                        </Link>
-                                                        <p className="text-sm font-medium text-purple uppercase tracking-wider mb-4">
-                                                            {faculty.position}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            );
-                        })}
-                    </div>
+            {/* Header - Standard document flow to prevent overlap */}
+            <div className="text-center w-full max-w-3xl mx-auto px-4 relative z-40 mb-8 md:mb-16">
+                <div className="fac-header inline-flex items-center gap-3 px-4 py-2 rounded-full bg-blue-50 dark:bg-white/5 border border-blue-100 dark:border-white/10 shadow-sm mb-4">
+                    <span className="text-sm font-bold text-blue-600 tracking-widest uppercase">Faculty</span>
                 </div>
-            </section>
-        </>
+                <h2 className="fac-header text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                    Our <span className="text-purple-600 dark:text-purple-500">Instructors</span>
+                </h2>
+            </div>
+            
+            {/* The Horizontal Reel Window */}
+            <div className="w-full relative z-30">
+
+                {/* 
+                    The Scroll Container: 
+                    Padding aligns the first and last slides mathematically into the exact visual center! 
+                    Mobile cards are 85vw -> Padding is 7.5vw 
+                    Tablet cards are 50vw -> Padding is 25vw
+                    Desktop cards are 33.33vw -> Padding is 33.33vw
+                */}
+                <div
+                    ref={sliderContainerRef}
+                    className="flex items-center w-max pl-[7.5vw] sm:pl-[25vw] lg:pl-[33.3333vw] pr-[7.5vw] sm:pr-[25vw] lg:pr-[33.3333vw] will-change-transform"
+                >
+                    {reelData.map((f, i) => (
+                        <div
+                            key={i}
+                            // Card slots mathematically matched to the padding
+                            className="w-[85vw] sm:w-[50vw] lg:w-[33.3333vw] shrink-0 px-3 lg:px-6 flex flex-col items-center justify-center transition-transform duration-700 hover:scale-105"
+                        >
+
+                            <div className={`relative group cursor-pointer aspect-[3/4] w-full max-w-[260px] md:max-w-[320px] rounded-2xl overflow-hidden transition-all duration-500
+                                ${f.isDean
+                                    ? 'shadow-[0_0_50px_rgba(37,99,235,0.4)] border-[3px] border-blue-500'
+                                    : f.isProgramHead
+                                        ? 'shadow-[0_0_30px_rgba(168,85,247,0.3)] border-2 border-purple-500'
+                                        : 'shadow-2xl border border-gray-200 dark:border-white/10 group-hover:border-blue-400/50'
+                                }
+                            `}>
+                                <img
+                                    src={f.imageUrl}
+                                    alt={f.name}
+                                    className={`w-full h-full object-cover object-top transition-transform duration-700
+                                        ${f.isDean ? '' : 'group-hover:scale-110'}
+                                    `}
+                                />
+
+                                {/* Static Floating Overlay Panel in the bottom of each card natively */}
+                                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-5 md:p-8 pt-12 z-20">
+                                    <h4 className="font-bold text-white leading-tight mb-1
+                                        text-xl md:text-2xl
+                                    ">
+                                        {f.name}
+                                    </h4>
+                                    <p className={`font-bold uppercase tracking-wider
+                                        text-xs md:text-sm
+                                        ${f.isDean ? 'text-blue-400' : f.isProgramHead ? 'text-purple-400' : 'text-gray-300'}
+                                    `}>
+                                        {f.role}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    ))}
+                </div>
+
+            </div>
+
+        </section>
     );
 }

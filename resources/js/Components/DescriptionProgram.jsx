@@ -38,9 +38,13 @@ export const BSITDescriptionProgram = ({ attributes }) => {
     return (
         <>
             <CustomCursor />
-            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
+            <div className="relative min-h-screen bg-[#FDFDFC] dark:bg-[#080212] overflow-hidden">
+                {/* Deep Purple Ambient Lighting */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                    <div className="absolute top-1/4 left-[-5%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-60"></div>
+                    <div className="absolute bottom-1/4 right-[-5%] w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+                </div>
+
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
 
                 <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
@@ -221,9 +225,13 @@ export const BSCSDescriptionProgram = ({ attributes }) => {
     return (
         <>
             <CustomCursor />
-            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
+            <div className="relative min-h-screen bg-[#FDFDFC] dark:bg-[#080212] overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
+                {/* Deep Purple Ambient Lighting */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                    <div className="absolute top-1/4 left-[-5%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-60"></div>
+                    <div className="absolute bottom-1/4 right-[-5%] w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-70"></div>
+                </div>
+
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
 
                 <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

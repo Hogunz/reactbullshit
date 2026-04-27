@@ -19,7 +19,7 @@ export function TestimonialFadeInOut({ data }) {
     const currentTestimonial = data[currentIndex];
 
     return (
-        <section className="relative overflow-hidden bg-light dark:bg-dark py-20 lg:py-32">
+        <section className="relative overflow-hidden bg-[#FDFDFC] dark:bg-[#0a0a0a] py-20 lg:py-32">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
             <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>

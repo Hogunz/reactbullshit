@@ -3,11 +3,11 @@ export default function ButtonLink() {
         <>
             <button
                 type="button"
-                className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-light border rounded-lg bg-purple hover:bg-light hover:text-purple hover:border-purple  transition duration-300 ease-in-out focus:ring-4 focus:ring-purple"
+                className="inline-flex justify-center items-center py-3 px-8 text-base font-bold text-white rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-105 transition-all duration-300 group"
             >
                 View More
                 <svg
-                    className="w-3.5 h-3.5 ml-2"
+                    className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
