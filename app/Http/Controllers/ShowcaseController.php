@@ -42,7 +42,10 @@ class ShowcaseController extends Controller
         ]);
 
         if ($request->hasFile('video')) {
-            $path = $request->file('video')->store('videos', 'public');
+            $file = $request->file('video');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            Storage::disk('public')->put('videos/' . $fileName, file_get_contents($file));
+            $path = 'videos/' . $fileName;
 
             ProgramAttribute::updateOrCreate(
                 ['program' => $program, 'type' => 'VIDEO_PATH'],
@@ -66,7 +69,9 @@ class ShowcaseController extends Controller
         $isVideo = str_contains($mimeType, 'video');
         $mediaType = $isVideo ? 'video' : 'image';
 
-        $path = $file->store('showcase', 'public');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        Storage::disk('public')->put('showcase/' . $fileName, file_get_contents($file));
+        $path = 'showcase/' . $fileName;
 
         ProgramShowcase::create([
             'program' => $program,

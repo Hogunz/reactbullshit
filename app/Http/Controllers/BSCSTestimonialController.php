@@ -49,8 +49,9 @@ class BSCSTestimonialController extends Controller
             'content' => 'required',
         ]);
 
-        $imagePath = $request->file('image')->store('public');
-        $imageName = basename($imagePath);
+        $file = $request->file('image');
+        $imageName = time() . '_' . $file->getClientOriginalName();
+        \Illuminate\Support\Facades\Storage::disk('public')->put($imageName, file_get_contents($file));
 
         $bscstestimonial = new BSCSTestimonial;
         $bscstestimonial->name = $request->input('name');
@@ -107,8 +108,10 @@ class BSCSTestimonialController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
-            $bscstestimonial->image = $imagePath;
+            $file = $request->file('image');
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            \Illuminate\Support\Facades\Storage::disk('public')->put('events/' . $imageName, file_get_contents($file));
+            $bscstestimonial->image = 'events/' . $imageName;
         }
 
         $bscstestimonial->name = $request->name;
