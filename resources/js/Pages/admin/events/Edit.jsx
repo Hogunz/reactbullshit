@@ -4,12 +4,18 @@ import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import JoditEditor from "jodit-react";
 export default function Edit({ events }) {
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        // Converts "2026-10-10 10:00:00" to "2026-10-10T10:00"
+        return dateString.replace(' ', 'T').slice(0, 16);
+    };
+
     const { data, setData, post } = useForm({
         name: events.name,
         category: events.category || "News",
         status: events.status || "active",
-        start_time: events.start_time || "",
-        end_time: events.end_time || "",
+        start_time: formatDate(events.start_time),
+        end_time: formatDate(events.end_time),
         image: "",
         content: events.content,
     });
@@ -85,10 +91,10 @@ export default function Edit({ events }) {
                                 </div>
                             </div>
                             <div className="mb-2">
-                                <InputLabel>Image</InputLabel>
+                                <InputLabel>Image (Leave blank to keep current)</InputLabel>
                                 <input
                                     type="file"
-                                    accepts="images/*"
+                                    accept="image/*"
                                     name="image"
                                     onChange={(e) =>
                                         setData("image", e.target.files[0])
