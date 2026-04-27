@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from '@inertiajs/react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -116,12 +117,12 @@ export default function Blogs({ events = [] }) {
                         </h2>
                     </div>
                     <div className="news-header">
-                        <a href="#" className="inline-flex items-center gap-2 group font-semibold text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                        <Link href="/News&Events" className="inline-flex items-center gap-2 group font-semibold text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                             View All Articles
                             <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
@@ -129,7 +130,7 @@ export default function Blogs({ events = [] }) {
                 <div className="news-grid grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
                     {/* Left Column: Featured Hero Article (60% width) */}
-                    <article className="news-featured lg:col-span-7 group cursor-pointer">
+                    <Link href={`/events/${displayFeatured.id}`} className="news-featured lg:col-span-7 group block">
                         <div className="relative overflow-hidden rounded-3xl aspect-[4/3] mb-8 shadow-2xl border border-gray-100 dark:border-white/5">
                             <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10"></div>
                             <img
@@ -155,14 +156,14 @@ export default function Blogs({ events = [] }) {
                                 <span className="transform transition-transform group-hover:translate-x-2">→</span>
                             </div>
                         </div>
-                    </article>
+                    </Link>
 
                     {/* Right Column: Sleek Vertical List (40% width) */}
                     <div className="lg:col-span-5 flex flex-col justify-start">
                         <div className="border-t-2 border-gray-900 dark:border-white mb-2"></div>
 
                         {displayNewsList.map((news, i) => (
-                            <article key={i} className="news-list-item group flex flex-col py-8 border-b border-gray-200 dark:border-white/10 cursor-pointer">
+                            <Link href={`/events/${news.id || 1}`} key={i} className="news-list-item group flex flex-col py-8 border-b border-gray-200 dark:border-white/10 block">
                                 <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-3">
                                     <span className="text-blue-600 dark:text-blue-400">{news.category}</span>
                                     <span className="text-gray-400 dark:text-gray-500">&bull;</span>
@@ -181,7 +182,7 @@ export default function Blogs({ events = [] }) {
                                         </svg>
                                     </div>
                                 </div>
-                            </article>
+                            </Link>
                         ))}
 
 
