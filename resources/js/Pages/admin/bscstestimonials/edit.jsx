@@ -39,15 +39,14 @@ export default function Edit({ bscstestimonial }) {
                                 ></input>
                             </div>
                             <div className="mb-2">
-                                <InputLabel>Image</InputLabel>
+                                <InputLabel>Image (Leave blank to keep current)</InputLabel>
                                 <input
                                     type="file"
-                                    accepts="images/*"
+                                    accept="image/*"
                                     name="image"
                                     onChange={(e) =>
                                         setData("image", e.target.files[0])
                                     }
-                                    required
                                 ></input>
                             </div>
                             <div className="mb-2">
