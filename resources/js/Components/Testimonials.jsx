@@ -38,8 +38,8 @@ const TestimonialItem = ({ t }) => {
     
     // Normalize data structure between DB and hardcoded
     const name = t.student_name || t.name || "Student";
-    const role = t.program || t.role || "Alumni";
-    const text = t.message || t.text || "";
+    const role = t.position || t.program || t.role || "Alumni";
+    const text = t.content || t.message || t.text || "";
     const initials = t.initials || name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
     return (
