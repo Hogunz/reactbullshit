@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { NavBar } from "@/Components/NavBar";
 import HeroSection from "@/Components/HeroSection";
 import AboutUs from "@/Components/AboutUs";
@@ -6,6 +7,8 @@ import Instructors from "@/Components/Instructors";
 import Blogs from "@/Components/Blogs";
 import EnrollSpin from "@/Components/EnrollSpin";
 import Partnership from "@/Pages/Partnership";
+import LoadingScreen from "@/Components/LoadingScreen";
+
 export default function Welcome({
     auth,
     laravelVersion,
@@ -15,9 +18,12 @@ export default function Welcome({
     faculties,
     partners,
 }) {
+    const [isLoading, setIsLoading] = useState(true);
+
     return (
         <>
-            <div className="bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth ">
+            {isLoading && <LoadingScreen onFinished={() => setIsLoading(false)} />}
+            <div className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
                 <NavBar isWelcomePage={true} />
                 <HeroSection />
                 <Partnership partners={partners} />
