@@ -29,7 +29,7 @@ export default function PartnersPage({ partners }) {
     return (
         <div className="bg-light dark:bg-dark min-h-screen scroll-smooth relative overflow-hidden">
             <NavBar />
-            
+
             {/* Ambient Background Glows */}
             <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple/20 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-screen" />
             <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/10 rounded-full blur-[150px] pointer-events-none -z-10 mix-blend-screen" />
@@ -54,7 +54,7 @@ export default function PartnersPage({ partners }) {
                     </motion.div>
                 </div>
 
-                <motion.div 
+                <motion.div
                     className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32"
                     variants={containerVariants}
                     initial="hidden"
@@ -62,8 +62,8 @@ export default function PartnersPage({ partners }) {
                 >
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
                         {partners.map((partner) => (
-                            <motion.div 
-                                key={partner.id} 
+                            <motion.div
+                                key={partner.id}
                                 variants={itemVariants}
                                 whileHover={{ y: -8, scale: 1.02 }}
                                 onClick={() => setSelectedId(partner.id)}
@@ -71,7 +71,7 @@ export default function PartnersPage({ partners }) {
                             >
                                 {/* Hover Glow Effect */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-purple/0 via-purple/0 to-purple/0 group-hover:from-purple/10 group-hover:via-fuchsia-500/5 group-hover:to-purple/10 transition-all duration-500" />
-                                
+
                                 {/* Border gradient on hover */}
                                 <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-purple/30 transition-all duration-500" />
 
@@ -80,7 +80,7 @@ export default function PartnersPage({ partners }) {
                                     alt={partner.name}
                                     className="h-28 w-auto object-contain mix-blend-multiply dark:mix-blend-normal transition-transform duration-500 group-hover:scale-110 relative z-10 drop-shadow-md"
                                 />
-                                
+
                                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-white/90 dark:from-black/80 to-transparent flex justify-center items-end pb-6">
                                     <span className="text-xs font-bold text-dark dark:text-light tracking-wide bg-white/50 dark:bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">Click for details</span>
                                 </div>
@@ -92,22 +92,22 @@ export default function PartnersPage({ partners }) {
 
             <AnimatePresence>
                 {selectedId && selectedPartner && (
-                    <motion.div 
+                    <motion.div
                         className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-sm"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setSelectedId(null)}
                     >
-                        <motion.div 
+                        <motion.div
                             className="bg-white/90 dark:bg-dark/90 backdrop-blur-2xl p-8 md:p-12 rounded-3xl max-w-2xl w-full relative border border-white/20 dark:border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.3)]"
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.9, opacity: 0, y: 20 }}
                             onClick={e => e.stopPropagation()}
                         >
-                            <button 
-                                onClick={() => setSelectedId(null)} 
+                            <button
+                                onClick={() => setSelectedId(null)}
                                 className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-purple dark:hover:text-purple hover:bg-purple/10 transition-colors"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -123,7 +123,7 @@ export default function PartnersPage({ partners }) {
                                     {selectedPartner.name}
                                 </h2>
                                 <div className="w-16 h-1 bg-gradient-to-r from-purple to-fuchsia-500 rounded-full mb-6"></div>
-                                <p className="text-gray-600 dark:text-gray-300 text-center text-lg leading-relaxed max-w-xl mx-auto">
+                                <p className="text-gray-600 dark:text-gray-300 text-center text-lg leading-relaxed max-w-xl mx-auto font-semibold text-justify">
                                     {selectedPartner.description ? (
                                         <span dangerouslySetInnerHTML={{ __html: selectedPartner.description.replace(/\n/g, '<br />') }} />
                                     ) : (
