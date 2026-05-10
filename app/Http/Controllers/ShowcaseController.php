@@ -44,8 +44,9 @@ class ShowcaseController extends Controller
         if ($request->hasFile('video')) {
             $file = $request->file('video');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            Storage::disk('public')->put('videos/' . $fileName, file_get_contents($file));
-            $path = 'videos/' . $fileName;
+            
+            // FIX: This streams the file directly to storage without eating RAM
+            $path = $file->storeAs('videos', $fileName, 'public');
 
             ProgramAttribute::updateOrCreate(
                 ['program' => $program, 'type' => 'VIDEO_PATH'],
@@ -70,8 +71,9 @@ class ShowcaseController extends Controller
         $mediaType = $isVideo ? 'video' : 'image';
 
         $fileName = time() . '_' . $file->getClientOriginalName();
-        Storage::disk('public')->put('showcase/' . $fileName, file_get_contents($file));
-        $path = 'showcase/' . $fileName;
+        
+        // FIX: Stream the file directly
+        $path = $file->storeAs('showcase', $fileName, 'public');
 
         ProgramShowcase::create([
             'program' => $program,
