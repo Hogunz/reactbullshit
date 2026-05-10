@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, Link } from "@inertiajs/react";
 import React from "react";
 
 export default function Dashboard({ auth, siteSettings }) {
@@ -7,6 +7,7 @@ export default function Dashboard({ auth, siteSettings }) {
         show_sneak_peek: siteSettings?.show_sneak_peek || 'false',
         sneak_peek_title: siteSettings?.sneak_peek_title || 'Student Work Sneak Peek',
         sneak_peek_subtitle: siteSettings?.sneak_peek_subtitle || 'Get ready to experience the incredible game and web applications developed by our Programming 2 and Web Tech students.',
+        sneak_peek_video: null,
     });
 
     const submit = (e) => {
@@ -72,6 +73,33 @@ export default function Dashboard({ auth, siteSettings }) {
                                                 value={data.sneak_peek_subtitle}
                                                 onChange={(e) => setData('sneak_peek_subtitle', e.target.value)}
                                             ></textarea>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                Sneak Peek Promotional Video (Optional)
+                                            </label>
+                                            <div className="mt-1 flex flex-col sm:flex-row sm:items-center gap-4">
+                                                <input
+                                                    type="file"
+                                                    accept="video/mp4,video/webm,video/ogg"
+                                                    className="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 dark:file:bg-purple-900/50 dark:file:text-purple-400"
+                                                    onChange={(e) => setData('sneak_peek_video', e.target.files[0])}
+                                                />
+                                                {siteSettings?.sneak_peek_video && (
+                                                    <Link 
+                                                        href={route('admin.settings.video.destroy')} 
+                                                        method="delete" 
+                                                        as="button"
+                                                        type="button"
+                                                        className="whitespace-nowrap px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors"
+                                                    >
+                                                        Delete Video
+                                                    </Link>
+                                                )}
+                                            </div>
+                                            {siteSettings?.sneak_peek_video && (
+                                                <p className="mt-1 text-xs text-green-600 dark:text-green-400 font-medium">A video is currently uploaded and active.</p>
+                                            )}
                                         </div>
                                     </div>
                                 )}

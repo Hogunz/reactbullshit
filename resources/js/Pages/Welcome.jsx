@@ -33,6 +33,7 @@ export default function Welcome({
                     <SneakPeek 
                         title={siteSettings?.sneak_peek_title || 'Student Work Sneak Peek'} 
                         subtitle={siteSettings?.sneak_peek_subtitle || 'Get ready to experience the incredible game and web applications developed by our Programming 2 and Web Tech students.'}
+                        videoPath={siteSettings?.sneak_peek_video}
                     />
                 )}
 

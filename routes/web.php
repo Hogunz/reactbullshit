@@ -193,14 +193,34 @@ Route::middleware('auth')->group(function () {
             'show_sneak_peek' => 'required|string',
             'sneak_peek_title' => 'required|string',
             'sneak_peek_subtitle' => 'required|string',
+            'sneak_peek_video' => 'nullable|file|mimes:mp4,webm,ogg|max:100000',
         ]);
         
+        if ($request->hasFile('sneak_peek_video')) {
+            $file = $request->file('sneak_peek_video');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/videos'), $filename);
+            $data['sneak_peek_video'] = '/uploads/videos/' . $filename;
+        }
+
         foreach ($data as $key => $value) {
             SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
         
         return redirect()->back()->with('success', 'Settings updated successfully.');
     })->name('admin.settings.update');
+
+    Route::delete('/admin/settings/video', function () {
+        $setting = SiteSetting::where('key', 'sneak_peek_video')->first();
+        if ($setting && $setting->value) {
+            $path = public_path($setting->value);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+            $setting->delete();
+        }
+        return redirect()->back()->with('success', 'Video removed successfully.');
+    })->name('admin.settings.video.destroy');
 });
 
 require __DIR__ . '/auth.php';
