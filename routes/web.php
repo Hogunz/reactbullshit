@@ -15,6 +15,7 @@ use App\Http\Controllers\ProgramAttributeController;
 use App\Http\Controllers\PartnerController;
 use App\Models\Faculty;
 use App\Models\Partner;
+use App\Models\SiteSetting;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::get('/', function () {
     $events = Event::where('status', 'active')->orderBy('created_at', 'desc')->get();
     $faculties = Faculty::orderBy('row_number')->orderBy('sort_order')->get();
     $partners = Partner::all();
+    $settings = SiteSetting::pluck('value', 'key')->toArray();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -41,6 +43,7 @@ Route::get('/', function () {
         'events' => $events,
         'faculties' => $faculties,
         'partners' => $partners,
+        'siteSettings' => $settings,
     ]);
 });
 
@@ -174,13 +177,30 @@ Route::get('/Program', function (Request $request) {
     ]);
 });
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $settings = SiteSetting::pluck('value', 'key')->toArray();
+    return Inertia::render('Dashboard', [
+        'siteSettings' => $settings,
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::post('/admin/settings', function (Request $request) {
+        $data = $request->validate([
+            'show_sneak_peek' => 'required|string',
+            'sneak_peek_title' => 'required|string',
+            'sneak_peek_subtitle' => 'required|string',
+        ]);
+        
+        foreach ($data as $key => $value) {
+            SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+        
+        return redirect()->back()->with('success', 'Settings updated successfully.');
+    })->name('admin.settings.update');
 });
 
 require __DIR__ . '/auth.php';
