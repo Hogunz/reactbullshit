@@ -53,7 +53,7 @@ export default function Events({ events = [] }) {
                                         >
                                             <img
                                                 className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                                                src={"/storage/" + event.image}
+                                                src={event.image?.startsWith('http') || event.image?.startsWith('/') ? event.image : "/storage/" + event.image}
                                                 alt={event.name}
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
