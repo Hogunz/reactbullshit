@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-export default function HeroSection() {
+export default function HeroSection({ onHeroLoaded }) {
     const container = useRef();
 
     useGSAP(() => {
@@ -183,6 +183,13 @@ export default function HeroSection() {
                                 className="hero-image relative z-10 w-full h-full object-contain"
                                 loading="eager"
                                 fetchpriority="high"
+                                onLoad={() => {
+                                    if (onHeroLoaded) onHeroLoaded();
+                                }}
+                                onError={() => {
+                                    // Fallback if image fails to load
+                                    if (onHeroLoaded) onHeroLoaded();
+                                }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent z-20 pointer-events-none"></div>
                         </div>

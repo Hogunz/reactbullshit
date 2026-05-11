@@ -27,6 +27,7 @@ export default function Welcome({
     siteSettings,
 }) {
     const [isLoading, setIsLoading] = useState(true);
+    const [isHeroLoaded, setIsHeroLoaded] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
     const [owlFacing, setOwlFacing] = useState('right');
     const container = useRef(null);
@@ -65,7 +66,8 @@ export default function Welcome({
                     { x: window.innerWidth * 0.1, y: window.innerHeight * 0.2 }, // Top Left
                     { x: window.innerWidth * 0.9, y: window.innerHeight * 0.2 }, // Top Right (Horizontal stroke)
                     { x: window.innerWidth * 0.1, y: window.innerHeight * 0.8 }, // Bottom Left (Diagonal slash)
-                    { x: window.innerWidth * 0.9, y: window.innerHeight * 0.8 }  // Bottom Right (Bottom horizontal)
+                    { x: window.innerWidth * 0.9, y: window.innerHeight * 0.8 }, // Bottom Right (Bottom horizontal)
+                    { x: window.innerWidth * 0.5 - 48, y: window.innerHeight * 0.9 }  // Bottom-center of screen at the end
                 ],
                 curviness: 0 // 0 creates sharp, straight lines exactly like a 'Z'
             },
@@ -86,7 +88,7 @@ export default function Welcome({
 
     return (
         <>
-            {isLoading && <LoadingScreen onFinished={() => setIsLoading(false)} />}
+            {isLoading && <LoadingScreen isHeroLoaded={isHeroLoaded} onFinished={() => setIsLoading(false)} />}
             <div ref={container} className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
 
                 {/* Global Flying Owl Asset */}
@@ -101,7 +103,7 @@ export default function Welcome({
                 />
 
                 <NavBar isWelcomePage={true} />
-                <HeroSection />
+                <HeroSection onHeroLoaded={() => setIsHeroLoaded(true)} />
 
                 {siteSettings?.show_sneak_peek === 'true' && (
                     <SneakPeek

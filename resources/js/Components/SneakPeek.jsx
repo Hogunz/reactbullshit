@@ -5,7 +5,7 @@ export default function SneakPeek({ title, subtitle, videoPath }) {
     const containerRef = useRef(null);
     const [hasVideoFinished, setHasVideoFinished] = useState(!videoPath);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isMuted, setIsMuted] = useState(true); // Default to muted for mobile autoplay compatibility
 
     useEffect(() => {
         if (!videoPath || hasVideoFinished) return;
@@ -15,17 +15,14 @@ export default function SneakPeek({ title, subtitle, videoPath }) {
                 const entry = entries[0];
                 if (entry.isIntersecting && videoRef.current) {
                     // Play when in sight
+                    // We start muted to ensure mobile autoplay works, then play
+                    videoRef.current.muted = isMuted;
                     const playPromise = videoRef.current.play();
                     if (playPromise !== undefined) {
                         playPromise.then(() => {
                             setIsVideoPlaying(true);
                         }).catch(e => {
-                            console.log("Autoplay with sound prevented, trying muted...", e);
-                            videoRef.current.muted = true;
-                            setIsMuted(true);
-                            videoRef.current.play().then(() => {
-                                setIsVideoPlaying(true);
-                            }).catch(err => console.log("Muted autoplay also prevented", err));
+                            console.log("Autoplay prevented:", e);
                         });
                     }
                 } else if (!entry.isIntersecting && videoRef.current) {
@@ -75,6 +72,7 @@ export default function SneakPeek({ title, subtitle, videoPath }) {
                                     src={videoPath}
                                     className="w-full h-full object-cover"
                                     playsInline
+                                    muted={isMuted}
                                     onEnded={() => {
                                         setIsVideoPlaying(false);
                                         setTimeout(() => setHasVideoFinished(true), 1000); // Wait for fade out

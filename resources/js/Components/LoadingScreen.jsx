@@ -1,12 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP);
 
-export default function LoadingScreen({ onFinished }) {
+export default function LoadingScreen({ onFinished, isHeroLoaded }) {
     const container = useRef(null);
+    const tlRef = useRef(null);
+    const isHeroLoadedRef = useRef(isHeroLoaded);
     const [isComplete, setIsComplete] = useState(false);
+
+    // Keep ref updated for GSAP callbacks
+    useEffect(() => {
+        isHeroLoadedRef.current = isHeroLoaded;
+        // Resume timeline if it was paused waiting for the hero image
+        if (isHeroLoaded && tlRef.current && tlRef.current.paused()) {
+            tlRef.current.play();
+        }
+    }, [isHeroLoaded]);
 
     useGSAP(() => {
         // Lock scrolling while preloader runs
@@ -19,6 +30,7 @@ export default function LoadingScreen({ onFinished }) {
                 if (onFinished) onFinished();
             }
         });
+        tlRef.current = tl;
 
         const words = gsap.utils.toArray('.flash-word');
 
@@ -35,6 +47,13 @@ export default function LoadingScreen({ onFinished }) {
             } else {
                 // Final Word "SITE." - Snappier
                 tl.to(word, { opacity: 1, scale: 1.2, duration: 0.5, ease: "back.out(1.5)" });
+            }
+        });
+
+        // Check if Hero Image is loaded before opening the curtains
+        tl.call(() => {
+            if (!isHeroLoadedRef.current) {
+                tl.pause(); // Pause here and wait for the image to finish downloading
             }
         });
 
