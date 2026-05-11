@@ -1,4 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(useGSAP, MotionPathPlugin, ScrollTrigger);
 import { NavBar } from "@/Components/NavBar";
 import HeroSection from "@/Components/HeroSection";
 import AboutUs from "@/Components/AboutUs";
@@ -21,17 +27,85 @@ export default function Welcome({
     siteSettings,
 }) {
     const [isLoading, setIsLoading] = useState(true);
+    const [isScrolling, setIsScrolling] = useState(false);
+    const [owlFacing, setOwlFacing] = useState('right');
+    const container = useRef(null);
+    const scrollTimeout = useRef(null);
+    const lastOwlX = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolling(true);
+
+            if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+            scrollTimeout.current = setTimeout(() => {
+                setIsScrolling(false);
+            }, 150); // After 150ms of no scrolling, revert to static
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+        };
+    }, []);
+
+    useGSAP(() => {
+        // Scroll-Driven Letter 'Z' Owl Animation
+        gsap.to(".global-flying-owl", {
+            scrollTrigger: {
+                trigger: container.current,
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1 // Smooth scrolling link
+            },
+            ease: "none", // Linear movement looks best for scroll
+            motionPath: {
+                path: [
+                    { x: window.innerWidth * 0.1, y: window.innerHeight * 0.2 }, // Top Left
+                    { x: window.innerWidth * 0.9, y: window.innerHeight * 0.2 }, // Top Right (Horizontal stroke)
+                    { x: window.innerWidth * 0.1, y: window.innerHeight * 0.8 }, // Bottom Left (Diagonal slash)
+                    { x: window.innerWidth * 0.9, y: window.innerHeight * 0.8 }  // Bottom Right (Bottom horizontal)
+                ],
+                curviness: 0 // 0 creates sharp, straight lines exactly like a 'Z'
+            },
+            onUpdate: function() {
+                const owlEl = document.querySelector('.global-flying-owl');
+                if (owlEl) {
+                    const currentX = owlEl.getBoundingClientRect().left;
+                    if (currentX > lastOwlX.current + 0.5) {
+                        setOwlFacing('right');
+                    } else if (currentX < lastOwlX.current - 0.5) {
+                        setOwlFacing('left');
+                    }
+                    lastOwlX.current = currentX;
+                }
+            }
+        });
+    }, { scope: container });
 
     return (
         <>
             {isLoading && <LoadingScreen onFinished={() => setIsLoading(false)} />}
-            <div className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+            <div ref={container} className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+
+                {/* Global Flying Owl Asset */}
+                <img
+                    src={isScrolling ? (owlFacing === 'left' ? "/assets/owl-walking-left.gif" : "/assets/owl-walking-right.gif") : "/assets/idle.png"}
+                    alt="Flying Owl"
+                    className="global-flying-owl fixed top-0 left-0 w-24 md:w-32 z-50 pointer-events-none opacity-80"
+                    style={{ 
+                        filter: "drop-shadow(0 10px 15px rgba(0,0,0,0.3))",
+                        transform: (!isScrolling && owlFacing === 'left') ? "scaleX(-1)" : "none"
+                    }}
+                />
+
                 <NavBar isWelcomePage={true} />
                 <HeroSection />
-                
+
                 {siteSettings?.show_sneak_peek === 'true' && (
-                    <SneakPeek 
-                        title={siteSettings?.sneak_peek_title || 'Student Work Sneak Peek'} 
+                    <SneakPeek
+                        title={siteSettings?.sneak_peek_title || 'Student Work Sneak Peek'}
                         subtitle={siteSettings?.sneak_peek_subtitle || 'Get ready to experience the incredible game and web applications developed by our Programming 2 and Web Tech students.'}
                         videoPath={siteSettings?.sneak_peek_video}
                     />

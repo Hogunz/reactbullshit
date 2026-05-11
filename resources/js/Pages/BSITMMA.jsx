@@ -159,6 +159,7 @@ function BSITMMA({ video, galleryItems, categories }) {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [hoveredCategory, setHoveredCategory] = useState(null);
 
     const careersList = [
         "Animator", "Graphic Designer", "Game Artist", "3D Modeler",
@@ -202,117 +203,108 @@ function BSITMMA({ video, galleryItems, categories }) {
                 </div>
 
                 {/* Hero Section */}
-                <section className="relative z-10 min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 pt-24 md:pt-20">
-                    <div className="max-w-[90rem] mx-auto w-full">
-                        <div className="relative flex flex-col gap-2 md:gap-0">
+                <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-32 pb-20 overflow-hidden">
+                    <div className="max-w-[90rem] mx-auto w-full flex flex-col items-center">
+
+                        {/* Massive Centered Typography */}
+                        <div className="relative flex flex-col items-center text-center mb-12 z-20 w-full">
                             <StaggerText
                                 text="MULTIMEDIA"
-                                className="text-[12vw] md:text-[10vw] leading-[0.85] font-black tracking-tighter text-dark dark:text-light mix-blend-difference"
+                                className="text-[15vw] md:text-[11vw] lg:text-[10vw] leading-[0.8] font-black tracking-tighter text-dark dark:text-light mix-blend-difference"
                             />
-                            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 flex-wrap">
+                            <div className="flex items-center justify-center gap-3 md:gap-6 mt-3 md:mt-0 flex-wrap">
                                 <StaggerText
                                     text="ARTS"
-                                    delay={0.5}
-                                    className="text-[12vw] md:text-[7.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
+                                    delay={0.2}
+                                    className="text-[12vw] md:text-[8vw] lg:text-[7vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-2 pr-2"
                                 />
                                 <StaggerText
                                     text="&"
-                                    delay={0.5}
-                                    className="text-[12vw] md:text-[7.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
+                                    delay={0.3}
+                                    className="text-[12vw] md:text-[8vw] lg:text-[7vw] leading-[0.85] font-black tracking-tighter text-dark dark:text-light py-2 opacity-30 pr-2"
                                 />
                                 <StaggerText
                                     text="ANIMATION"
-                                    delay={0.5}
-                                    className="text-[12vw] md:text-[7.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-4 pr-2"
+                                    delay={0.4}
+                                    className="text-[12vw] md:text-[8vw] lg:text-[7vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-purple py-2 pr-2"
                                 />
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{ delay: 1, duration: 1, ease: "circOut" }}
-                                    className="h-[2px] bg-dark dark:bg-light flex-grow hidden lg:block origin-left"
-                                />
-
                             </div>
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.8 }}
+                                className="mt-8 text-lg md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl font-light text-center leading-relaxed"
+                            >
+                                Where imagination meets technology. Create stunning visual narratives through 2D/3D animation, VFX, and interactive media.
+                            </motion.p>
                         </div>
 
-                        <motion.div
-                            initial={{ scale: 1.1, opacity: 0, rotateX: 20 }}
-                            animate={{ scale: 1, opacity: 1, rotateX: 0 }}
-                            transition={{ delay: 0.5, duration: 1.5, type: "spring" }}
-                            className="mt-8 md:mt-12 relative h-[50vh] md:h-[70vh] w-full rounded-[2rem] overflow-hidden perspective-1000 shadow-2xl bg-gradient-to-br from-[#1a1a1a] to-black border border-white/10"
-                        >
-                            {/* Abstract Composition */}
-                            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                                {/* Grid Background */}
-                                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                        {/* Centered Massive Showreel */}
+                        <div className="w-full max-w-5xl relative perspective-1000 z-10 mt-4 md:mt-8">
+                            <TiltCard className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black group" color="">
+                                {/* Play Button Overlay */}
+                                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center z-20 pointer-events-none">
+                                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500">
+                                        <svg className="w-8 h-8 md:w-10 md:h-10 text-white ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                    </div>
+                                </div>
 
-                                {/* Floating Orb 1 */}
-                                <motion.div
-                                    animate={{
-                                        y: [0, -20, 0],
-                                        rotate: [0, 10, 0],
-                                        scale: [1, 1.05, 1]
-                                    }}
-                                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple/30 rounded-full blur-[80px] mix-blend-screen"
-                                />
-
-                                {/* Floating Orb 2 */}
-                                <motion.div
-                                    animate={{
-                                        y: [0, 30, 0],
-                                        x: [0, 20, 0],
-                                        scale: [1, 1.1, 1]
-                                    }}
-                                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                                    className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-fuchsia-500/20 rounded-full blur-[100px] mix-blend-screen"
-                                />
-
-                                {/* Central Glass Element */}
-                                <TiltCard className="relative z-10 w-64 h-64 md:w-96 md:h-96 bg-white/5 backdrop-blur-xl border border-white/20 flex items-center justify-center" color="">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50" />
-
-                                    {/* Inner Geometric Shapes */}
-                                    <motion.div
-                                        animate={{ rotate: 360 }}
-                                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                        className="w-32 h-32 md:w-48 md:h-48 border-2 border-white/30 rounded-full border-dashed"
+                                {video ? (
+                                    <video
+                                        src={video}
+                                        className="w-full h-full object-cover scale-[1.02] group-hover:scale-100 transition-transform duration-700"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
                                     />
-                                    <motion.div
-                                        animate={{ rotate: -360 }}
-                                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                                        className="absolute w-24 h-24 md:w-36 md:h-36 border border-purple/50 rounded-lg transform rotate-45"
-                                    />
-                                </TiltCard>
+                                ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900">
+                                        <svg className="w-12 h-12 text-white/20 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                        <p className="text-white/40 font-mono text-sm tracking-widest uppercase">Showreel Coming Soon</p>
+                                    </div>
+                                )}
 
-                                {/* Floating Elements */}
-                                <motion.div
-                                    animate={{ y: [-10, 10, -10] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute top-20 right-20 md:top-32 md:right-32 w-16 h-16 bg-gradient-to-br from-purple to-fuchsia-500 rounded-2xl rotate-12 opacity-80 blur-sm"
-                                />
-                                <motion.div
-                                    animate={{ y: [10, -10, 10] }}
-                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                                    className="absolute bottom-20 left-20 md:bottom-32 md:left-32 w-12 h-12 border-4 border-cyan-400/50 rounded-full"
-                                />
-                            </div>
+                                {/* UI Accents on the video container */}
+                                <div className="absolute top-6 left-6 z-30 text-white/90 font-mono text-[10px] md:text-xs tracking-widest flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span> REC
+                                </div>
+                                <div className="absolute bottom-6 right-6 z-30 text-white/70 font-mono text-[10px] md:text-xs tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">
+                                    4K • 60FPS
+                                </div>
+                            </TiltCard>
 
                             {/* Floating Badge */}
                             <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                className="absolute bottom-4 right-4 md:bottom-8 md:right-8 w-24 h-24 md:w-48 md:h-48 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center text-white/80 text-xs uppercase tracking-widest z-20"
+                                className="absolute -bottom-10 -right-4 md:-bottom-16 md:-right-16 w-28 h-28 md:w-40 md:h-40 rounded-full border border-white/20 bg-dark/50 backdrop-blur-md flex items-center justify-center text-white/80 text-xs uppercase tracking-widest z-40 shadow-2xl"
                             >
                                 <svg className="w-full h-full animate-spin-slow" viewBox="0 0 100 100">
-                                    <path id="curve" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="transparent" />
+                                    <path id="curve-hero" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="transparent" />
                                     <text>
-                                        <textPath href="#curve" className="fill-current text-[9px] font-bold">
-                                            • CREATE • ANIMATE • INNOVATE • DESIGN
+                                        <textPath href="#curve-hero" className="fill-current text-[10px] font-bold">
+                                            • MULTIMEDIA ARTS • ANIMATION
                                         </textPath>
                                     </text>
                                 </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-3 h-3 rounded-full bg-fuchsia-500 shadow-[0_0_15px_rgba(217,70,239,0.8)]"></div>
+                                </div>
                             </motion.div>
+                        </div>
+
+                        {/* Minimalist Toolkit below Video */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1.2, duration: 0.8 }}
+                            className="mt-16 md:mt-24 flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500"
+                        >
+                            {["Adobe CC", "Autodesk Maya", "Blender", "Unity"].map((tool, i) => (
+                                <p key={i} className="font-mono text-xs md:text-sm font-bold tracking-widest text-dark dark:text-light uppercase">{tool}</p>
+                            ))}
                         </motion.div>
                     </div>
                 </section>
@@ -361,89 +353,154 @@ function BSITMMA({ video, galleryItems, categories }) {
                         </motion.div>
                     </div>
                 </section>
-                {/* Showcase - 3D Tilt Grid */}
-                <section className="relative z-10 py-16 md:py-24 bg-dark text-light perspective-1000">
+                {/* Showcase - Minimalist Hover Reveal */}
+                <section className="relative z-10 py-16 md:py-32 bg-dark text-light">
                     <div className="max-w-[90rem] mx-auto px-4">
-                        <div className="flex justify-between items-end mb-12 md:mb-16">
+                        <div className="mb-8 md:mb-16 border-b border-white/10 pb-6">
+                            <StaggerText text="STUDENT SHOWCASE" className="text-3xl md:text-5xl lg:text-7xl font-black tracking-tighter mb-2" />
 
-                            {/* <span className="text-sm md:text-xl font-mono text-purple block">
-                                // STUDENT GALLERY
-                            </span> */}
                         </div>
 
+                        {/* Interactive List Showcase */}
+                        <div className="relative flex flex-col md:flex-row items-start gap-8 lg:gap-16">
+                            {/* Left List */}
+                            <div className="w-full md:w-1/2 lg:w-3/5 flex flex-col relative z-20 pb-20">
+                                {categories && categories.length > 0 ? (
+                                    categories.map((cat, index) => {
+                                        const isHovered = hoveredCategory === cat.name || (!hoveredCategory && index === 0); // Default to first if none hovered
 
-
-
-                        <StaggerText text="STUDENT GALLERY" className="text-3xl md:text-6xl font-black tracking-tighter mb-12" />
-
-                        {/* Categories Masonry Grid */}
-                        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
-                            {categories && categories.length > 0 ? (
-                                categories.map((cat, index) => {
-                                    // Find a representative image for the category
-                                    const categoryImage = galleryItems?.find(item => item.category === cat.name)?.media_path;
-
-                                    const colors = ["bg-rose-500", "bg-purple", "bg-blue-500", "bg-amber-500", "bg-emerald-500", "bg-indigo-500"];
-                                    const cardColor = colors[index % colors.length];
-
-                                    return (
-                                        <div key={cat.id} className="break-inside-avoid mb-6 md:mb-8">
-                                            <TiltCard
-                                                className={`w-full group cursor-pointer`}
-                                                color={cardColor}
+                                        return (
+                                            <div
+                                                key={cat.id}
+                                                className={`group relative py-8 md:py-12 border-b border-white/5 cursor-pointer flex justify-between items-center transition-all duration-500 ${isHovered ? 'border-cyan-500/30' : ''}`}
+                                                onMouseEnter={() => setHoveredCategory(cat.name)}
                                                 onClick={() => {
                                                     setSelectedCategory(cat.name);
                                                     setModalOpen(true);
                                                 }}
                                             >
-                                                {/* Media Background - Now Relative to define height */}
-                                                {categoryImage ? (
-                                                    <div className="relative w-full aspect-[3/4]">
-                                                        {galleryItems?.find(item => item.category === cat.name)?.media_type === 'video' ? (
-                                                            <video
-                                                                src={categoryImage}
-                                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                                                                muted
-                                                                loop
-                                                                onMouseOver={e => e.target.play()}
-                                                                onMouseOut={e => e.target.pause()}
-                                                            />
-                                                        ) : (
-                                                            <img
-                                                                src={categoryImage}
-                                                                alt={cat.name}
-                                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
-                                                            />
-                                                        )}
-                                                        <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent z-10" />
-                                                    </div>
+                                                <div className="flex items-center gap-6 md:gap-10 relative z-10 w-full pr-4">
+                                                    <span className={`font-mono text-sm md:text-xl font-bold transition-colors duration-500 ${isHovered ? 'text-cyan-400' : 'text-gray-700'}`}>
+                                                        {(index + 1).toString().padStart(2, '0')}
+                                                    </span>
+                                                    <h3 className={`text-3xl sm:text-5xl md:text-5xl lg:text-7xl font-black tracking-tighter transition-all duration-700 break-words ${isHovered ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500 translate-x-2 md:translate-x-6' : 'text-gray-600 group-hover:text-gray-300'}`}>
+                                                        {cat.name}
+                                                    </h3>
+                                                </div>
+
+                                                <div className={`hidden md:flex items-center gap-4 transition-all duration-500 relative z-10 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+                                                    <p className="font-mono text-xs tracking-widest uppercase text-cyan-400 whitespace-nowrap">View</p>
+                                                    <svg className="w-5 h-5 text-fuchsia-500 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="w-full py-20 text-center text-gray-500 border-2 border-dashed border-white/10 rounded-[2rem] bg-white/5 backdrop-blur-sm">
+                                        <svg className="w-12 h-12 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <p className="font-mono uppercase tracking-widest">No Projects Found.</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Right Sticky Preview */}
+                            <div className="w-full md:w-1/2 lg:w-2/5 sticky top-32 h-[50vh] md:h-[60vh] z-10 perspective-1000">
+                                <div className="w-full h-full relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-[#0a0a0a]">
+                                    {categories && categories.length > 0 && categories.map((cat, index) => {
+                                        const media = galleryItems?.find(item => item.category === cat.name);
+                                        const isHovered = hoveredCategory === cat.name || (!hoveredCategory && index === 0);
+
+                                        if (!media) return null;
+
+                                        return (
+                                            <motion.div
+                                                key={`preview-${cat.id}`}
+                                                initial={false}
+                                                animate={{
+                                                    opacity: isHovered ? 1 : 0,
+                                                    scale: isHovered ? 1 : 1.05,
+                                                    zIndex: isHovered ? 20 : 0
+                                                }}
+                                                transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+                                                className="absolute inset-0 pointer-events-none"
+                                            >
+                                                {media.media_type === 'video' ? (
+                                                    <>
+                                                        {/* Blurred background for letterboxing */}
+                                                        <video
+                                                            src={media.media_path}
+                                                            className="absolute inset-0 w-full h-full object-cover opacity-30 blur-3xl scale-110"
+                                                            muted loop playsInline
+                                                        />
+                                                        {/* Actual uncropped video */}
+                                                        <video
+                                                            src={media.media_path}
+                                                            className="absolute inset-0 w-full h-full object-contain opacity-90"
+                                                            autoPlay
+                                                            muted
+                                                            loop
+                                                            playsInline
+                                                        />
+                                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                                            <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+                                                                <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                                            </div>
+                                                        </div>
+                                                    </>
                                                 ) : (
-                                                    // Fallback height for empty categories
-                                                    <div className="h-64 relative">
-                                                        <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent z-10" />
-                                                    </div>
+                                                    <>
+                                                        {/* Blurred background for letterboxing */}
+                                                        <img
+                                                            src={media.media_path}
+                                                            alt=""
+                                                            className="absolute inset-0 w-full h-full object-cover opacity-30 blur-3xl scale-110"
+                                                        />
+                                                        {/* Actual uncropped image */}
+                                                        <img
+                                                            src={media.media_path}
+                                                            alt={cat.name}
+                                                            className="absolute inset-0 w-full h-full object-contain opacity-90"
+                                                        />
+                                                    </>
                                                 )}
 
-                                                <div className="absolute inset-0 flex items-end p-8 md:p-12 z-20 pointer-events-none">
-                                                    <div>
-                                                        <p className="text-xs md:text-sm font-mono mb-2 opacity-70 text-white tracking-widest uppercase">{cat.program} Specialization</p>
-                                                        <h3 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-none tracking-tighter break-words">{cat.name}</h3>
-                                                    </div>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+                                                {/* Image Accents */}
+                                                <div className="absolute inset-y-0 left-2 w-2 flex flex-col justify-between py-4 opacity-10">
+                                                    {[...Array(6)].map((_, i) => <div key={i} className="w-1.5 h-3 bg-white rounded-sm" />)}
                                                 </div>
-                                            </TiltCard>
+                                                <div className="absolute inset-y-0 right-2 w-2 flex flex-col justify-between py-4 opacity-10">
+                                                    {[...Array(6)].map((_, i) => <div key={i} className="w-1.5 h-3 bg-white rounded-sm" />)}
+                                                </div>
 
+                                                <motion.div
+                                                    initial={false}
+                                                    animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
+                                                    transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                                                    className="absolute bottom-8 left-8 right-8"
+                                                >
+                                                    <p className="text-xs font-mono font-bold text-cyan-400 tracking-widest uppercase mb-2 flex items-center gap-2">
+                                                        <span className="w-2 h-2 rounded-full bg-fuchsia-500 animate-pulse"></span>
+                                                        {cat.program} Spec
+                                                    </p>
+                                                    <p className="text-2xl lg:text-3xl font-black text-white leading-tight break-words">{cat.name}</p>
+                                                </motion.div>
+                                            </motion.div>
+                                        );
+                                    })}
 
+                                    {/* Fallback if no media exists at all */}
+                                    {(!categories || categories.length === 0 || !galleryItems || galleryItems.length === 0) && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-[#111]">
+                                            <p className="text-gray-600 font-mono text-sm tracking-widest uppercase">Preview Area</p>
                                         </div>
-                                    );
-                                })
-                            ) : (
-                                <div className="w-full py-12 text-center text-gray-500 border-2 border-dashed border-gray-700 rounded-3xl">
-                                    <p>No categories found.</p>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </div>
-                </section >
+                </section>
 
                 <GalleryModal
                     isOpen={modalOpen}
