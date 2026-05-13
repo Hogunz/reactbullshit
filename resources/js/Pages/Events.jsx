@@ -2,7 +2,7 @@ import { NavBar } from "@/Components/NavBar";
 import React from "react";
 import ButtonLink from "@/Components/ButtonLink";
 import CustomCursor from "@/Components/CustomCursor";
-import { Link } from "@inertiajs/react";
+import { Link, Head } from "@inertiajs/react";
 
 
 
@@ -15,6 +15,7 @@ export default function Events({ events = [] }) {
     };
     return (
         <>
+            <Head title="News & Events" />
             <CustomCursor />
             <div className="dark:bg-dark w-full min-h-screen relative overflow-hidden">
                 <NavBar />

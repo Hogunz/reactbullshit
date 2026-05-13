@@ -15,6 +15,7 @@ import EnrollSpin from "@/Components/EnrollSpin";
 import Partnership from "@/Pages/Partnership";
 import LoadingScreen from "@/Components/LoadingScreen";
 import SneakPeek from "@/Components/SneakPeek";
+import { Head } from "@inertiajs/react";
 
 export default function Welcome({
     auth,
@@ -88,6 +89,7 @@ export default function Welcome({
 
     return (
         <>
+            <Head title="Homepage" />
             {isLoading && <LoadingScreen isHeroLoaded={isHeroLoaded} onFinished={() => setIsLoading(false)} />}
             <div ref={container} className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
 

@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import GalleryModal from "@/Components/GalleryModal";
+import { Head } from "@inertiajs/react";
 
 // --- Animation Components ---
 const TiltCard = ({ children, className, color, onClick }) => {
@@ -116,6 +117,7 @@ function BSITWMAD({ video, galleryItems, categories }) {
 
     return (
         <>
+            <Head title="BSIT WMAD" />
             <CustomCursor />
             <NavBar />
             <div className="dark:bg-dark w-full">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavBar } from "@/Components/NavBar";
 import { motion, AnimatePresence } from "framer-motion";
+import { Head } from "@inertiajs/react";
 
 export default function PartnersPage({ partners }) {
     const [selectedId, setSelectedId] = useState(null);
@@ -28,6 +29,7 @@ export default function PartnersPage({ partners }) {
 
     return (
         <div className="bg-light dark:bg-dark min-h-screen scroll-smooth relative overflow-hidden">
+            <Head title="Our Industry Partners" />
             <NavBar />
 
             {/* Ambient Background Glows */}

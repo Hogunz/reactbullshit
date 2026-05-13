@@ -3,6 +3,7 @@ import { NavBar } from "@/Components/NavBar";
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Head } from "@inertiajs/react";
 
 const VMO = () => {
     useEffect(() => {
@@ -11,6 +12,7 @@ const VMO = () => {
 
     return (
         <>
+            <Head title="Vision, Mission & Core Values" />
             <CustomCursor />
             <NavBar />
             <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden">

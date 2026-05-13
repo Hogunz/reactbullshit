@@ -3,7 +3,7 @@ import { NavBar } from "@/Components/NavBar";
 import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import GalleryModal from "@/Components/GalleryModal";
 
 // --- Animation Components ---
@@ -183,6 +183,7 @@ function BSITMMA({ video, galleryItems, categories }) {
 
     return (
         <>
+            <Head title="BSIT MMA" />
             <CustomCursor />
             <NavBar />
             <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden selection:bg-purple selection:text-white perspective-1000">

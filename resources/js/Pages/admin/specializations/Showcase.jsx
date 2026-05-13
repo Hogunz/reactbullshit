@@ -1,5 +1,5 @@
 import { NavBar } from "@/Components/NavBar";
-import { useForm, router } from "@inertiajs/react";
+import { useForm, router, Head } from "@inertiajs/react";
 import React, { useState } from "react";
 
 export default function Showcase({ program, video, galleryItems, categories }) {
@@ -91,6 +91,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
 
     return (
         <>
+            <Head title={`Admin - ${program} Showcase`} />
             <NavBar />
             <div className="min-h-screen bg-light dark:bg-dark pt-24 pb-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto space-y-12">

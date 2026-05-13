@@ -1,11 +1,12 @@
 import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, Head } from "@inertiajs/react";
 
 export default function FacultyPage({ faculties = [] }) {
     return (
         <>
+            <Head title="Expert Instructors" />
             <CustomCursor />
             <div className="dark:bg-dark w-full min-h-screen relative">
                 <NavBar />
