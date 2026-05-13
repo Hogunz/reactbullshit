@@ -8,18 +8,47 @@ import GalleryModal from "@/Components/GalleryModal";
 export default function Top30Results({ winners }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [galleryFilter, setGalleryFilter] = useState("ALL"); // ALL, GAME, WEBSITE
 
-    const games = winners.filter(w => w.top_30_category === 'game');
-    const websites = winners.filter(w => w.top_30_category === 'website');
+    // Elite Top 30 Sections
+    const eliteGames = winners.filter(w => (w.is_top_30 === true || w.is_top_30 == 1) && w.top_30_category === 'game');
+    const eliteWebsites = winners.filter(w => (w.is_top_30 === true || w.is_top_30 == 1) && w.top_30_category === 'website');
 
-    const ProjectGrid = ({ items, title, subtitle }) => (
-        <div className="mb-32">
-            <div className="flex flex-col mb-16 px-4">
-                <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-4">
-                    {title}
-                </h2>
-                <div className="w-24 h-2 bg-purple mb-6"></div>
-                <p className="text-gray-500 text-lg max-w-2xl">{subtitle}</p>
+    // General Student Gallery (Non-Top 30)
+    const generalGallery = winners.filter(w => (w.is_top_30 === false || w.is_top_30 == 0));
+    const filteredGallery = galleryFilter === "ALL" 
+        ? generalGallery 
+        : generalGallery.filter(w => w.top_30_category?.toLowerCase() === galleryFilter.toLowerCase());
+
+    const ProjectGrid = ({ items, title, subtitle, color = "bg-purple", isElite = false }) => (
+        <div className="mb-40">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 px-4 gap-8">
+                <div className="flex flex-col">
+                    <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-4 uppercase">
+                        {title}
+                    </h2>
+                    <div className={`w-24 h-2 ${color} mb-6`}></div>
+                    <p className="text-gray-500 text-lg max-w-2xl">{subtitle}</p>
+                </div>
+                
+                {/* Filter Buttons for General Gallery */}
+                {!isElite && generalGallery.length > 0 && (
+                    <div className="flex bg-zinc-900/50 p-1.5 rounded-2xl border border-white/5 backdrop-blur-xl">
+                        {["ALL", "GAME", "WEBSITE"].map((type) => (
+                            <button
+                                key={type}
+                                onClick={() => setGalleryFilter(type)}
+                                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                                    galleryFilter === type 
+                                    ? 'bg-purple text-white shadow-lg scale-105' 
+                                    : 'text-gray-500 hover:text-white'
+                                }`}
+                            >
+                                {type}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
@@ -38,11 +67,13 @@ export default function Top30Results({ winners }) {
                         }}
                     >
                         {/* Rank Badge */}
-                        <div className="absolute top-6 left-6 z-30">
-                            <div className="w-12 h-12 rounded-2xl bg-purple/90 backdrop-blur-md flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(139,92,246,0.3)] border border-white/20">
-                                {index + 1}
+                        {isElite && (
+                            <div className="absolute top-6 left-6 z-30">
+                                <div className="w-12 h-12 rounded-2xl bg-yellow-500/90 backdrop-blur-md flex items-center justify-center text-black font-black text-xl shadow-[0_0_20px_rgba(234,179,8,0.3)] border border-white/20">
+                                    {index + 1}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Creator Label (Optional) */}
                         {winner.creator_major && (
@@ -84,11 +115,11 @@ export default function Top30Results({ winners }) {
 
                         {/* Info */}
                         <div className="absolute bottom-0 left-0 p-8 w-full z-20">
-                            <p className="text-purple-400 font-mono text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-                                PROJECT WINNER
+                            <p className={`font-mono text-xs uppercase tracking-widest mb-2 flex items-center gap-2 ${isElite ? 'text-yellow-500' : 'text-purple-400'}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isElite ? 'bg-yellow-500' : 'bg-purple-400'}`}></span>
+                                {isElite ? 'TOP 30 ELITE' : 'STUDENT CREATION'}
                             </p>
-                            <h3 className="text-3xl font-black text-white leading-tight group-hover:text-purple-300 transition-colors">
+                            <h3 className={`text-3xl font-black text-white leading-tight transition-colors ${isElite ? 'group-hover:text-yellow-400' : 'group-hover:text-purple-300'}`}>
                                 {winner.title}
                             </h3>
                             <div className="mt-4 flex items-center gap-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
@@ -137,27 +168,37 @@ export default function Top30Results({ winners }) {
                 {/* Main Content */}
                 <section className="pb-20 px-4">
                     <div className="max-w-7xl mx-auto">
-                        {games.length > 0 && (
+                        {eliteGames.length > 0 && (
                             <ProjectGrid 
-                                items={games} 
+                                items={eliteGames} 
                                 title="TOP GAMES" 
                                 subtitle="Celebrating the most innovative and immersive game developments from our talented student developers."
+                                isElite={true}
                             />
                         )}
 
-                        {websites.length > 0 && (
+                        {eliteWebsites.length > 0 && (
                             <ProjectGrid 
-                                items={websites} 
+                                items={eliteWebsites} 
                                 title="TOP WEBSITES" 
                                 subtitle="Showcasing high-end web applications and digital platforms that push the boundaries of design and functionality."
+                                isElite={true}
                             />
                         )}
+
+                        <ProjectGrid 
+                            items={filteredGallery} 
+                            title="STUDENT GALLERY" 
+                            subtitle="A showcase of digital creativity and technical skill from our entire student body."
+                            color="bg-white/20"
+                            isElite={false}
+                        />
 
                         {winners.length === 0 && (
                             <div className="py-40 text-center">
                                 <div className="inline-block p-8 rounded-[3rem] bg-zinc-900 border border-white/5">
-                                    <h3 className="text-2xl font-bold text-white mb-2">No Winners Revealed Yet</h3>
-                                    <p className="text-gray-500 max-w-sm mx-auto">The Hall of Fame is currently being curated. Check back soon!</p>
+                                    <h3 className="text-2xl font-bold text-white mb-2">No Projects Uploaded Yet</h3>
+                                    <p className="text-gray-500 max-w-sm mx-auto">The digital showcase is currently being curated. Check back soon!</p>
                                 </div>
                             </div>
                         )}

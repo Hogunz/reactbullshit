@@ -39,10 +39,9 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         formData.append('title', galleryData.title);
         formData.append('category', galleryData.category);
         formData.append('is_top_30', galleryData.is_top_30 ? '1' : '0');
-        if (galleryData.is_top_30) {
-            formData.append('top_30_category', galleryData.top_30_category);
-            formData.append('creator_major', galleryData.creator_major);
-        }
+        formData.append('top_30_category', galleryData.top_30_category);
+        formData.append('creator_major', galleryData.creator_major);
+
         galleryData.files.forEach((file) => {
             formData.append('files[]', file);
         });
@@ -236,7 +235,57 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                             <h3 className="text-lg font-semibold text-dark dark:text-light mb-4">Add Gallery Item(s)</h3>
                             <form onSubmit={handleGallerySubmit} className="space-y-6">
                                 <div className="grid md:grid-cols-2 gap-8">
-                                    {/* Left: Basic Info */}
+                                    {/* Left: Project Classification */}
+                                    <div className="p-6 rounded-2xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 space-y-6">
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Project Type (Required)</label>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'game'}))}
+                                                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'game' 
+                                                        ? 'bg-purple border-purple text-white shadow-lg' 
+                                                        : 'bg-white dark:bg-black/40 border-transparent text-gray-500 hover:border-purple/30'}`}
+                                                >
+                                                    <span className="text-2xl">🎮</span>
+                                                    <span className="text-sm font-bold">GAME</span>
+                                                </button>
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'website'}))}
+                                                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'website' 
+                                                        ? 'bg-purple border-purple text-white shadow-lg' 
+                                                        : 'bg-white dark:bg-black/40 border-transparent text-gray-500 hover:border-purple/30'}`}
+                                                >
+                                                    <span className="text-2xl">🌐</span>
+                                                    <span className="text-sm font-bold">WEBSITE</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-6 border-t border-gray-200 dark:border-white/5">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <h4 className="text-sm font-bold text-dark dark:text-light uppercase tracking-wider">Hall of Fame Winner?</h4>
+                                                    <p className="text-xs text-gray-500 mt-1">Check this if it belongs in the Top 30.</p>
+                                                </div>
+                                                <label className="flex items-center cursor-pointer group">
+                                                    <div className="relative">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="sr-only"
+                                                            checked={galleryData.is_top_30}
+                                                            onChange={(e) => setGalleryData(prev => ({ ...prev, is_top_30: e.target.checked }))}
+                                                        />
+                                                        <div className={`w-12 h-6 rounded-full transition-colors ${galleryData.is_top_30 ? 'bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.3)]' : 'bg-gray-300 dark:bg-white/10'}`}></div>
+                                                        <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${galleryData.is_top_30 ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Right: Metadata */}
                                     <div className="space-y-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">Project Title</label>
@@ -250,87 +299,38 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                             {galleryErrors.title && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.title}</p>}
                                         </div>
 
-                                        {!galleryData.is_top_30 && (
-                                            <div className="animate-in fade-in duration-300">
-                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">Major-Specific Category <span className="text-[10px] font-normal text-gray-400">(e.g. 3D Animation, Mobile App)</span></label>
-                                                <select
-                                                    value={galleryData.category}
-                                                    onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
-                                                    className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light transition-all"
-                                                >
-                                                    <option value="">Select Specialization Category</option>
-                                                    {categories && categories.map((cat) => (
-                                                        <option key={cat.id} value={cat.name}>{cat.name}</option>
-                                                    ))}
-                                                </select>
-                                                {galleryErrors.category && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.category}</p>}
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Right: Hall of Fame Configuration */}
-                                    <div className="p-6 rounded-2xl bg-purple/5 border border-purple/10 space-y-6">
-                                        <div className="flex items-center justify-between">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
-                                                <h4 className="text-sm font-bold text-dark dark:text-light uppercase tracking-wider">Hall of Fame Entry?</h4>
-                                                <p className="text-xs text-gray-500 mt-1">Mark this as a Top 30 winning project.</p>
+                                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Major Attribution</label>
+                                                <select
+                                                    value={galleryData.creator_major}
+                                                    onChange={(e) => setGalleryData(prev => ({ ...prev, creator_major: e.target.value }))}
+                                                    className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 text-sm text-dark dark:text-light"
+                                                >
+                                                    <option value="">Unknown/Other</option>
+                                                    <option value="MMA">MMA (ITEM)</option>
+                                                    <option value="WMAD">WMAD (ITEW)</option>
+                                                    <option value="NICS">NICS (ITEN)</option>
+                                                    <option value="CSE">CSE</option>
+                                                </select>
                                             </div>
-                                            <label className="flex items-center cursor-pointer group">
-                                                <div className="relative">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="sr-only"
-                                                        checked={galleryData.is_top_30}
-                                                        onChange={(e) => setGalleryData(prev => ({ ...prev, is_top_30: e.target.checked }))}
-                                                    />
-                                                    <div className={`w-12 h-6 rounded-full transition-colors ${galleryData.is_top_30 ? 'bg-purple shadow-[0_0_10px_rgba(139,92,246,0.3)]' : 'bg-gray-300 dark:bg-white/10'}`}></div>
-                                                    <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${galleryData.is_top_30 ? 'translate-x-6' : 'translate-x-0'}`}></div>
-                                                </div>
-                                            </label>
-                                        </div>
 
-                                        {galleryData.is_top_30 && (
-                                            <div className="pt-4 border-t border-purple/10 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                <label className="block text-xs font-bold text-purple uppercase tracking-widest mb-4">Select Hall of Fame Type</label>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <button 
-                                                        type="button"
-                                                        onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'game'}))}
-                                                        className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'game' 
-                                                            ? 'bg-purple border-purple text-white shadow-lg' 
-                                                            : 'bg-white dark:bg-black/20 border-gray-200 dark:border-white/10 text-gray-500 hover:border-purple/30'}`}
-                                                    >
-                                                        <span className="text-2xl">🎮</span>
-                                                        <span className="text-sm font-bold">GAME</span>
-                                                    </button>
-                                                    <button 
-                                                        type="button"
-                                                        onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'website'}))}
-                                                        className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'website' 
-                                                            ? 'bg-purple border-purple text-white shadow-lg' 
-                                                            : 'bg-white dark:bg-black/20 border-gray-200 dark:border-white/10 text-gray-500 hover:border-purple/30'}`}
-                                                    >
-                                                        <span className="text-2xl">🌐</span>
-                                                        <span className="text-sm font-bold">WEBSITE</span>
-                                                    </button>
-                                                </div>
-
-                                                <div className="mt-6">
-                                                    <label className="block text-xs font-bold text-purple uppercase tracking-widest mb-2">Creator Major (Optional)</label>
+                                            {!galleryData.is_top_30 && (
+                                                <div>
+                                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Specialization</label>
                                                     <select
-                                                        value={galleryData.creator_major}
-                                                        onChange={(e) => setGalleryData(prev => ({ ...prev, creator_major: e.target.value }))}
-                                                        className="w-full px-4 py-2 rounded-lg bg-white dark:bg-black/40 border border-purple/20 text-sm text-dark dark:text-light focus:ring-1 focus:ring-purple"
+                                                        value={galleryData.category}
+                                                        onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
+                                                        className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 text-sm text-dark dark:text-light"
                                                     >
-                                                        <option value="">I don't know yet</option>
-                                                        <option value="MMA">MMA (ITEM)</option>
-                                                        <option value="WMAD">WMAD (ITEW)</option>
-                                                        <option value="NICS">NICS (ITEN)</option>
-                                                        <option value="CSE">CSE</option>
+                                                        <option value="">None</option>
+                                                        {categories && categories.map((cat) => (
+                                                            <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                                        ))}
                                                     </select>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
 

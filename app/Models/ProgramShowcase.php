@@ -18,6 +18,10 @@ class ProgramShowcase extends Model
         'creator_major',
     ];
 
+    protected $casts = [
+        'is_top_30' => 'boolean',
+    ];
+
     /**
      * All media files belonging to this showcase entry.
      */

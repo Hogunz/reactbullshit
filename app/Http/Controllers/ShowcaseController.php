@@ -59,7 +59,7 @@ class ShowcaseController extends Controller
     {
         $request->validate([
             'title'    => 'required|string',
-            'category' => 'required|string',
+            'category' => 'nullable|string',
             'files'    => 'required|array|min:1',
             'files.*'  => 'file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,qt|max:512000',
         ]);

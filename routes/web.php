@@ -163,7 +163,7 @@ Route::get('/academics/bsit/NICS', function () {
 });
 
 Route::get('/Top30', function () {
-    $winners = ProgramShowcase::where('is_top_30', true)->with('images')->get();
+    $winners = ProgramShowcase::with('images')->get(); // Fetch all to handle elite + general gallery
     return Inertia::render("Top30Results", [
         'winners' => $winners
     ]);
