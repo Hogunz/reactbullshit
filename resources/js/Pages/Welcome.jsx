@@ -16,6 +16,7 @@ import Partnership from "@/Pages/Partnership";
 import LoadingScreen from "@/Components/LoadingScreen";
 import SneakPeek from "@/Components/SneakPeek";
 import { Head } from "@inertiajs/react";
+import { SakuraBackground } from "@/Components/SakuraBackground";
 
 export default function Welcome({
     auth,
@@ -91,7 +92,8 @@ export default function Welcome({
         <>
             <Head title="Homepage" />
             {isLoading && <LoadingScreen isHeroLoaded={isHeroLoaded} onFinished={() => setIsLoading(false)} />}
-            <div ref={container} className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+            <div ref={container} className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'} relative overflow-x-hidden`}>
+                <SakuraBackground petalCount={20} />
 
                 {/* Global Flying Owl Asset */}
                 <img

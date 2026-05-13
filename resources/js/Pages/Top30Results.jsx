@@ -4,6 +4,7 @@ import { NavBar } from "@/Components/NavBar";
 import CustomCursor from "@/Components/CustomCursor";
 import { motion, AnimatePresence } from "framer-motion";
 import GalleryModal from "@/Components/GalleryModal";
+import { SakuraBackground } from "@/Components/SakuraBackground";
 
 export default function Top30Results({ winners }) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -141,7 +142,10 @@ export default function Top30Results({ winners }) {
             <CustomCursor />
             <NavBar />
 
-            <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-purple selection:text-white">
+            <div className="min-h-screen bg-[#070708] text-white selection:bg-purple selection:text-white relative overflow-x-hidden">
+                {/* Sakura Background Layer */}
+                <SakuraBackground petalCount={25} />
+
                 {/* Hero / Header */}
                 <section className="relative pt-32 pb-12 px-4 overflow-hidden">
                     <div className="absolute inset-0 z-0">
