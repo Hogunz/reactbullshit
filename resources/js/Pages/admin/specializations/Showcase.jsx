@@ -11,11 +11,15 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         name: "",
     });
 
-    const { data: galleryData, setData: setGalleryData, post: postGallery, processing: processingGallery, errors: galleryErrors, reset: resetGallery } = useForm({
+    const [galleryData, setGalleryData] = useState({
         title: "",
         category: "",
-        file: null,
+        files: [],
+        is_top_30: false,
     });
+    const [processingGallery, setProcessingGallery] = useState(false);
+    const [galleryErrors, setGalleryErrors] = useState({});
+    const fileInputRef = React.useRef(null);
 
     const [showVideoPreview, setShowVideoPreview] = useState(false);
 
@@ -26,9 +30,40 @@ export default function Showcase({ program, video, galleryItems, categories }) {
 
     const handleGallerySubmit = (e) => {
         e.preventDefault();
-        postGallery(route("admin.specializations.store-gallery", program), {
-            onSuccess: () => resetGallery(),
+        setProcessingGallery(true);
+        setGalleryErrors({});
+
+        const formData = new FormData();
+        formData.append('title', galleryData.title);
+        formData.append('category', galleryData.category);
+        formData.append('is_top_30', galleryData.is_top_30 ? '1' : '0');
+        galleryData.files.forEach((file) => {
+            formData.append('files[]', file);
         });
+
+        router.post(route("admin.specializations.store-gallery", program), formData, {
+            forceFormData: true,
+            onSuccess: () => {
+                setGalleryData({ title: "", category: "", files: [], is_top_30: false });
+                if (fileInputRef.current) fileInputRef.current.value = '';
+            },
+            onError: (errors) => setGalleryErrors(errors),
+            onFinish: () => setProcessingGallery(false),
+        });
+    };
+
+    const handleFilesSelected = (e) => {
+        const newFiles = Array.from(e.target.files);
+        setGalleryData(prev => ({ ...prev, files: [...prev.files, ...newFiles] }));
+        // Reset the input so the same file can be re-selected if removed
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    const removeFile = (index) => {
+        setGalleryData(prev => ({
+            ...prev,
+            files: prev.files.filter((_, i) => i !== index),
+        }));
     };
 
     const handleCategorySubmit = (e) => {
@@ -48,6 +83,10 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         if (confirm("Are you sure you want to delete this item?")) {
             router.delete(route("admin.specializations.destroy-gallery", id));
         }
+    };
+
+    const handleToggleTop30 = (id) => {
+        router.post(route("admin.specializations.toggle-top30", id));
     };
 
     return (
@@ -185,52 +224,105 @@ export default function Showcase({ program, video, galleryItems, categories }) {
 
                         {/* Add New Item Form */}
                         <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-xl">
-                            <h3 className="text-lg font-semibold text-dark dark:text-light mb-4">Add Gallery Item</h3>
-                            <form onSubmit={handleGallerySubmit} className="grid md:grid-cols-4 gap-6 items-end">
-                                <div className="md:col-span-1">
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
-                                    <input
-                                        type="text"
-                                        value={galleryData.title}
-                                        onChange={(e) => setGalleryData("title", e.target.value)}
-                                        className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light"
-                                        placeholder="e.g. Project Alpha"
-                                    />
-                                    {galleryErrors.title && <p className="mt-1 text-xs text-red-500">{galleryErrors.title}</p>}
+                            <h3 className="text-lg font-semibold text-dark dark:text-light mb-4">Add Gallery Item(s)</h3>
+                            <form onSubmit={handleGallerySubmit} className="space-y-6">
+                                <div className="grid md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
+                                        <input
+                                            type="text"
+                                            value={galleryData.title}
+                                            onChange={(e) => setGalleryData(prev => ({ ...prev, title: e.target.value }))}
+                                            className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light"
+                                            placeholder="e.g. Project Alpha"
+                                        />
+                                        {galleryErrors.title && <p className="mt-1 text-xs text-red-500">{galleryErrors.title}</p>}
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+                                        <select
+                                            value={galleryData.category}
+                                            onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
+                                            className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light"
+                                        >
+                                            <option value="">Select Category</option>
+                                            {categories && categories.map((cat) => (
+                                                <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                            ))}
+                                        </select>
+                                        {galleryErrors.category && <p className="mt-1 text-xs text-red-500">{galleryErrors.category}</p>}
+                                    </div>
+                                    <div className="flex items-end pb-1">
+                                        <label className="flex items-center cursor-pointer group">
+                                            <div className="relative">
+                                                <input
+                                                    type="checkbox"
+                                                    className="sr-only"
+                                                    checked={galleryData.is_top_30}
+                                                    onChange={(e) => setGalleryData(prev => ({ ...prev, is_top_30: e.target.checked }))}
+                                                />
+                                                <div className={`w-10 h-5 rounded-full transition-colors ${galleryData.is_top_30 ? 'bg-purple' : 'bg-gray-300 dark:bg-white/10'}`}></div>
+                                                <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform ${galleryData.is_top_30 ? 'translate-x-5' : 'translate-x-0'}`}></div>
+                                            </div>
+                                            <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-purple transition-colors">Top 30 Winner?</span>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div className="md:col-span-1">
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-                                    <select
-                                        value={galleryData.category}
-                                        onChange={(e) => setGalleryData("category", e.target.value)}
-                                        className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light"
-                                    >
-                                        <option value="">Select Category</option>
-                                        {categories && categories.map((cat) => (
-                                            <option key={cat.id} value={cat.name}>{cat.name}</option>
-                                        ))}
-                                    </select>
-                                    {galleryErrors.category && <p className="mt-1 text-xs text-red-500">{galleryErrors.category}</p>}
-                                </div>
-                                <div className="md:col-span-1">
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Media (Image/Video)</label>
+
+                                {/* File picker area */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Media Files (Images / Videos — select multiple)</label>
                                     <input
+                                        ref={fileInputRef}
                                         type="file"
                                         accept="image/*,video/mp4,video/quicktime,video/x-m4v"
-                                        onChange={(e) => setGalleryData("file", e.target.files[0])}
+                                        multiple
+                                        onChange={handleFilesSelected}
                                         className="block w-full text-xs text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple/10 file:text-purple hover:file:bg-purple/20 cursor-pointer"
                                     />
-                                    {galleryErrors.file && <p className="mt-1 text-xs text-red-500">{galleryErrors.file}</p>}
+                                    {galleryErrors['files'] && <p className="mt-1 text-xs text-red-500">{galleryErrors['files']}</p>}
+                                    {galleryErrors['files.0'] && <p className="mt-1 text-xs text-red-500">{galleryErrors['files.0']}</p>}
                                 </div>
-                                <div className="md:col-span-1">
-                                    <button
-                                        type="submit"
-                                        disabled={processingGallery}
-                                        className="w-full px-6 py-2.5 rounded-lg bg-purple text-white font-bold hover:bg-purple/90 transition-all disabled:opacity-50"
-                                    >
-                                        {processingGallery ? "Adding..." : "Add Item"}
-                                    </button>
-                                </div>
+
+                                {/* Selected files preview list */}
+                                {galleryData.files.length > 0 && (
+                                    <div className="bg-gray-50 dark:bg-black/20 rounded-xl border border-gray-200 dark:border-white/10 p-4">
+                                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">
+                                            {galleryData.files.length} file{galleryData.files.length > 1 ? 's' : ''} selected
+                                        </p>
+                                        <ul className="space-y-2 max-h-48 overflow-y-auto">
+                                            {galleryData.files.map((file, idx) => (
+                                                <li key={idx} className="flex items-center justify-between py-1.5 px-3 bg-white dark:bg-white/5 rounded-lg border border-gray-100 dark:border-white/5">
+                                                    <div className="flex items-center gap-3 min-w-0">
+                                                        <span className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${
+                                                            file.type.startsWith('video') ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-purple/10 text-purple'
+                                                        }`}>
+                                                            {file.type.startsWith('video') ? '🎬' : '🖼️'}
+                                                        </span>
+                                                        <span className="text-sm text-dark dark:text-light truncate">{file.name}</span>
+                                                        <span className="text-xs text-gray-400 flex-shrink-0">{(file.size / 1024 / 1024).toFixed(1)} MB</span>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeFile(idx)}
+                                                        className="flex-shrink-0 ml-2 p-1 rounded-full text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                                                        title="Remove file"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    disabled={processingGallery || galleryData.files.length === 0}
+                                    className="w-full md:w-auto px-8 py-2.5 rounded-lg bg-purple text-white font-bold hover:bg-purple/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {processingGallery ? "Uploading..." : `Add ${galleryData.files.length > 1 ? galleryData.files.length + ' Items' : 'Item'}`}
+                                </button>
                             </form>
                         </div>
 
@@ -248,6 +340,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                         color="bg-purple"
                                         items={catItems}
                                         onDelete={handleDeleteGalleryItem}
+                                        onToggleTop30={handleToggleTop30}
                                     />
                                 );
                             })}
@@ -264,6 +357,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                             color="bg-gray-400"
                                             items={uncategorizedItems}
                                             onDelete={handleDeleteGalleryItem}
+                                            onToggleTop30={handleToggleTop30}
                                             isUncategorized={true}
                                         />
                                     );
@@ -284,7 +378,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
 }
 
 // Pagination Component
-function CategorySection({ title, color, items, onDelete, isUncategorized = false }) {
+function CategorySection({ title, color, items, onDelete, onToggleTop30, isUncategorized = false }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
 
@@ -331,33 +425,63 @@ function CategorySection({ title, color, items, onDelete, isUncategorized = fals
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {currentItems.map((item) => (
+                {currentItems.map((item) => {
+                    const firstImg = item.images && item.images.length > 0 ? item.images[0] : null;
+                    const imgCount = item.images ? item.images.length : 0;
+
+                    return (
                     <div key={item.id} className={`group relative aspect-[4/3] rounded-2xl overflow-hidden bg-black shadow-lg border border-white/10 ${isUncategorized ? 'opacity-75 hover:opacity-100 transition-opacity' : ''}`}>
-                        {item.media_type === 'video' ? (
-                            <div className="w-full h-full flex items-center justify-center bg-black">
-                                <video src={item.media_path} className="w-full h-full object-contain pointer-events-none" muted loop onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()} />
-                            </div>
+                        {firstImg ? (
+                            firstImg.media_type === 'video' ? (
+                                <div className="w-full h-full flex items-center justify-center bg-black">
+                                    <video src={firstImg.media_path} className="w-full h-full object-contain pointer-events-none" muted loop onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()} />
+                                </div>
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-black">
+                                    <img src={firstImg.media_path} alt={item.title} className="w-full h-full object-contain" />
+                                </div>
+                            )
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-black">
-                                <img src={item.media_path} alt={item.title} className="w-full h-full object-contain" />
-                            </div>
+                            <div className="w-full h-full flex items-center justify-center bg-zinc-900 text-gray-600 text-sm">No media</div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
+
+                        {/* Image count badge */}
+                        {imgCount > 1 && (
+                            <div className="absolute top-4 right-14 z-20 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold">
+                                {imgCount} files
+                            </div>
+                        )}
 
                         <div className="absolute bottom-0 left-0 p-6 w-full">
                             {isUncategorized && <p className="text-xs font-mono text-gray-400 mb-1">No Category</p>}
                             <h3 className="text-xl font-bold text-white">{item.title}</h3>
                         </div>
 
+                        <div className="absolute top-4 left-4 z-20">
+                            <button
+                                onClick={() => onToggleTop30(item.id)}
+                                className={`p-2 rounded-full backdrop-blur-md border transition-all ${item.is_top_30 
+                                    ? 'bg-yellow-500/80 border-yellow-400 text-white shadow-[0_0_10px_rgba(234,179,8,0.5)]' 
+                                    : 'bg-black/40 border-white/10 text-white/50 hover:text-white'}`}
+                                title={item.is_top_30 ? "Remove from Top 30" : "Mark as Top 30 Winner"}
+                            >
+                                <svg className={`w-4 h-4 ${item.is_top_30 ? 'fill-current' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                </svg>
+                            </button>
+                        </div>
+
                         <button
                             onClick={() => onDelete(item.id)}
-                            className="absolute top-4 right-4 p-2 rounded-full bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 scale-90 group-hover:scale-100"
+                            className="absolute top-4 right-4 p-2 rounded-full bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 scale-90 group-hover:scale-100 z-20"
                             title="Delete Item"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
                     </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

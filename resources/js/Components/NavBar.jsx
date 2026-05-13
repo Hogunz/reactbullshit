@@ -96,6 +96,9 @@ export function NavBar({ isWelcomePage = false }) {
                                 </div>
                             </div>
                         </div>
+                        <Link href="/Top30" className="px-3 xl:px-4 py-2 font-semibold text-sm xl:text-base text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white transition-colors">
+                            Top 30
+                        </Link>
 
                         <Link href="/News&Events" className="px-3 xl:px-4 py-2 font-semibold text-sm xl:text-base text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white transition-colors">
                             News & Events
@@ -157,6 +160,7 @@ export function NavBar({ isWelcomePage = false }) {
                         </div>
 
                         <Link href="/News&Events" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">News & Events</Link>
+                        <Link href="/Top30" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Top 30</Link>
                         <Link href="/Partners" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Partners</Link>
                         <Link href="/Contact" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Contact</Link>
                     </nav>

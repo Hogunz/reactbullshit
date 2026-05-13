@@ -13,7 +13,23 @@ class ProgramShowcase extends Model
         'program',
         'title',
         'category',
-        'media_path',
-        'media_type',
+        'is_top_30',
     ];
+
+    /**
+     * All media files belonging to this showcase entry.
+     */
+    public function images()
+    {
+        return $this->hasMany(ProgramShowcaseImage::class, 'program_showcase_id')
+                    ->orderBy('sort_order');
+    }
+
+    /**
+     * Convenience: first image for grid/preview thumbnails.
+     */
+    public function getFirstImageAttribute()
+    {
+        return $this->images->first();
+    }
 }

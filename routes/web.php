@@ -129,10 +129,11 @@ Route::post('admin/specializations/{program}/gallery', [ShowcaseController::clas
 Route::delete('admin/specializations/gallery/{id}', [ShowcaseController::class, 'destroyGalleryItem'])->name('admin.specializations.destroy-gallery');
 Route::post('admin/specializations/{program}/category', [ShowcaseController::class, 'storeCategory'])->name('admin.specializations.store-category');
 Route::delete('admin/specializations/category/{id}', [ShowcaseController::class, 'destroyCategory'])->name('admin.specializations.destroy-category');
+Route::post('admin/specializations/showcase/{id}/toggle-top30', [ShowcaseController::class, 'toggleTop30'])->name('admin.specializations.toggle-top30');
 
 Route::get('/academics/bsit/MMA', function () {
     $video = ProgramAttribute::where('program', 'MMA')->where('type', 'VIDEO_PATH')->value('content');
-    $galleryItems = ProgramShowcase::where('program', 'MMA')->get();
+    $galleryItems = ProgramShowcase::where('program', 'MMA')->with('images')->get();
     $categories = ProgramCategory::where('program', 'MMA')->get();
     return Inertia::render("BSITMMA", [
         'video' => $video,
@@ -142,7 +143,7 @@ Route::get('/academics/bsit/MMA', function () {
 });
 Route::get('/academics/bsit/WMAD', function () {
     $video = ProgramAttribute::where('program', 'WMAD')->where('type', 'VIDEO_PATH')->value('content');
-    $galleryItems = ProgramShowcase::where('program', 'WMAD')->get();
+    $galleryItems = ProgramShowcase::where('program', 'WMAD')->with('images')->get();
     $categories = ProgramCategory::where('program', 'WMAD')->get();
     return Inertia::render("BSITWMAD", [
         'video' => $video,
@@ -152,12 +153,19 @@ Route::get('/academics/bsit/WMAD', function () {
 });
 Route::get('/academics/bsit/NICS', function () {
     $video = ProgramAttribute::where('program', 'NICS')->where('type', 'VIDEO_PATH')->value('content');
-    $galleryItems = ProgramShowcase::where('program', 'NICS')->get();
+    $galleryItems = ProgramShowcase::where('program', 'NICS')->with('images')->get();
     $categories = ProgramCategory::where('program', 'NICS')->get();
     return Inertia::render("BSITNICS", [
         'video' => $video,
         'galleryItems' => $galleryItems,
         'categories' => $categories
+    ]);
+});
+
+Route::get('/Top30', function () {
+    $winners = ProgramShowcase::where('is_top_30', true)->with('images')->get();
+    return Inertia::render("Top30Results", [
+        'winners' => $winners
     ]);
 });
 

@@ -407,10 +407,12 @@ function BSITMMA({ video, galleryItems, categories }) {
                             <div className="w-full md:w-1/2 lg:w-2/5 sticky top-32 h-[50vh] md:h-[60vh] z-10 perspective-1000">
                                 <div className="w-full h-full relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-[#0a0a0a]">
                                     {categories && categories.length > 0 && categories.map((cat, index) => {
-                                        const media = galleryItems?.find(item => item.category === cat.name);
+                                        const entry = galleryItems?.find(item => item.category === cat.name);
                                         const isHovered = hoveredCategory === cat.name || (!hoveredCategory && index === 0);
 
-                                        if (!media) return null;
+                                        if (!entry) return null;
+                                        const firstImg = entry.images && entry.images.length > 0 ? entry.images[0] : null;
+                                        if (!firstImg) return null;
 
                                         return (
                                             <motion.div
@@ -424,17 +426,17 @@ function BSITMMA({ video, galleryItems, categories }) {
                                                 transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
                                                 className="absolute inset-0 pointer-events-none"
                                             >
-                                                {media.media_type === 'video' ? (
+                                                {firstImg.media_type === 'video' ? (
                                                     <>
                                                         {/* Blurred background for letterboxing */}
                                                         <video
-                                                            src={media.media_path}
+                                                            src={firstImg.media_path}
                                                             className="absolute inset-0 w-full h-full object-cover opacity-30 blur-3xl scale-110"
                                                             muted loop playsInline
                                                         />
                                                         {/* Actual uncropped video */}
                                                         <video
-                                                            src={media.media_path}
+                                                            src={firstImg.media_path}
                                                             className="absolute inset-0 w-full h-full object-contain opacity-90"
                                                             autoPlay
                                                             muted
@@ -451,13 +453,13 @@ function BSITMMA({ video, galleryItems, categories }) {
                                                     <>
                                                         {/* Blurred background for letterboxing */}
                                                         <img
-                                                            src={media.media_path}
+                                                            src={firstImg.media_path}
                                                             alt=""
                                                             className="absolute inset-0 w-full h-full object-cover opacity-30 blur-3xl scale-110"
                                                         />
                                                         {/* Actual uncropped image */}
                                                         <img
-                                                            src={media.media_path}
+                                                            src={firstImg.media_path}
                                                             alt={cat.name}
                                                             className="absolute inset-0 w-full h-full object-contain opacity-90"
                                                         />
@@ -480,6 +482,14 @@ function BSITMMA({ video, galleryItems, categories }) {
                                                     transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
                                                     className="absolute bottom-8 left-8 right-8"
                                                 >
+                                                    {entry.is_top_30 && (
+                                                        <div className="flex items-center gap-2 mb-3">
+                                                            <div className="px-3 py-1 rounded-full bg-yellow-500 text-black text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-[0_0_20px_rgba(234,179,8,0.6)]">
+                                                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2h7.6l-6.2 4.5 2.4 7.2-6.2-4.5-6.2 4.5 2.4-7.2-6.2-4.5h7.6z"/></svg>
+                                                                Top 30 Winner
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                     <p className="text-xs font-mono font-bold text-cyan-400 tracking-widest uppercase mb-2 flex items-center gap-2">
                                                         <span className="w-2 h-2 rounded-full bg-fuchsia-500 animate-pulse"></span>
                                                         {cat.program} Spec

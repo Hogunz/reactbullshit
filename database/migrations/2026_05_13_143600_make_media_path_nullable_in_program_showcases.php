@@ -1,0 +1,24 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('program_showcases', function (Blueprint $table) {
+            $table->string('media_path')->nullable()->default(null)->change();
+            $table->string('media_type')->nullable()->default(null)->change();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('program_showcases', function (Blueprint $table) {
+            $table->string('media_path')->nullable(false)->change();
+            $table->string('media_type')->nullable(false)->default('image')->change();
+        });
+    }
+};

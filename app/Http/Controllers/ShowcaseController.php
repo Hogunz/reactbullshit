@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\ProgramAttribute;
 use App\Models\ProgramCategory;
 use App\Models\ProgramShowcase;
+use App\Models\ProgramShowcaseImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ShowcaseController extends Controller
 {
     public function edit($program)
     {
-        // Valid programs: MMA, NICS, WMAD
-        if (!in_array($program, ['MMA', 'NICS', 'WMAD'])) {
+        if (!in_array($program, ['MMA', 'NICS', 'WMAD', 'CSE'])) {
             abort(404);
         }
 
@@ -23,30 +22,29 @@ class ShowcaseController extends Controller
             ->first();
 
         $galleryItems = ProgramShowcase::where('program', $program)
+            ->with('images')
             ->get();
 
         $categories = ProgramCategory::where('program', $program)->get();
 
         return Inertia::render('admin/specializations/Showcase', [
-            'program' => $program,
-            'video' => $videoAttribute ? $videoAttribute->content : null,
+            'program'      => $program,
+            'video'        => $videoAttribute ? $videoAttribute->content : null,
             'galleryItems' => $galleryItems,
-            'categories' => $categories,
+            'categories'   => $categories,
         ]);
     }
 
     public function updateVideo(Request $request, $program)
     {
         $request->validate([
-            'video' => 'required|mimetypes:video/mp4,video/quicktime|max:512000', // 500MB max
+            'video' => 'required|mimetypes:video/mp4,video/quicktime|max:512000',
         ]);
 
         if ($request->hasFile('video')) {
-            $file = $request->file('video');
+            $file     = $request->file('video');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            
-            // FIX: This streams the file directly to storage without eating RAM
-            $path = $file->storeAs('videos', $fileName, 'public');
+            $path     = $file->storeAs('videos', $fileName, 'public');
 
             ProgramAttribute::updateOrCreate(
                 ['program' => $program, 'type' => 'VIDEO_PATH'],
@@ -60,40 +58,45 @@ class ShowcaseController extends Controller
     public function storeGalleryItem(Request $request, $program)
     {
         $request->validate([
-            'title' => 'required|string',
+            'title'    => 'required|string',
             'category' => 'required|string',
-            'file' => 'required|file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,qt|max:512000', // 50MB max, renamed 'image' to 'file'
+            'files'    => 'required|array|min:1',
+            'files.*'  => 'file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,qt|max:512000',
         ]);
 
-        $file = $request->file('file');
-        $mimeType = $file->getMimeType();
-        $isVideo = str_contains($mimeType, 'video');
-        $mediaType = $isVideo ? 'video' : 'image';
-
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        
-        // FIX: Stream the file directly
-        $path = $file->storeAs('showcase', $fileName, 'public');
-
-        ProgramShowcase::create([
-            'program' => $program,
-            'title' => $request->title,
-            'category' => $request->category,
-            'media_path' => '/storage/' . $path,
-            'media_type' => $mediaType,
+        // One showcase entry for this title/category
+        $showcase = ProgramShowcase::create([
+            'program'   => $program,
+            'title'     => $request->title,
+            'category'  => $request->category,
+            'is_top_30' => $request->boolean('is_top_30'),
         ]);
 
-        return redirect()->back()->with('success', 'Gallery item added successfully.');
+        // Attach every uploaded file as a child image row
+        foreach ($request->file('files') as $index => $file) {
+            $mimeType  = $file->getMimeType();
+            $isVideo   = str_contains($mimeType, 'video');
+            $fileName  = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+            $path      = $file->storeAs('showcase', $fileName, 'public');
+
+            ProgramShowcaseImage::create([
+                'program_showcase_id' => $showcase->id,
+                'media_path'          => '/storage/' . $path,
+                'media_type'          => $isVideo ? 'video' : 'image',
+                'sort_order'          => $index,
+            ]);
+        }
+
+        $count = count($request->file('files'));
+        $label = $count === 1 ? '1 image' : "{$count} images";
+
+        return redirect()->back()->with('success', "Entry \"{$request->title}\" added with {$label}.");
     }
 
     public function destroyGalleryItem($id)
     {
-        $item = ProgramShowcase::findOrFail($id);
-        
-        // delete file from storage if needed
-        // Storage::disk('public')->delete(str_replace('/storage/', '', $item->image_path));
-
-        $item->delete();
+        // Child images are cascade-deleted by the DB foreign key constraint
+        ProgramShowcase::findOrFail($id)->delete();
 
         return redirect()->back()->with('success', 'Gallery item deleted successfully.');
     }
@@ -106,7 +109,7 @@ class ShowcaseController extends Controller
 
         ProgramCategory::create([
             'program' => $program,
-            'name' => $request->name,
+            'name'    => $request->name,
         ]);
 
         return redirect()->back()->with('success', 'Category added successfully.');
@@ -114,9 +117,17 @@ class ShowcaseController extends Controller
 
     public function destroyCategory($id)
     {
-        $category = ProgramCategory::findOrFail($id);
-        $category->delete();
+        ProgramCategory::findOrFail($id)->delete();
 
         return redirect()->back()->with('success', 'Category deleted successfully.');
+    }
+
+    public function toggleTop30($id)
+    {
+        $item            = ProgramShowcase::findOrFail($id);
+        $item->is_top_30 = !$item->is_top_30;
+        $item->save();
+
+        return redirect()->back()->with('success', 'Top 30 status updated.');
     }
 }

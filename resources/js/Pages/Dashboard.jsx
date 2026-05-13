@@ -5,8 +5,8 @@ import React from "react";
 export default function Dashboard({ auth, siteSettings }) {
     const { data, setData, post, processing, recentlySuccessful } = useForm({
         show_sneak_peek: siteSettings?.show_sneak_peek || 'false',
-        sneak_peek_title: siteSettings?.sneak_peek_title || 'Student Work Sneak Peek',
-        sneak_peek_subtitle: siteSettings?.sneak_peek_subtitle || 'Get ready to experience the incredible game and web applications developed by our Programming 2 and Web Tech students.',
+        sneak_peek_title: siteSettings?.sneak_peek_title || 'Top 30 Hall of Fame',
+        sneak_peek_subtitle: siteSettings?.sneak_peek_subtitle || 'The results are in! Explore the top 30 game and web applications developed by our talented IT students.',
         sneak_peek_video: null,
     });
 
@@ -46,7 +46,7 @@ export default function Dashboard({ auth, siteSettings }) {
                                             checked={data.show_sneak_peek === 'true'}
                                             onChange={(e) => setData('show_sneak_peek', e.target.checked ? 'true' : 'false')}
                                         />
-                                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">Show "Sneak Peek" Section on Homepage</span>
+                                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">Show "Top 30 Showcase" Section on Homepage</span>
                                     </label>
                                 </div>
                                 
@@ -54,7 +54,7 @@ export default function Dashboard({ auth, siteSettings }) {
                                     <div className="space-y-4">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                Sneak Peek Section Title
+                                                Showcase Section Title
                                             </label>
                                             <input
                                                 type="text"
@@ -65,7 +65,7 @@ export default function Dashboard({ auth, siteSettings }) {
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                Sneak Peek Section Subtitle
+                                                Showcase Section Subtitle
                                             </label>
                                             <textarea
                                                 className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-purple-500 dark:focus:border-purple-600 focus:ring-purple-500 dark:focus:ring-purple-600 rounded-md shadow-sm"
@@ -76,7 +76,7 @@ export default function Dashboard({ auth, siteSettings }) {
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                Sneak Peek Promotional Video (Optional)
+                                                Showcase Promotional Video (Optional)
                                             </label>
                                             <div className="mt-1 flex flex-col sm:flex-row sm:items-center gap-4">
                                                 <input

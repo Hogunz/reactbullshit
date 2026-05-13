@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from '@inertiajs/react';
 
 export default function SneakPeek({ title, subtitle, videoPath }) {
     const videoRef = useRef(null);
@@ -113,13 +114,13 @@ export default function SneakPeek({ title, subtitle, videoPath }) {
 
                             {/* Neon Action Buttons */}
                             <div className="relative flex flex-col sm:flex-row items-center justify-center gap-6 w-full">
-                                <a
-                                    href="https://site-exhibit-2026.vercel.app/"
+                                <Link
+                                    href="/Top30"
                                     className="group relative px-6 py-3 font-bold text-white uppercase tracking-wider text-sm transition-all duration-300"
                                 >
                                     <span className="absolute inset-0 w-full h-full border-2 border-purple-500 rounded bg-transparent group-hover:bg-purple-500/10 transition-all shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]"></span>
-                                    <span className="relative">Visit Showcase</span>
-                                </a>
+                                    <span className="relative">View Hall of Fame</span>
+                                </Link>
 
                                 {videoPath && hasVideoFinished && (
                                     <button
