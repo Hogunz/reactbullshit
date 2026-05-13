@@ -14,6 +14,7 @@ class ProgramShowcase extends Model
         'title',
         'category',
         'is_top_30',
+        'top_30_category',
     ];
 
     /**

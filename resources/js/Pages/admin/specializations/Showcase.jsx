@@ -16,6 +16,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         category: "",
         files: [],
         is_top_30: false,
+        top_30_category: "game", // Default to game if winner
     });
     const [processingGallery, setProcessingGallery] = useState(false);
     const [galleryErrors, setGalleryErrors] = useState({});
@@ -37,6 +38,9 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         formData.append('title', galleryData.title);
         formData.append('category', galleryData.category);
         formData.append('is_top_30', galleryData.is_top_30 ? '1' : '0');
+        if (galleryData.is_top_30) {
+            formData.append('top_30_category', galleryData.top_30_category);
+        }
         galleryData.files.forEach((file) => {
             formData.append('files[]', file);
         });
@@ -44,7 +48,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         router.post(route("admin.specializations.store-gallery", program), formData, {
             forceFormData: true,
             onSuccess: () => {
-                setGalleryData({ title: "", category: "", files: [], is_top_30: false });
+                setGalleryData({ title: "", category: "", files: [], is_top_30: false, top_30_category: "game" });
                 if (fileInputRef.current) fileInputRef.current.value = '';
             },
             onError: (errors) => setGalleryErrors(errors),
@@ -85,8 +89,10 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         }
     };
 
-    const handleToggleTop30 = (id) => {
-        router.post(route("admin.specializations.toggle-top30", id));
+    const handleToggleTop30 = (id, category = null) => {
+        router.post(route("admin.specializations.toggle-top30", id), {
+            top_30_category: category
+        });
     };
 
     return (
@@ -227,50 +233,89 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                         <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-xl">
                             <h3 className="text-lg font-semibold text-dark dark:text-light mb-4">Add Gallery Item(s)</h3>
                             <form onSubmit={handleGallerySubmit} className="space-y-6">
-                                <div className="grid md:grid-cols-3 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
-                                        <input
-                                            type="text"
-                                            value={galleryData.title}
-                                            onChange={(e) => setGalleryData(prev => ({ ...prev, title: e.target.value }))}
-                                            className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light"
-                                            placeholder="e.g. Project Alpha"
-                                        />
-                                        {galleryErrors.title && <p className="mt-1 text-xs text-red-500">{galleryErrors.title}</p>}
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    {/* Left: Basic Info */}
+                                    <div className="space-y-6">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">Project Title</label>
+                                            <input
+                                                type="text"
+                                                value={galleryData.title}
+                                                onChange={(e) => setGalleryData(prev => ({ ...prev, title: e.target.value }))}
+                                                className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light transition-all shadow-inner"
+                                                placeholder="e.g. Project Alpha"
+                                            />
+                                            {galleryErrors.title && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.title}</p>}
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">Major-Specific Category <span className="text-[10px] font-normal text-gray-400">(e.g. 3D Animation, Mobile App)</span></label>
+                                            <select
+                                                value={galleryData.category}
+                                                onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
+                                                className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light transition-all"
+                                            >
+                                                <option value="">Select Specialization Category</option>
+                                                {categories && categories.map((cat) => (
+                                                    <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                                ))}
+                                            </select>
+                                            {galleryErrors.category && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.category}</p>}
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-                                        <select
-                                            value={galleryData.category}
-                                            onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
-                                            className="w-full px-4 py-2.5 rounded-lg bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light"
-                                        >
-                                            <option value="">Select Category</option>
-                                            {categories && categories.map((cat) => (
-                                                <option key={cat.id} value={cat.name}>{cat.name}</option>
-                                            ))}
-                                        </select>
-                                        {galleryErrors.category && <p className="mt-1 text-xs text-red-500">{galleryErrors.category}</p>}
-                                    </div>
-                                    <div className="flex items-end pb-1">
-                                        <label className="flex items-center cursor-pointer group">
-                                            <div className="relative">
-                                                <input
-                                                    type="checkbox"
-                                                    className="sr-only"
-                                                    checked={galleryData.is_top_30}
-                                                    onChange={(e) => setGalleryData(prev => ({ ...prev, is_top_30: e.target.checked }))}
-                                                />
-                                                <div className={`w-10 h-5 rounded-full transition-colors ${galleryData.is_top_30 ? 'bg-purple' : 'bg-gray-300 dark:bg-white/10'}`}></div>
-                                                <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform ${galleryData.is_top_30 ? 'translate-x-5' : 'translate-x-0'}`}></div>
+
+                                    {/* Right: Hall of Fame Configuration */}
+                                    <div className="p-6 rounded-2xl bg-purple/5 border border-purple/10 space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h4 className="text-sm font-bold text-dark dark:text-light uppercase tracking-wider">Hall of Fame Entry?</h4>
+                                                <p className="text-xs text-gray-500 mt-1">Mark this as a Top 30 winning project.</p>
                                             </div>
-                                            <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-purple transition-colors">Top 30 Winner?</span>
-                                        </label>
+                                            <label className="flex items-center cursor-pointer group">
+                                                <div className="relative">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="sr-only"
+                                                        checked={galleryData.is_top_30}
+                                                        onChange={(e) => setGalleryData(prev => ({ ...prev, is_top_30: e.target.checked }))}
+                                                    />
+                                                    <div className={`w-12 h-6 rounded-full transition-colors ${galleryData.is_top_30 ? 'bg-purple shadow-[0_0_10px_rgba(139,92,246,0.3)]' : 'bg-gray-300 dark:bg-white/10'}`}></div>
+                                                    <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${galleryData.is_top_30 ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        {galleryData.is_top_30 && (
+                                            <div className="pt-4 border-t border-purple/10 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                <label className="block text-xs font-bold text-purple uppercase tracking-widest mb-4">Select Hall of Fame Type</label>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'game'}))}
+                                                        className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'game' 
+                                                            ? 'bg-purple border-purple text-white shadow-lg' 
+                                                            : 'bg-white dark:bg-black/20 border-gray-200 dark:border-white/10 text-gray-500 hover:border-purple/30'}`}
+                                                    >
+                                                        <span className="text-2xl">🎮</span>
+                                                        <span className="text-sm font-bold">GAME</span>
+                                                    </button>
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'website'}))}
+                                                        className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'website' 
+                                                            ? 'bg-purple border-purple text-white shadow-lg' 
+                                                            : 'bg-white dark:bg-black/20 border-gray-200 dark:border-white/10 text-gray-500 hover:border-purple/30'}`}
+                                                    >
+                                                        <span className="text-2xl">🌐</span>
+                                                        <span className="text-sm font-bold">WEBSITE</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
-                                {/* File picker area */}
+                            {/* File picker area */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Media Files (Images / Videos — select multiple)</label>
                                     <input
@@ -459,18 +504,35 @@ function CategorySection({ title, color, items, onDelete, onToggleTop30, isUncat
                             <h3 className="text-xl font-bold text-white">{item.title}</h3>
                         </div>
 
-                        <div className="absolute top-4 left-4 z-20">
-                            <button
-                                onClick={() => onToggleTop30(item.id)}
-                                className={`p-2 rounded-full backdrop-blur-md border transition-all ${item.is_top_30 
-                                    ? 'bg-yellow-500/80 border-yellow-400 text-white shadow-[0_0_10px_rgba(234,179,8,0.5)]' 
-                                    : 'bg-black/40 border-white/10 text-white/50 hover:text-white'}`}
-                                title={item.is_top_30 ? "Remove from Top 30" : "Mark as Top 30 Winner"}
-                            >
-                                <svg className={`w-4 h-4 ${item.is_top_30 ? 'fill-current' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                </svg>
-                            </button>
+                        <div className="absolute top-4 left-4 z-20 flex gap-2">
+                            {item.is_top_30 ? (
+                                <button
+                                    onClick={() => onToggleTop30(item.id)}
+                                    className="p-2 rounded-full bg-yellow-500 border border-yellow-400 text-white shadow-[0_0_10px_rgba(234,179,8,0.5)] transition-all"
+                                    title={`Remove from Top 30 (${item.top_30_category})`}
+                                >
+                                    <svg className="w-4 h-4 fill-current" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                    </svg>
+                                </button>
+                            ) : (
+                                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => onToggleTop30(item.id, 'game')}
+                                        className="px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white hover:bg-purple/80 transition-all"
+                                        title="Mark as Top Game"
+                                    >
+                                        + Game
+                                    </button>
+                                    <button
+                                        onClick={() => onToggleTop30(item.id, 'website')}
+                                        className="px-2 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white hover:bg-blue-500/80 transition-all"
+                                        title="Mark as Top Website"
+                                    >
+                                        + Web
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <button

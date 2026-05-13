@@ -66,10 +66,11 @@ class ShowcaseController extends Controller
 
         // One showcase entry for this title/category
         $showcase = ProgramShowcase::create([
-            'program'   => $program,
-            'title'     => $request->title,
-            'category'  => $request->category,
-            'is_top_30' => $request->boolean('is_top_30'),
+            'program'         => $program,
+            'title'           => $request->title,
+            'category'        => $request->category,
+            'is_top_30'       => $request->boolean('is_top_30'),
+            'top_30_category' => $request->top_30_category, // 'game' or 'website'
         ]);
 
         // Attach every uploaded file as a child image row
@@ -122,10 +123,15 @@ class ShowcaseController extends Controller
         return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 
-    public function toggleTop30($id)
+    public function toggleTop30(Request $request, $id)
     {
         $item            = ProgramShowcase::findOrFail($id);
         $item->is_top_30 = !$item->is_top_30;
+        
+        if ($request->has('top_30_category')) {
+            $item->top_30_category = $request->top_30_category;
+        }
+        
         $item->save();
 
         return redirect()->back()->with('success', 'Top 30 status updated.');
