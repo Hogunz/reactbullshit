@@ -44,12 +44,14 @@ export default function Top30Results({ winners }) {
                             </div>
                         </div>
 
-                        {/* Major Label */}
-                        <div className="absolute top-6 right-6 z-30">
-                            <div className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white">
-                                {winner.program}
+                        {/* Creator Label (Optional) */}
+                        {winner.creator_major && (
+                            <div className="absolute top-6 right-6 z-30">
+                                <div className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white">
+                                    {winner.creator_major}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Media Preview */}
                         {(() => {

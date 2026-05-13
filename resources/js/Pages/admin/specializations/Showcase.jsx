@@ -17,6 +17,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         files: [],
         is_top_30: false,
         top_30_category: "game", // Default to game if winner
+        creator_major: "", // Optional attribution
     });
     const [processingGallery, setProcessingGallery] = useState(false);
     const [galleryErrors, setGalleryErrors] = useState({});
@@ -40,6 +41,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         formData.append('is_top_30', galleryData.is_top_30 ? '1' : '0');
         if (galleryData.is_top_30) {
             formData.append('top_30_category', galleryData.top_30_category);
+            formData.append('creator_major', galleryData.creator_major);
         }
         galleryData.files.forEach((file) => {
             formData.append('files[]', file);
@@ -248,20 +250,22 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                             {galleryErrors.title && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.title}</p>}
                                         </div>
 
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">Major-Specific Category <span className="text-[10px] font-normal text-gray-400">(e.g. 3D Animation, Mobile App)</span></label>
-                                            <select
-                                                value={galleryData.category}
-                                                onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
-                                                className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light transition-all"
-                                            >
-                                                <option value="">Select Specialization Category</option>
-                                                {categories && categories.map((cat) => (
-                                                    <option key={cat.id} value={cat.name}>{cat.name}</option>
-                                                ))}
-                                            </select>
-                                            {galleryErrors.category && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.category}</p>}
-                                        </div>
+                                        {!galleryData.is_top_30 && (
+                                            <div className="animate-in fade-in duration-300">
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">Major-Specific Category <span className="text-[10px] font-normal text-gray-400">(e.g. 3D Animation, Mobile App)</span></label>
+                                                <select
+                                                    value={galleryData.category}
+                                                    onChange={(e) => setGalleryData(prev => ({ ...prev, category: e.target.value }))}
+                                                    className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light transition-all"
+                                                >
+                                                    <option value="">Select Specialization Category</option>
+                                                    {categories && categories.map((cat) => (
+                                                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                                    ))}
+                                                </select>
+                                                {galleryErrors.category && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.category}</p>}
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Right: Hall of Fame Configuration */}
@@ -309,6 +313,21 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                                         <span className="text-2xl">🌐</span>
                                                         <span className="text-sm font-bold">WEBSITE</span>
                                                     </button>
+                                                </div>
+
+                                                <div className="mt-6">
+                                                    <label className="block text-xs font-bold text-purple uppercase tracking-widest mb-2">Creator Major (Optional)</label>
+                                                    <select
+                                                        value={galleryData.creator_major}
+                                                        onChange={(e) => setGalleryData(prev => ({ ...prev, creator_major: e.target.value }))}
+                                                        className="w-full px-4 py-2 rounded-lg bg-white dark:bg-black/40 border border-purple/20 text-sm text-dark dark:text-light focus:ring-1 focus:ring-purple"
+                                                    >
+                                                        <option value="">I don't know yet</option>
+                                                        <option value="MMA">MMA (ITEM)</option>
+                                                        <option value="WMAD">WMAD (ITEW)</option>
+                                                        <option value="NICS">NICS (ITEN)</option>
+                                                        <option value="CSE">CSE</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         )}

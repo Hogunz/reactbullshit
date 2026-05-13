@@ -71,6 +71,7 @@ class ShowcaseController extends Controller
             'category'        => $request->category,
             'is_top_30'       => $request->boolean('is_top_30'),
             'top_30_category' => $request->top_30_category, // 'game' or 'website'
+            'creator_major'   => $request->creator_major,
         ]);
 
         // Attach every uploaded file as a child image row
