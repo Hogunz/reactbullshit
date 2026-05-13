@@ -22,26 +22,26 @@ export default function Top30Results({ winners }) {
         : generalGallery.filter(w => w.top_30_category?.toLowerCase() === galleryFilter.toLowerCase());
 
     const ProjectGrid = ({ items, title, subtitle, color = "bg-purple", isElite = false }) => (
-        <div className="mb-40">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 px-4 gap-8">
+        <div className="mb-24 md:mb-40">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-16 px-4 gap-6">
                 <div className="flex flex-col">
-                    <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-4 uppercase">
+                    <h2 className="text-3xl md:text-6xl font-black tracking-tight mb-2 md:mb-4 uppercase">
                         {title}
                     </h2>
-                    <div className={`w-24 h-2 ${color} mb-6`}></div>
-                    <p className="text-gray-500 text-lg max-w-2xl">{subtitle}</p>
+                    <div className={`w-16 md:w-24 h-1.5 md:h-2 ${color} mb-4 md:mb-6`}></div>
+                    <p className="text-gray-500 text-sm md:text-lg max-w-2xl">{subtitle}</p>
                 </div>
                 
                 {/* Filter Buttons for General Gallery */}
                 {!isElite && generalGallery.length > 0 && (
-                    <div className="flex bg-zinc-900/50 p-1.5 rounded-2xl border border-white/5 backdrop-blur-xl">
+                    <div className="flex bg-zinc-900/50 p-1 rounded-xl md:rounded-2xl border border-white/5 backdrop-blur-xl w-fit">
                         {["ALL", "GAME", "WEBSITE"].map((type) => (
                             <button
                                 key={type}
                                 onClick={() => setGalleryFilter(type)}
-                                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
                                     galleryFilter === type 
-                                    ? 'bg-purple text-white shadow-lg scale-105' 
+                                    ? 'bg-purple text-white shadow-lg' 
                                     : 'text-gray-500 hover:text-white'
                                 }`}
                             >
@@ -140,9 +140,8 @@ export default function Top30Results({ winners }) {
         <>
             <Head title="Top 30 Showcase | Hall of Fame" />
             <CustomCursor />
-            <NavBar />
-
             <div className="min-h-screen bg-[#070708] text-white selection:bg-purple selection:text-white relative overflow-x-hidden">
+                <NavBar isWelcomePage={true} />
                 {/* Sakura Background Layer */}
                 <SakuraBackground petalCount={25} />
 
@@ -158,13 +157,13 @@ export default function Top30Results({ winners }) {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 leading-none">
-                                TOP 30 <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple via-purple/50 to-white">
-                                    HALL OF FAME
-                                </span>
-                            </h1>
-                            <p className="text-gray-500 text-lg md:text-xl font-medium tracking-widest uppercase mb-12">Recognizing Student Excellence in Technology</p>
+                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 leading-none">
+                        TOP 30 <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple via-purple/50 to-white">
+                            HALL OF FAME
+                        </span>
+                    </h1>
+                    <p className="text-gray-500 text-sm md:text-xl font-medium tracking-widest uppercase mb-12">Recognizing Student Excellence</p>
                         </motion.div>
                     </div>
                 </section>

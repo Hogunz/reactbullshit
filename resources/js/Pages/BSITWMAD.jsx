@@ -119,8 +119,8 @@ function BSITWMAD({ video, galleryItems, categories }) {
         <>
             <Head title="BSIT WMAD" />
             <CustomCursor />
-            <NavBar />
             <div className="dark:bg-dark w-full">
+                <NavBar isWelcomePage={true} />
                 {" "}
                 <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] relative">
                     <div className="relative w-full lg:block hidden">

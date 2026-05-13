@@ -39,6 +39,22 @@ const SakuraPetal = () => {
 };
 
 export const SakuraBackground = ({ petalCount = 25 }) => {
+    const [adjustedCount, setAdjustedCount] = React.useState(petalCount);
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setAdjustedCount(Math.min(petalCount, 12)); // Fewer petals on mobile
+            } else {
+                setAdjustedCount(petalCount);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [petalCount]);
+
     return (
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
             {/* Atmospheric Gradients */}
@@ -47,7 +63,7 @@ export const SakuraBackground = ({ petalCount = 25 }) => {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(139,92,246,0.03),transparent_50%)]"></div>
             
             {/* Falling Petals */}
-            {[...Array(petalCount)].map((_, i) => (
+            {[...Array(adjustedCount)].map((_, i) => (
                 <SakuraPetal key={i} />
             ))}
         </div>

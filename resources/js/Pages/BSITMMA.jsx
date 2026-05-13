@@ -185,8 +185,8 @@ function BSITMMA({ video, galleryItems, categories }) {
         <>
             <Head title="BSIT MMA" />
             <CustomCursor />
-            <NavBar />
             <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden selection:bg-purple selection:text-white perspective-1000">
+                <NavBar isWelcomePage={true} />
 
                 {/* Dynamic Background */}
                 <div className="fixed inset-0 pointer-events-none z-0">
