@@ -135,6 +135,6 @@ class ShowcaseController extends Controller
         
         $item->save();
 
-        return redirect()->back()->with('success', 'Top 30 status updated.');
+        return redirect()->back()->with('success', 'Hall of Fame status updated.');
     }
 }

@@ -5,8 +5,8 @@ import React from "react";
 export default function Dashboard({ auth, siteSettings }) {
     const { data, setData, post, processing, recentlySuccessful } = useForm({
         show_sneak_peek: siteSettings?.show_sneak_peek || 'false',
-        sneak_peek_title: siteSettings?.sneak_peek_title || 'Top 30 Hall of Fame',
-        sneak_peek_subtitle: siteSettings?.sneak_peek_subtitle || 'The results are in! Explore the top 30 game and web applications developed by our talented IT students.',
+        sneak_peek_title: siteSettings?.sneak_peek_title || 'Hall of Fame',
+        sneak_peek_subtitle: siteSettings?.sneak_peek_subtitle || 'Explore the elite game and web applications developed by our talented IT students.',
         sneak_peek_video: null,
     });
 
@@ -46,7 +46,7 @@ export default function Dashboard({ auth, siteSettings }) {
                                             checked={data.show_sneak_peek === 'true'}
                                             onChange={(e) => setData('show_sneak_peek', e.target.checked ? 'true' : 'false')}
                                         />
-                                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">Show "Top 30 Showcase" Section on Homepage</span>
+                                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">Show "Hall of Fame" Section on Homepage</span>
                                     </label>
                                 </div>
                                 

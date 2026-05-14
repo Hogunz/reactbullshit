@@ -162,9 +162,9 @@ Route::get('/academics/bsit/NICS', function () {
     ]);
 });
 
-Route::get('/Top30', function () {
+Route::get('/HallOfFame', function () {
     $winners = ProgramShowcase::with('images')->get(); // Fetch all to handle elite + general gallery
-    return Inertia::render("Top30Results", [
+    return Inertia::render("HallOfFame", [
         'winners' => $winners
     ]);
 });

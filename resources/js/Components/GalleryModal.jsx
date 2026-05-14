@@ -181,8 +181,7 @@ export default function GalleryModal({ isOpen, onClose, initialItem, initialCate
                                 {currentEntry?.is_top_30 && (
                                     <div className="flex items-center gap-2 mb-4">
                                         <div className="px-3 py-1 rounded-full bg-yellow-500 text-black text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-[0_0_20px_rgba(234,179,8,0.4)]">
-                                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2h7.6l-6.2 4.5 2.4 7.2-6.2-4.5-6.2 4.5 2.4-7.2-6.2-4.5h7.6z"/></svg>
-                                            Top 30 Winner
+                                            Hall of Fame
                                         </div>
                                     </div>
                                 )}

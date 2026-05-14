@@ -111,8 +111,16 @@ export default function Welcome({
 
                 {siteSettings?.show_sneak_peek === 'true' && (
                     <SneakPeek
-                        title={siteSettings?.sneak_peek_title || 'Student Work Sneak Peek'}
-                        subtitle={siteSettings?.sneak_peek_subtitle || 'Get ready to experience the incredible game and web applications developed by our Programming 2 and Web Tech students.'}
+                        title={
+                            siteSettings?.sneak_peek_title?.includes('Hall of Fame') 
+                                ? siteSettings.sneak_peek_title.replace(/Top 30/gi, '').trim() 
+                                : siteSettings?.sneak_peek_title?.replace(/Top 30/gi, 'Hall of Fame') || 'Hall of Fame Showcase'
+                        }
+                        subtitle={
+                            siteSettings?.sneak_peek_subtitle?.includes('Hall of Fame')
+                                ? siteSettings.sneak_peek_subtitle.replace(/Top 30/gi, '').trim()
+                                : siteSettings?.sneak_peek_subtitle?.replace(/Top 30/gi, 'Hall of Fame') || 'Get ready to experience the incredible game and web applications developed by our talented students.'
+                        }
                         videoPath={siteSettings?.sneak_peek_video}
                     />
                 )}
