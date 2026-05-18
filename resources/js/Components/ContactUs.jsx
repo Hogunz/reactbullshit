@@ -79,7 +79,8 @@ const ContactUs = () => {
                                                     <PhoneIcon className="w-5 h-5" />
                                                 </div>
                                                 <h2 className="font-medium font-inter text-dark dark:text-light/90">
-                                                    (075) 522 2405
+                                                    {/* (075) 522 2405 */}
+                                                    (075) 523 2000 & (075)523 3000
                                                 </h2>
                                             </div>
                                         </div>
