@@ -17,86 +17,76 @@ export default function Events({ events = [] }) {
         <>
             <Head title="News & Events" />
             <CustomCursor />
-            <div className="dark:bg-dark w-full min-h-screen relative overflow-hidden">
+            <div className="bg-[#FDFDFC] dark:bg-[#080212] w-full min-h-screen relative overflow-hidden selection:bg-purple-500 selection:text-white">
                 <NavBar />
 
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+                {/* Deep Purple Ambient Lighting */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-50"></div>
+                    <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/10 dark:bg-fuchsia-900/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-40"></div>
+                </div>
 
-                <div className="relative z-10 pt-32 pb-20 lg:pt-52 lg:pb-32">
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32">
+                    <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
                         {/* Header */}
-                        <div className="text-center mb-16 lg:mb-24">
-                            <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
-                                Updated Content
-                            </h3>
-                            <h1 className="text-4xl lg:text-7xl font-extrabold text-dark dark:text-light mb-6">
-                                News & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Events</span>
+                        <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-24">
+                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-purple-50 dark:bg-white/5 border border-purple-100 dark:border-white/10 shadow-sm mb-6">
+                                <span className="text-sm font-bold text-purple-600 tracking-widest uppercase">Updated Content</span>
+                            </div>
+                            <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-6">
+                                News & <span className="text-purple-600 dark:text-purple-500">Events</span>
                             </h1>
+                            <p className="text-lg text-gray-600 dark:text-gray-400">
+                                Stay up to date with the latest stories, achievements, and announcements from our community.
+                            </p>
                         </div>
 
                         {/* Events Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                             {events.map((event) => (
-                                <div
+                                <Link
                                     key={event.id}
-                                    className="group relative flex flex-col h-full"
+                                    href={route("events.show", {
+                                        id: event.id,
+                                    })}
+                                    className="group flex flex-col bg-white dark:bg-[#0a0a0a] rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
                                 >
-                                    <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-2xl blur opacity-0 group-hover:opacity-50 transition duration-500"></div>
-                                    <div className="relative flex flex-col h-full bg-white/60 dark:bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20 shadow-xl transform transition-all duration-300 group-hover:-translate-y-2">
-                                        {/* Image */}
-                                        <Link
-                                            href={route("events.show", {
-                                                id: event.id,
-                                            })}
-                                            className="relative block h-64 overflow-hidden"
-                                        >
-                                            <img
-                                                className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                                                src={event.image?.startsWith('http') || event.image?.startsWith('/') ? event.image : "/storage/" + event.image}
-                                                alt={event.name}
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        </Link>
+                                    {/* Image */}
+                                    <div className="relative h-64 overflow-hidden border-b border-gray-100 dark:border-white/5">
+                                        <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                                        <img
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            src={event.image?.startsWith('http') || event.image?.startsWith('/') ? event.image : "/storage/" + event.image}
+                                            alt={event.name}
+                                        />
+                                    </div>
 
-                                        {/* Content */}
-                                        <div className="flex flex-col flex-grow p-6 sm:p-8">
-                                            <div className="flex-grow">
-                                                <p className="text-sm font-medium text-purple mb-3">
-                                                    {formatDate(event.created_at)}
-                                                </p>
-                                                <Link
-                                                    href={route("events.show", {
-                                                        id: event.id,
-                                                    })}
-                                                    className="block"
-                                                >
-                                                    <h3 className="text-xl font-bold text-dark dark:text-light mb-4 line-clamp-2 hover:text-purple dark:hover:text-purple transition-colors">
-                                                        {event.name}
-                                                    </h3>
-                                                </Link>
-                                                <div className="text-gray-600 dark:text-gray-300 line-clamp-3 text-sm leading-relaxed mb-6">
-                                                    <p dangerouslySetInnerHTML={{
-                                                        __html: event.content,
-                                                    }} />
-                                                </div>
-                                            </div>
+                                    {/* Content */}
+                                    <div className="flex flex-col flex-grow p-8">
+                                        <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-4">
+                                            <span className="text-purple-600 dark:text-purple-400">{event.category || 'News'}</span>
+                                            <span className="text-gray-400 dark:text-gray-500">&bull;</span>
+                                            <span className="text-gray-500 dark:text-gray-400">{formatDate(event.created_at)}</span>
+                                        </div>
+                                        
+                                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 mb-4 line-clamp-2">
+                                            {event.name}
+                                        </h3>
+                                        
+                                        <div className="text-gray-600 dark:text-gray-400 line-clamp-3 text-base leading-relaxed mb-6 flex-grow">
+                                            <p>
+                                                {(event.content || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')}
+                                            </p>
+                                        </div>
 
-                                            <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                                                <Link
-                                                    href={route("events.show", {
-                                                        id: event.id,
-                                                    })}
-                                                    className="inline-flex items-center gap-2 text-sm font-bold text-purple hover:text-fuchsia-600 transition-colors"
-                                                >
-                                                    Read More
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                                                </Link>
+                                        <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
+                                            <div className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                                Read Full Story
+                                                <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>
