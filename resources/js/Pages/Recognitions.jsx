@@ -44,10 +44,9 @@ export default function Recognitions() {
                     className="max-h-24 sm:max-h-28 max-w-[240px] sm:max-w-[280px] object-contain rounded-md"
                 />
             ),
-            header: "PICAB-Accredited Programs",
+            header: "PICAB-Accredited Program",
             subHeader: null,
             programs: [
-                "Computer Science",
                 "Information Technology"
             ],
             details: "Accredited by the Philippine Computing Accreditation Board (PICAB) under the Computing Accreditation Commission. PICAB accreditation aligns with the Seoul Accord, recognizing the substantial equivalence of computing degree programs internationally."
@@ -82,30 +81,36 @@ export default function Recognitions() {
                     </div>
 
                     {/* Recognition Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto items-stretch">
                         {recognitions.map((item, index) => (
                             <div
                                 key={item.id}
                                 data-aos="fade-up"
                                 data-aos-duration="800"
                                 data-aos-delay={index * 150}
-                                className="relative flex flex-col justify-between bg-white dark:bg-[#111111] rounded-2xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-gray-100 dark:border-white/5 min-h-[460px] transition-transform duration-300 hover:-translate-y-1"
+                                className="relative flex flex-col bg-white dark:bg-[#111111] rounded-2xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-gray-100 dark:border-white/5 min-h-[460px] transition-transform duration-300 hover:-translate-y-1"
                             >
-                                {/* Logo */}
-                                <div className="flex items-center justify-center h-44 w-full">
+                                {/* Fixed-height Logo Container */}
+                                <div className="flex items-center justify-center h-44 w-full mb-6 shrink-0">
                                     {item.logo}
                                 </div>
 
-                                {/* Text content */}
-                                <div className="flex flex-col items-center text-center my-6">
+                                {/* Text Content Container - Aligned to the top of this section */}
+                                <div className="flex flex-col items-center text-center flex-grow">
                                     <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                                         {item.header}
                                     </h3>
-                                    {item.subHeader && (
-                                        <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3">
-                                            {item.subHeader}
-                                        </p>
-                                    )}
+                                    
+                                    {/* Subheader slot with fixed minimum height for consistent alignment */}
+                                    <div className="min-h-[24px] flex items-center justify-center mb-3">
+                                        {item.subHeader ? (
+                                            <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                                {item.subHeader}
+                                            </p>
+                                        ) : null}
+                                    </div>
+
+                                    {/* Programs list */}
                                     <div className="space-y-1.5 text-sm sm:text-base text-gray-600 dark:text-gray-400 font-normal">
                                         {item.programs.map((prog, pIdx) => (
                                             <p key={pIdx}>{prog}</p>
@@ -113,8 +118,8 @@ export default function Recognitions() {
                                     </div>
                                 </div>
 
-                                {/* Learn More */}
-                                <div className="pt-4 flex items-center justify-start">
+                                {/* Learn More - Pinned to bottom */}
+                                <div className="pt-6 mt-6 border-t border-gray-50 dark:border-white/5 flex items-center justify-start shrink-0">
                                     <button
                                         onClick={() => setActiveModalItem(item)}
                                         className="inline-flex items-center gap-1.5 text-sm sm:text-base font-bold text-[#D9291C] dark:text-[#E85D3F] hover:opacity-80 transition-opacity uppercase tracking-wider cursor-pointer"
