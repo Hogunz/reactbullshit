@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { Menu, X, ChevronDown, LogOut } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
 import DarkMode from './DarkModeToggle';
 import { LogoIcon } from './svg/SVGicon';
 
 export function NavBar({ isWelcomePage = false }) {
+    const { auth } = usePage().props;
     const [isScrolled, setIsScrolled] = useState(!isWelcomePage);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -115,11 +116,35 @@ export function NavBar({ isWelcomePage = false }) {
                     </nav>
 
                     {/* Right Actions */}
-                    <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+                    <div className="hidden lg:flex items-center gap-3 xl:gap-4">
                         {/* Theme Toggle Button */}
                         <div className="flex items-center justify-center p-1 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-colors">
                             <DarkMode />
                         </div>
+
+                        {/* Admin Dashboard & Logout (Only visible if logged in) */}
+                        {auth?.user && (
+                            <div className="flex items-center gap-1.5">
+                                <Link
+                                    href="/dashboard"
+                                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full font-bold text-xs xl:text-sm bg-purple/10 dark:bg-purple-950/60 text-purple dark:text-purple-300 border border-purple/20 dark:border-purple-800/60 hover:bg-purple/20 dark:hover:bg-purple-900/60 transition-all shadow-sm hover:scale-105"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                    </svg>
+                                    <span>Dashboard</span>
+                                </Link>
+                                <Link
+                                    href={route('logout')}
+                                    method="post"
+                                    as="button"
+                                    className="inline-flex items-center justify-center p-2 rounded-full text-gray-400 hover:text-rose-600 dark:text-gray-400 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                                    title="Log Out"
+                                >
+                                    <LogOut className="w-4 h-4" />
+                                </Link>
+                            </div>
+                        )}
                         
                         {/* Enroll Button */}
                         <Link href="/Contact" className="px-6 py-2.5 rounded-full bg-purple dark:bg-white text-white dark:text-gray-900 font-bold text-sm hover:bg-purple-dark dark:hover:bg-gray-100 transition-colors shadow-lg shadow-purple/20 dark:shadow-none hover:-translate-y-0.5 active:translate-y-0 transform duration-200">
@@ -144,6 +169,31 @@ export function NavBar({ isWelcomePage = false }) {
             }`}>
                 <div className="flex flex-col h-full justify-center px-8 sm:px-12 pt-20 pb-12 overflow-y-auto">
                     <nav className="flex flex-col gap-6 text-center">
+                        {auth?.user && (
+                            <div className="flex flex-col gap-2">
+                                <Link
+                                    href="/dashboard"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-2xl bg-purple/10 dark:bg-purple-950/60 text-purple dark:text-purple-300 font-extrabold text-xl border border-purple/20 dark:border-purple-800/60 shadow-sm"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                    </svg>
+                                    <span>Dashboard</span>
+                                </Link>
+                                <Link
+                                    href={route('logout')}
+                                    method="post"
+                                    as="button"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="inline-flex items-center justify-center gap-2 py-2 px-6 rounded-xl text-rose-500 font-semibold text-sm hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
+                                >
+                                    <LogOut className="w-4 h-4" />
+                                    <span>Log Out</span>
+                                </Link>
+                            </div>
+                        )}
+
                         <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Home</Link>
                         
                         <div className="flex flex-col gap-4">

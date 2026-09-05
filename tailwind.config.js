@@ -16,11 +16,20 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                mont: ["var(--font-mont)"],
+                // Primary body & UI font
+                sans: ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
                 inter: ["Inter", "sans-serif"],
+                // Monospace for badges, tags, and code
+                mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
             },
             colors: {
-                dark: "#2b2b2b",
+                dark: {
+                    DEFAULT: "#2b2b2b",
+                    bg: "#080212",
+                    surface: "#120b20",
+                    elevated: "#1a102e",
+                    muted: "#2b2b2b",
+                },
                 purple: {
                     ...colors.purple,
                     DEFAULT: "#63307D",
@@ -28,9 +37,6 @@ export default {
                 light: "#f5f5f5",
             },
             listStyleType: {
-                none: "none",
-                disc: "disc",
-                decimal: "decimal",
                 square: "square",
                 roman: "upper-roman",
             },

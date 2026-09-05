@@ -1,6 +1,5 @@
 import { NavBar } from "@/Components/NavBar";
 import React from "react";
-import ButtonLink from "@/Components/ButtonLink";
 import CustomCursor from "@/Components/CustomCursor";
 import { Link, Head } from "@inertiajs/react";
 

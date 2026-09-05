@@ -170,12 +170,10 @@ Route::get('/academics/bsit/NICS', function () {
     ]);
 });
 
-Route::get('/HallOfFame', function () {
-    $winners = ProgramShowcase::with('images')->get(); // Fetch all to handle elite + general gallery
-    return Inertia::render("HallOfFame", [
-        'winners' => $winners
-    ]);
-});
+use App\Http\Controllers\CompetitionController;
+
+Route::get('/HallOfFame', [CompetitionController::class, 'publicIndex'])->name('halloffame');
+Route::resource('admin/competitions', CompetitionController::class)->names('competitions');
 
 Route::get('/Blogs', function (Request $request) {
 
@@ -206,36 +204,103 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/admin/settings', function (Request $request) {
         $data = $request->validate([
-            'show_sneak_peek' => 'required|string',
-            'sneak_peek_title' => 'required|string',
-            'sneak_peek_subtitle' => 'required|string',
+            'show_highlights' => 'nullable|string',
+            'show_sneak_peek' => 'nullable|string',
+            'highlight_badge' => 'nullable|string|max:100',
+            'highlight_title' => 'nullable|string|max:255',
+            'highlight_subtitle' => 'nullable|string|max:1000',
+            'highlight_button_text' => 'nullable|string|max:100',
+            'highlight_button_link' => 'nullable|string|max:255',
+            'highlight_media' => 'nullable|file|mimes:mp4,webm,ogg,jpg,jpeg,png,webp,gif|max:100000',
+            // Backwards compatibility
+            'sneak_peek_title' => 'nullable|string',
+            'sneak_peek_subtitle' => 'nullable|string',
             'sneak_peek_video' => 'nullable|file|mimes:mp4,webm,ogg|max:100000',
         ]);
         
-        if ($request->hasFile('sneak_peek_video')) {
+        // Normalize visibility flag
+        if (isset($data['show_highlights'])) {
+            $data['show_sneak_peek'] = $data['show_highlights'];
+        } elseif (isset($data['show_sneak_peek'])) {
+            $data['show_highlights'] = $data['show_sneak_peek'];
+        }
+
+        // Handle highlight media upload
+        if ($request->hasFile('highlight_media')) {
+            $file = $request->file('highlight_media');
+            $ext = strtolower($file->getClientOriginalExtension());
+            $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+            
+            $targetDir = public_path('uploads/highlights');
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            
+            $file->move($targetDir, $filename);
+            $mediaPath = '/uploads/highlights/' . $filename;
+            
+            $data['highlight_media_path'] = $mediaPath;
+            $data['highlight_media_type'] = in_array($ext, ['mp4', 'webm', 'ogg']) ? 'video' : 'image';
+            
+            if ($data['highlight_media_type'] === 'video') {
+                $data['sneak_peek_video'] = $mediaPath;
+            }
+            unset($data['highlight_media']);
+        } elseif ($request->hasFile('sneak_peek_video')) {
             $file = $request->file('sneak_peek_video');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/videos'), $filename);
+            $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+            $targetDir = public_path('uploads/videos');
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            $file->move($targetDir, $filename);
             $data['sneak_peek_video'] = '/uploads/videos/' . $filename;
+            $data['highlight_media_path'] = '/uploads/videos/' . $filename;
+            $data['highlight_media_type'] = 'video';
         }
 
         foreach ($data as $key => $value) {
-            SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
+            if ($value !== null) {
+                SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
+            }
         }
         
-        return redirect()->back()->with('success', 'Settings updated successfully.');
+        return redirect()->back()->with('success', 'Highlights settings updated successfully.');
     })->name('admin.settings.update');
+
+    Route::delete('/admin/settings/media', function () {
+        $keys = ['highlight_media_path', 'highlight_media_type', 'sneak_peek_video'];
+        foreach ($keys as $key) {
+            $setting = SiteSetting::where('key', $key)->first();
+            if ($setting && $setting->value) {
+                $path = public_path($setting->value);
+                if (file_exists($path) && is_file($path)) {
+                    @unlink($path);
+                }
+                $setting->delete();
+            }
+        }
+        return redirect()->back()->with('success', 'Media removed successfully.');
+    })->name('admin.settings.media.destroy');
 
     Route::delete('/admin/settings/video', function () {
         $setting = SiteSetting::where('key', 'sneak_peek_video')->first();
         if ($setting && $setting->value) {
             $path = public_path($setting->value);
-            if (file_exists($path)) {
-                unlink($path);
+            if (file_exists($path) && is_file($path)) {
+                @unlink($path);
             }
             $setting->delete();
         }
-        return redirect()->back()->with('success', 'Video removed successfully.');
+        $hSetting = SiteSetting::where('key', 'highlight_media_path')->first();
+        if ($hSetting) {
+            $hSetting->delete();
+        }
+        $tSetting = SiteSetting::where('key', 'highlight_media_type')->first();
+        if ($tSetting) {
+            $tSetting->delete();
+        }
+        return redirect()->back()->with('success', 'Media removed successfully.');
     })->name('admin.settings.video.destroy');
 });
 

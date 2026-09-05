@@ -13,23 +13,18 @@ import Instructors from "@/Components/Instructors";
 import Blogs from "@/Components/Blogs";
 import EnrollSpin from "@/Components/EnrollSpin";
 import Partnership from "@/Pages/Partnership";
-import LoadingScreen from "@/Components/LoadingScreen";
-import SneakPeek from "@/Components/SneakPeek";
+import Highlights from "@/Components/Highlights";
 import { Head } from "@inertiajs/react";
 import { SakuraBackground } from "@/Components/SakuraBackground";
 
 export default function Welcome({
     auth,
-    laravelVersion,
-    phpVersion,
     bscstestimonials,
     events,
     faculties,
     partners,
     siteSettings,
 }) {
-    const [isLoading, setIsLoading] = useState(true);
-    const [isHeroLoaded, setIsHeroLoaded] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
     const [owlFacing, setOwlFacing] = useState('right');
     const container = useRef(null);
@@ -90,9 +85,8 @@ export default function Welcome({
 
     return (
         <>
-            <Head title="Homepage" />
-            {isLoading && <LoadingScreen isHeroLoaded={isHeroLoaded} onFinished={() => setIsLoading(false)} />}
-            <div ref={container} className={`bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'} relative overflow-x-hidden`}>
+            <Head title="School of Information Technology Education | Universidad de Dagupan" />
+            <div ref={container} className="bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth relative overflow-x-hidden">
                 <SakuraBackground petalCount={20} />
 
                 {/* Global Flying Owl Asset */}
@@ -107,21 +101,17 @@ export default function Welcome({
                 />
 
                 <NavBar isWelcomePage={true} />
-                <HeroSection onHeroLoaded={() => setIsHeroLoaded(true)} />
+                <HeroSection />
 
-                {siteSettings?.show_sneak_peek === 'true' && (
-                    <SneakPeek
-                        title={
-                            siteSettings?.sneak_peek_title?.includes('Hall of Fame') 
-                                ? siteSettings.sneak_peek_title.replace(/Top 30/gi, '').trim() 
-                                : siteSettings?.sneak_peek_title?.replace(/Top 30/gi, 'Hall of Fame') || 'Hall of Fame Showcase'
-                        }
-                        subtitle={
-                            siteSettings?.sneak_peek_subtitle?.includes('Hall of Fame')
-                                ? siteSettings.sneak_peek_subtitle.replace(/Top 30/gi, '').trim()
-                                : siteSettings?.sneak_peek_subtitle?.replace(/Top 30/gi, 'Hall of Fame') || 'Get ready to experience the incredible game and web applications developed by our talented students.'
-                        }
-                        videoPath={siteSettings?.sneak_peek_video}
+                {(siteSettings?.show_highlights === 'true' || siteSettings?.show_sneak_peek === 'true') && (
+                    <Highlights
+                        badge={siteSettings?.highlight_badge !== undefined ? siteSettings.highlight_badge : 'FEATURED SPOTLIGHT'}
+                        title={siteSettings?.highlight_title || siteSettings?.sneak_peek_title || 'Hall of Fame Showcase'}
+                        subtitle={siteSettings?.highlight_subtitle || siteSettings?.sneak_peek_subtitle || 'The results are in! Explore the elite game and web applications developed by our talented IT students.'}
+                        buttonText={siteSettings?.highlight_button_text || 'Enter the Showcase'}
+                        buttonLink={siteSettings?.highlight_button_link || '/HallOfFame'}
+                        mediaPath={siteSettings?.highlight_media_path || siteSettings?.sneak_peek_video || null}
+                        mediaType={siteSettings?.highlight_media_type || 'video'}
                     />
                 )}
 

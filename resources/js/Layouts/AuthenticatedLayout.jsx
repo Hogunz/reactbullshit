@@ -20,17 +20,50 @@ export default function Authenticated({ user, header, children }) {
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-6 sm:-my-px sm:ml-8 lg:space-x-8 sm:flex">
                                 <NavLink
                                     href={route("dashboard")}
                                     active={route().current("dashboard")}
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    href={route("events.index")}
+                                    active={route().current("events.*")}
+                                >
+                                    News & Events
+                                </NavLink>
+                                <NavLink
+                                    href={route("competitions.index")}
+                                    active={route().current("competitions.*")}
+                                >
+                                    Hall of Fame
+                                </NavLink>
+                                <NavLink
+                                    href={route("faculties.index")}
+                                    active={route().current("faculties.*")}
+                                >
+                                    Faculty
+                                </NavLink>
+                                <NavLink
+                                    href={route("partners.index")}
+                                    active={route().current("partners.*")}
+                                >
+                                    Partners
+                                </NavLink>
                             </div>
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center sm:ml-6">
+                        <div className="hidden sm:flex sm:items-center sm:ml-6 gap-2">
+                            <Link
+                                href="/"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-purple dark:hover:text-purple-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                            >
+                                <span>Public Site</span>
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </Link>
                             <div className="ml-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -72,6 +105,11 @@ export default function Authenticated({ user, header, children }) {
                                             href={route("events.index")}
                                         >
                                             News & Events
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("competitions.index")}
+                                        >
+                                            Hall of Fame (Competitions)
                                         </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("bscstestimonials.index")}
@@ -172,6 +210,33 @@ export default function Authenticated({ user, header, children }) {
                         >
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("events.index")}
+                            active={route().current("events.*")}
+                        >
+                            News & Events
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("competitions.index")}
+                            active={route().current("competitions.*")}
+                        >
+                            Hall of Fame
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("faculties.index")}
+                            active={route().current("faculties.*")}
+                        >
+                            Faculty
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("partners.index")}
+                            active={route().current("partners.*")}
+                        >
+                            Partners
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href="/">
+                            ← Public Site
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -190,6 +255,9 @@ export default function Authenticated({ user, header, children }) {
                             </ResponsiveNavLink>
                             <ResponsiveNavLink href={route("events.index")}>
                                 News & Events
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route("competitions.index")}>
+                                Hall of Fame (Competitions)
                             </ResponsiveNavLink>
                             <ResponsiveNavLink href={route("faculties.index")}>
                                 Faculty

@@ -76,7 +76,7 @@ export default function Recognitions() {
                             Academics
                         </h3>
                         <h1 className="text-4xl lg:text-6xl font-extrabold text-dark dark:text-light">
-                            Recognitions & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Accreditations</span>
+                            Recognitions & <span className="text-purple">Accreditations</span>
                         </h1>
                     </div>
 

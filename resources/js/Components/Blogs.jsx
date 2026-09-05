@@ -41,7 +41,7 @@ export default function Blogs({ events = [] }) {
         date: new Date(events[0].created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         title: events[0].name,
         excerpt: (events[0].content || '').replace(/<[^>]+>/g, '').substring(0, 150) + '...',
-        imageUrl: events[0].image || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+        imageUrl: events[0].image ? (events[0].image.startsWith('http') || events[0].image.startsWith('/') ? events[0].image : `/storage/${events[0].image}`) : featuredArticle.imageUrl,
         id: events[0].id
     } : featuredArticle;
 
@@ -130,7 +130,7 @@ export default function Blogs({ events = [] }) {
                 <div className="news-grid grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
                     {/* Left Column: Featured Hero Article (60% width) */}
-                    <Link href={`/events/${displayFeatured.id}`} className="news-featured lg:col-span-7 group block">
+                    <Link href={displayFeatured.id ? `/events/${displayFeatured.id}` : '/News&Events'} className="news-featured lg:col-span-7 group block">
                         <div className="relative overflow-hidden rounded-3xl aspect-[4/3] mb-8 shadow-2xl border border-gray-100 dark:border-white/5">
                             <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10"></div>
                             <img
@@ -163,7 +163,7 @@ export default function Blogs({ events = [] }) {
                         <div className="border-t-2 border-gray-900 dark:border-white mb-2"></div>
 
                         {displayNewsList.map((news, i) => (
-                            <Link href={`/events/${news.id || 1}`} key={i} className="news-list-item group flex flex-col py-8 border-b border-gray-200 dark:border-white/10 block">
+                            <Link href={news.id ? `/events/${news.id}` : '/News&Events'} key={i} className="news-list-item group flex flex-col py-8 border-b border-gray-200 dark:border-white/10 block">
                                 <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-3">
                                     <span className="text-blue-600 dark:text-blue-400">{news.category}</span>
                                     <span className="text-gray-400 dark:text-gray-500">&bull;</span>
