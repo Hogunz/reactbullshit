@@ -38,9 +38,19 @@ export default function Academics() {
                         <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
                             Academics
                         </h3>
-                        <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light">
+                        <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light mb-4">
                             Program <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Description</span>
                         </h1>
+                        <div className="flex justify-center mt-3">
+                            <Link
+                                href="/Recognitions"
+                                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple/10 dark:bg-white/10 hover:bg-purple/20 dark:hover:bg-white/20 border border-purple/20 dark:border-white/10 text-purple dark:text-purple-300 text-xs sm:text-sm font-semibold transition-all shadow-sm hover:scale-105"
+                            >
+                                <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                                <span>🏆 PICAB Accredited (Seoul Accord) & Recognitions</span>
+                                <span>&rarr;</span>
+                            </Link>
+                        </div>
                     </div>
 
                     {/* BSIT Section */}

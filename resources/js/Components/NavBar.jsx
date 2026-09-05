@@ -93,6 +93,9 @@ export function NavBar({ isWelcomePage = false }) {
                                     <Link href="/Faculty" className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white hover:bg-purple/10 dark:hover:bg-white/5 transition-colors">
                                         Faculty
                                     </Link>
+                                    <Link href="/Recognitions" className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white hover:bg-purple/10 dark:hover:bg-white/5 transition-colors">
+                                        Recognitions
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -156,6 +159,7 @@ export function NavBar({ isWelcomePage = false }) {
                             <div className="flex flex-col gap-3">
                                 <Link href="/ProgramDescription" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-gray-500 dark:text-gray-400 hover:text-purple dark:hover:text-purple-light">Programs</Link>
                                 <Link href="/Faculty" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-gray-500 dark:text-gray-400 hover:text-purple dark:hover:text-purple-light">Faculty</Link>
+                                <Link href="/Recognitions" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-gray-500 dark:text-gray-400 hover:text-purple dark:hover:text-purple-light">Recognitions</Link>
                             </div>
                         </div>
 

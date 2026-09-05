@@ -71,7 +71,7 @@ export default function BlogDescription({ events = [] }) {
                                 __html: events.content.replace(
                                     /(background(?:-color)?:\s*[^;]+;)|(color:\s*[^;]+;)/gi,
                                     "",
-                                ), // Removes inline background and text colors
+                                ), // Remo ves inline background and text colors
                             }}
                         />
                     </article>

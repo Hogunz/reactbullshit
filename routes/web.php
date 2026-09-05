@@ -112,6 +112,14 @@ Route::get('/History', function () {
     return Inertia::render("History");
 });
 
+Route::get('/Recognitions', function () {
+    return Inertia::render("Recognitions");
+});
+
+Route::get('/academics/recognitions', function () {
+    return Inertia::render("Recognitions");
+});
+
 Route::get('/VMO', function () {
     return Inertia::render("VMO");
 });
