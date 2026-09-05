@@ -14,7 +14,10 @@ import {
     Calendar,
     AlertCircle,
     CheckCircle2,
-    Film
+    Film,
+    Plus,
+    Layers,
+    Trash2
 } from "lucide-react";
 
 export default function Edit({ competition }) {
@@ -28,6 +31,7 @@ export default function Edit({ competition }) {
         coach: competition.coach || "",
         content: competition.content || "",
         media: null,
+        gallery: [],
         status: competition.status || "active",
         _method: "PUT",
     });
@@ -40,8 +44,74 @@ export default function Edit({ competition }) {
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef(null);
 
+    // Gallery state
+    const [galleryFiles, setGalleryFiles] = useState([]);
+    const [galleryPreviews, setGalleryPreviews] = useState([]);
+    const [galleryError, setGalleryError] = useState(null);
+    const [isGalleryDragging, setIsGalleryDragging] = useState(false);
+    const galleryInputRef = useRef(null);
+
     const MAX_IMAGE_SIZE_MB = 20;
     const MAX_VIDEO_SIZE_MB = 100;
+
+    const handleGalleryFiles = (filesList) => {
+        setGalleryError(null);
+        const newFiles = Array.from(filesList);
+        const validFiles = [];
+        const newPreviews = [];
+
+        for (const file of newFiles) {
+            const isVideo = file.type.startsWith("video/") || /\.(mp4|webm|mov|ogg|m4v)$/i.test(file.name);
+            const isImage = file.type.startsWith("image/") || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(file.name);
+
+            if (!isImage && !isVideo) {
+                setGalleryError(`"${file.name}" is not a supported image or video format.`);
+                continue;
+            }
+
+            const sizeMB = file.size / (1024 * 1024);
+            const limitMB = isVideo ? MAX_VIDEO_SIZE_MB : MAX_IMAGE_SIZE_MB;
+            if (sizeMB > limitMB) {
+                setGalleryError(`"${file.name}" (${sizeMB.toFixed(1)} MB) exceeds the ${limitMB} MB limit.`);
+                continue;
+            }
+
+            validFiles.push(file);
+            newPreviews.push({
+                file,
+                url: URL.createObjectURL(file),
+                type: isVideo ? "video" : "image",
+                name: file.name,
+                size: `${sizeMB.toFixed(1)} MB`,
+            });
+        }
+
+        setGalleryFiles((prev) => {
+            const updated = [...prev, ...validFiles];
+            setData("gallery", updated);
+            return updated;
+        });
+
+        setGalleryPreviews((prev) => [...prev, ...newPreviews]);
+        if (galleryInputRef.current) galleryInputRef.current.value = "";
+    };
+
+    const removeNewGalleryFile = (index) => {
+        setGalleryFiles((prev) => {
+            const updated = prev.filter((_, i) => i !== index);
+            setData("gallery", updated);
+            return updated;
+        });
+        setGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const handleDeleteExistingGallery = (id) => {
+        if (confirm("Are you sure you want to permanently delete this gallery item?")) {
+            router.delete(route("competitions.gallery.destroy", id), {
+                preserveScroll: true,
+            });
+        }
+    };
 
     const validateAndSetMedia = (file) => {
         setFileError(null);
@@ -417,6 +487,234 @@ export default function Edit({ competition }) {
                                 </div>
 
                                 {errors.media && <p className="text-xs text-red-500 mt-1.5 font-semibold">{errors.media}</p>}
+                            </div>
+
+                            {/* Gallery Management (Existing & New Uploads) */}
+                            <div className="pt-4 border-t border-gray-100 dark:border-gray-800 space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Layers className="w-4 h-4 text-purple" />
+                                        <InputLabel>Competition Gallery (Multiple Images & Videos)</InputLabel>
+                                    </div>
+                                    <span className="text-[11px] text-gray-400 font-medium">Optional</span>
+                                </div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Manage existing gallery assets or upload additional competition photos, presentation slides, certificates, and demo videos.
+                                </p>
+
+                                {/* Existing Gallery Grid */}
+                                {competition.gallery && competition.gallery.length > 0 && (
+                                    <div className="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 space-y-3">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                                Active Gallery Assets ({competition.gallery.length})
+                                            </span>
+                                            <span className="text-[10px] text-gray-400">
+                                                Click trash icon to permanently remove
+                                            </span>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                            {competition.gallery.map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-zinc-950 aspect-video flex items-center justify-center shadow-sm"
+                                                >
+                                                    {/* Blurred backdrop for orientation flexibility */}
+                                                    {item.media_type === "video" ? (
+                                                        <video
+                                                            src={item.media_path}
+                                                            aria-hidden="true"
+                                                            className="absolute inset-0 w-full h-full object-cover blur-lg opacity-40 pointer-events-none"
+                                                            muted
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={item.media_path}
+                                                            alt=""
+                                                            aria-hidden="true"
+                                                            className="absolute inset-0 w-full h-full object-cover blur-lg opacity-40 pointer-events-none"
+                                                        />
+                                                    )}
+
+                                                    {/* Foreground media */}
+                                                    {item.media_type === "video" ? (
+                                                        <div className="relative z-10 w-full h-full flex items-center justify-center">
+                                                            <video
+                                                                src={item.media_path}
+                                                                className="max-h-full max-w-full object-contain"
+                                                                muted
+                                                            />
+                                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none">
+                                                                <Video className="w-5 h-5 text-white drop-shadow" />
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <img
+                                                            src={item.media_path}
+                                                            alt="Gallery Item"
+                                                            className="relative z-10 max-h-full max-w-full object-contain p-1"
+                                                        />
+                                                    )}
+
+                                                    {/* Type Badge */}
+                                                    <span className="absolute bottom-1.5 left-1.5 z-20 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur text-white text-[9px] font-bold uppercase tracking-wider">
+                                                        {item.media_type}
+                                                    </span>
+
+                                                    {/* Delete Button */}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDeleteExistingGallery(item.id)}
+                                                        className="absolute top-1.5 right-1.5 z-20 p-1.5 rounded-full bg-red-600/90 text-white hover:bg-red-700 shadow-md transition-all hover:scale-110"
+                                                        title="Delete from gallery"
+                                                    >
+                                                        <Trash2 className="w-3.5 h-3.5" />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Gallery Error Banner */}
+                                {galleryError && (
+                                    <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 flex items-center justify-between gap-3 text-xs animate-fadeIn">
+                                        <div className="flex items-center gap-2">
+                                            <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                                            <span>{galleryError}</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => setGalleryError(null)}
+                                            className="p-1 rounded-lg hover:bg-red-500/20 text-red-500 transition-colors"
+                                        >
+                                            <X className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Upload New Gallery Items Dropzone */}
+                                <div
+                                    onClick={() => galleryInputRef.current?.click()}
+                                    onDragOver={(e) => { e.preventDefault(); setIsGalleryDragging(true); }}
+                                    onDragLeave={() => setIsGalleryDragging(false)}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        setIsGalleryDragging(false);
+                                        if (e.dataTransfer.files?.length) {
+                                            handleGalleryFiles(e.dataTransfer.files);
+                                        }
+                                    }}
+                                    className={`border-2 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all ${
+                                        isGalleryDragging
+                                            ? "border-purple bg-purple/10 scale-[1.01]"
+                                            : "border-gray-300 dark:border-gray-700 hover:border-purple bg-gray-50/50 dark:bg-gray-800/30 hover:bg-purple/5"
+                                    }`}
+                                >
+                                    <div className="w-11 h-11 rounded-xl bg-purple/10 flex items-center justify-center text-purple mb-2">
+                                        <Plus className="w-5 h-5" />
+                                    </div>
+                                    <p className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200 text-center">
+                                        Upload more images or videos to gallery
+                                    </p>
+                                    <p className="text-[11px] text-gray-400 mt-1">
+                                        Images up to 20MB &bull; Videos up to 100MB
+                                    </p>
+                                    <input
+                                        ref={galleryInputRef}
+                                        type="file"
+                                        multiple
+                                        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,video/mp4,video/webm,video/quicktime,video/ogg"
+                                        onChange={(e) => {
+                                            if (e.target.files?.length) {
+                                                handleGalleryFiles(e.target.files);
+                                            }
+                                        }}
+                                        className="hidden"
+                                    />
+                                </div>
+
+                                {/* Newly Selected Gallery Items */}
+                                {galleryPreviews.length > 0 && (
+                                    <div className="mt-4">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                                New Items to Upload ({galleryPreviews.length})
+                                            </span>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setGalleryFiles([]);
+                                                    setGalleryPreviews([]);
+                                                    setData("gallery", []);
+                                                }}
+                                                className="text-[11px] text-red-500 hover:underline font-semibold"
+                                            >
+                                                Clear all
+                                            </button>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                            {galleryPreviews.map((item, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="group relative rounded-xl overflow-hidden border border-purple/30 bg-zinc-950 aspect-video flex items-center justify-center shadow-sm ring-1 ring-purple/20"
+                                                >
+                                                    {item.type === "video" ? (
+                                                        <video
+                                                            src={item.url}
+                                                            aria-hidden="true"
+                                                            className="absolute inset-0 w-full h-full object-cover blur-lg opacity-40 pointer-events-none"
+                                                            muted
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={item.url}
+                                                            alt=""
+                                                            aria-hidden="true"
+                                                            className="absolute inset-0 w-full h-full object-cover blur-lg opacity-40 pointer-events-none"
+                                                        />
+                                                    )}
+
+                                                    {item.type === "video" ? (
+                                                        <div className="relative z-10 w-full h-full flex items-center justify-center">
+                                                            <video
+                                                                src={item.url}
+                                                                className="max-h-full max-w-full object-contain"
+                                                                muted
+                                                            />
+                                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none">
+                                                                <Video className="w-5 h-5 text-white drop-shadow" />
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <img
+                                                            src={item.url}
+                                                            alt={item.name}
+                                                            className="relative z-10 max-h-full max-w-full object-contain p-1"
+                                                        />
+                                                    )}
+
+                                                    <span className="absolute bottom-1.5 left-1.5 z-20 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur text-white text-[9px] font-bold uppercase tracking-wider">
+                                                        New {item.type}
+                                                    </span>
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeNewGalleryFile(idx)}
+                                                        className="absolute top-1.5 right-1.5 z-20 p-1 rounded-full bg-red-600/90 text-white hover:bg-red-700 shadow transition-colors"
+                                                        title="Remove from upload queue"
+                                                    >
+                                                        <X className="w-3.5 h-3.5" />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {errors["gallery"] && <p className="text-xs text-red-500 mt-1.5 font-semibold">{errors["gallery"]}</p>}
                             </div>
 
                             {/* Status */}

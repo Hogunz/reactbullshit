@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\CompetitionMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,12 +18,12 @@ class CompetitionController extends Controller
     }
 
     /**
-     * Public Hall of Fame view.
+     * Public Hall of Fame view with full gallery items.
      */
     public function publicIndex()
     {
         $competitions = Competition::where('status', 'active')
-            ->with('user')
+            ->with(['user', 'gallery'])
             ->orderByRaw('COALESCE(event_date, created_at) DESC')
             ->get();
 
@@ -36,7 +37,7 @@ class CompetitionController extends Controller
      */
     public function index()
     {
-        $competitions = Competition::with('user')
+        $competitions = Competition::with(['user', 'gallery'])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -54,7 +55,7 @@ class CompetitionController extends Controller
     }
 
     /**
-     * Store new competition entry.
+     * Store new competition entry with optional gallery.
      */
     public function store(Request $request)
     {
@@ -68,10 +69,14 @@ class CompetitionController extends Controller
             'coach' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'media' => 'nullable|file|mimes:jpeg,png,jpg,webp,gif,svg,mp4,webm,mov,ogg,quicktime|max:102400',
+            'gallery' => 'nullable|array',
+            'gallery.*' => 'nullable|file|mimes:jpeg,png,jpg,webp,gif,svg,mp4,webm,mov,ogg,quicktime|max:102400',
             'status' => 'required|in:active,inactive',
         ], [
-            'media.max' => 'The uploaded file exceeds the 100MB limit.',
-            'media.mimes' => 'The media file must be a valid image (JPG, PNG, WebP, GIF, SVG) or video (MP4, WebM, MOV).',
+            'media.max' => 'The cover file exceeds the 100MB limit.',
+            'media.mimes' => 'The cover must be a valid image (JPG, PNG, WebP, GIF, SVG) or video (MP4, WebM, MOV).',
+            'gallery.*.max' => 'A gallery file exceeds the 100MB limit.',
+            'gallery.*.mimes' => 'Gallery files must be valid images or videos.',
         ]);
 
         if ($request->hasFile('media')) {
@@ -81,7 +86,7 @@ class CompetitionController extends Controller
             $extension = $file->getClientOriginalExtension() ?: ($isVideo ? 'mp4' : 'jpg');
             $filename = Str::random(40) . '.' . $extension;
 
-            Storage::disk('public')->putFileAs('competitions', $file, $filename);
+            $file->storeAs('competitions', $filename, 'public');
 
             $validated['media_type'] = $isVideo ? 'video' : 'image';
             $validated['media_path'] = '/storage/competitions/' . $filename;
@@ -89,9 +94,42 @@ class CompetitionController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        Competition::create($validated);
+        $competition = Competition::create($validated);
 
-        return redirect()->route('competitions.index')->with('success', 'Competition entry created successfully.');
+        // Store gallery items if provided
+        if ($request->hasFile('gallery')) {
+            $galleryFiles = $request->file('gallery');
+            foreach ($galleryFiles as $idx => $gFile) {
+                if (!$gFile || !$gFile->isValid()) continue;
+
+                $gMime = $gFile->getMimeType();
+                $gIsVideo = str_starts_with($gMime, 'video/');
+                $gExt = $gFile->getClientOriginalExtension() ?: ($gIsVideo ? 'mp4' : 'jpg');
+                $gFilename = Str::random(40) . '.' . $gExt;
+
+                $gFile->storeAs('competitions/gallery', $gFilename, 'public');
+
+                CompetitionMedia::create([
+                    'competition_id' => $competition->id,
+                    'media_path' => '/storage/competitions/gallery/' . $gFilename,
+                    'media_type' => $gIsVideo ? 'video' : 'image',
+                    'sort_order' => $idx,
+                ]);
+            }
+        }
+
+        // If no primary cover was uploaded but gallery items exist, adopt first gallery item as cover
+        if (!$competition->media_path) {
+            $firstGallery = $competition->gallery()->first();
+            if ($firstGallery) {
+                $competition->update([
+                    'media_path' => $firstGallery->media_path,
+                    'media_type' => $firstGallery->media_type,
+                ]);
+            }
+        }
+
+        return redirect()->route('competitions.index')->with('success', 'Competition entry and gallery created successfully.');
     }
 
     /**
@@ -99,13 +137,15 @@ class CompetitionController extends Controller
      */
     public function edit(Competition $competition)
     {
+        $competition->load('gallery');
+
         return Inertia::render('admin/competitions/Edit', [
             'competition' => $competition,
         ]);
     }
 
     /**
-     * Update existing competition entry.
+     * Update existing competition entry and append new gallery items.
      */
     public function update(Request $request, Competition $competition)
     {
@@ -119,14 +159,18 @@ class CompetitionController extends Controller
             'coach' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'media' => 'nullable|file|mimes:jpeg,png,jpg,webp,gif,svg,mp4,webm,mov,ogg,quicktime|max:102400',
+            'gallery' => 'nullable|array',
+            'gallery.*' => 'nullable|file|mimes:jpeg,png,jpg,webp,gif,svg,mp4,webm,mov,ogg,quicktime|max:102400',
             'status' => 'required|in:active,inactive',
         ], [
-            'media.max' => 'The uploaded file exceeds the 100MB limit.',
-            'media.mimes' => 'The media file must be a valid image (JPG, PNG, WebP, GIF, SVG) or video (MP4, WebM, MOV).',
+            'media.max' => 'The cover file exceeds the 100MB limit.',
+            'media.mimes' => 'The cover must be a valid image (JPG, PNG, WebP, GIF, SVG) or video (MP4, WebM, MOV).',
+            'gallery.*.max' => 'A gallery file exceeds the 100MB limit.',
+            'gallery.*.mimes' => 'Gallery files must be valid images or videos.',
         ]);
 
         if ($request->hasFile('media')) {
-            // Remove old media if exists
+            // Remove old cover media if exists
             if ($competition->media_path) {
                 $oldPath = str_replace('/storage/', '', $competition->media_path);
                 Storage::disk('public')->delete($oldPath);
@@ -138,7 +182,7 @@ class CompetitionController extends Controller
             $extension = $file->getClientOriginalExtension() ?: ($isVideo ? 'mp4' : 'jpg');
             $filename = Str::random(40) . '.' . $extension;
 
-            Storage::disk('public')->putFileAs('competitions', $file, $filename);
+            $file->storeAs('competitions', $filename, 'public');
 
             $validated['media_type'] = $isVideo ? 'video' : 'image';
             $validated['media_path'] = '/storage/competitions/' . $filename;
@@ -146,17 +190,75 @@ class CompetitionController extends Controller
 
         $competition->update($validated);
 
+        // Append new gallery items if uploaded
+        if ($request->hasFile('gallery')) {
+            $currentMaxOrder = $competition->gallery()->max('sort_order') ?? 0;
+            $galleryFiles = $request->file('gallery');
+            foreach ($galleryFiles as $idx => $gFile) {
+                if (!$gFile || !$gFile->isValid()) continue;
+
+                $gMime = $gFile->getMimeType();
+                $gIsVideo = str_starts_with($gMime, 'video/');
+                $gExt = $gFile->getClientOriginalExtension() ?: ($gIsVideo ? 'mp4' : 'jpg');
+                $gFilename = Str::random(40) . '.' . $gExt;
+
+                $gFile->storeAs('competitions/gallery', $gFilename, 'public');
+
+                CompetitionMedia::create([
+                    'competition_id' => $competition->id,
+                    'media_path' => '/storage/competitions/gallery/' . $gFilename,
+                    'media_type' => $gIsVideo ? 'video' : 'image',
+                    'sort_order' => $currentMaxOrder + $idx + 1,
+                ]);
+            }
+        }
+
+        // Ensure there is a cover if gallery items exist
+        if (!$competition->media_path) {
+            $firstGallery = $competition->gallery()->first();
+            if ($firstGallery) {
+                $competition->update([
+                    'media_path' => $firstGallery->media_path,
+                    'media_type' => $firstGallery->media_type,
+                ]);
+            }
+        }
+
         return redirect()->route('competitions.index')->with('success', 'Competition entry updated successfully.');
     }
 
     /**
-     * Delete competition entry.
+     * Delete an individual gallery item.
+     */
+    public function destroyGalleryItem(int|string $id)
+    {
+        $item = CompetitionMedia::findOrFail($id);
+
+        if ($item->media_path) {
+            $oldPath = str_replace('/storage/', '', $item->media_path);
+            Storage::disk('public')->delete($oldPath);
+        }
+
+        $item->delete();
+
+        return redirect()->back()->with('success', 'Gallery item deleted successfully.');
+    }
+
+    /**
+     * Delete competition entry and all its gallery files.
      */
     public function destroy(Competition $competition)
     {
         if ($competition->media_path) {
             $oldPath = str_replace('/storage/', '', $competition->media_path);
             Storage::disk('public')->delete($oldPath);
+        }
+
+        foreach ($competition->gallery as $galleryItem) {
+            if ($galleryItem->media_path) {
+                $gPath = str_replace('/storage/', '', $galleryItem->media_path);
+                Storage::disk('public')->delete($gPath);
+            }
         }
 
         $competition->delete();

@@ -124,6 +124,11 @@ export default function Index({ competitions = [] }) {
                                                         ) : (
                                                             <ImageIcon className="w-5 h-5 text-gray-400" />
                                                         )}
+                                                        {comp.gallery && comp.gallery.length > 0 && (
+                                                            <span className="absolute bottom-1 right-1 z-10 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur text-white text-[9px] font-bold">
+                                                                +{comp.gallery.length}
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </td>
 

@@ -32,4 +32,12 @@ class Competition extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Gallery media items (images and videos) for this competition.
+     */
+    public function gallery()
+    {
+        return $this->hasMany(CompetitionMedia::class)->orderBy('sort_order')->orderBy('id');
+    }
 }

@@ -174,6 +174,7 @@ use App\Http\Controllers\CompetitionController;
 
 Route::get('/HallOfFame', [CompetitionController::class, 'publicIndex'])->name('halloffame');
 Route::resource('admin/competitions', CompetitionController::class)->names('competitions');
+Route::delete('admin/competitions/gallery/{id}', [CompetitionController::class, 'destroyGalleryItem'])->name('competitions.gallery.destroy');
 
 Route::get('/Blogs', function (Request $request) {
 

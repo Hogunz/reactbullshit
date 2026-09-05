@@ -14,9 +14,10 @@ import {
     UserCheck,
     Play,
     Video,
-    Image as ImageIcon,
     Search,
     ChevronRight,
+    ChevronLeft,
+    Layers,
     X,
     ExternalLink
 } from "lucide-react";
@@ -25,6 +26,11 @@ export default function HallOfFame({ competitions = [] }) {
     const [selectedCategory, setSelectedCategory] = useState("ALL");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedItem, setSelectedItem] = useState(null);
+    const [activeMediaIndex, setActiveMediaIndex] = useState(0);
+
+    useEffect(() => {
+        setActiveMediaIndex(0);
+    }, [selectedItem]);
 
     useEffect(() => {
         AOS.init({
@@ -249,6 +255,14 @@ export default function HallOfFame({ competitions = [] }) {
                                                             className="relative z-10 max-h-full max-w-full object-contain p-1 group-hover:scale-105 transition-transform duration-700 drop-shadow-md"
                                                         />
                                                     )}
+
+                                                    {/* Gallery Count Badge */}
+                                                    {item.gallery && item.gallery.length > 0 && (
+                                                        <div className="absolute bottom-3 right-3 z-20 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-bold flex items-center gap-1.5 shadow-md border border-white/10">
+                                                            <Layers className="w-3 h-3 text-purple-400" />
+                                                            <span>+{item.gallery.length} More</span>
+                                                        </div>
+                                                    )}
                                                 </>
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple/10 to-indigo-600/10 p-6 text-center">
@@ -353,56 +367,156 @@ export default function HallOfFame({ competitions = [] }) {
                             </button>
                         </div>
 
-                        {/* Modal Media Showcase Header - Adaptive for Landscape, Portrait & Square Media */}
-                        {selectedItem.media_path && (
-                            <div className="relative w-full bg-zinc-950 flex items-center justify-center min-h-[280px] max-h-[70vh] overflow-hidden p-2 sm:p-4">
-                                {/* Ambient Backdrop */}
-                                {selectedItem.media_type === "image" ? (
-                                    <img
-                                        src={selectedItem.media_path}
-                                        alt=""
-                                        aria-hidden="true"
-                                        className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-35 scale-150 pointer-events-none"
-                                    />
-                                ) : (
-                                    <video
-                                        src={selectedItem.media_path}
-                                        aria-hidden="true"
-                                        className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-30 scale-150 pointer-events-none"
-                                        muted
-                                        loop
-                                        playsInline
-                                    />
-                                )}
+                        {/* Modal Media Showcase Header with Interactive Flexible Gallery */}
+                        {(() => {
+                            const modalGallery = [
+                                ...(selectedItem.media_path ? [{
+                                    id: 'cover',
+                                    media_path: selectedItem.media_path,
+                                    media_type: selectedItem.media_type,
+                                    caption: selectedItem.title
+                                }] : []),
+                                ...(selectedItem.gallery || []).filter(g => g.media_path !== selectedItem.media_path)
+                            ];
 
-                                {selectedItem.media_type === "video" ? (
-                                    <video
-                                        src={selectedItem.media_path}
-                                        controls
-                                        autoPlay
-                                        className="relative z-10 max-h-[66vh] max-w-full w-auto object-contain rounded-xl shadow-2xl"
-                                    />
-                                ) : (
-                                    <a
-                                        href={selectedItem.media_path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        title="Click to view full resolution image"
-                                        className="relative z-10 flex items-center justify-center group/view"
-                                    >
-                                        <img
-                                            src={selectedItem.media_path}
-                                            alt={selectedItem.title}
-                                            className="max-h-[66vh] max-w-full w-auto object-contain rounded-xl shadow-2xl transition-transform group-hover/view:scale-[1.01]"
-                                        />
-                                        <span className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[11px] font-semibold opacity-0 group-hover/view:opacity-100 transition-opacity flex items-center gap-1.5 shadow-lg pointer-events-none">
-                                            <ExternalLink className="w-3.5 h-3.5" />
-                                            View Full Image
-                                        </span>
-                                    </a>
-                                )}
-                            </div>
-                        )}
+                            if (modalGallery.length === 0) return null;
+
+                            const currentMedia = modalGallery[activeMediaIndex] || modalGallery[0];
+
+                            return (
+                                <div className="flex flex-col bg-zinc-950 border-b border-gray-100 dark:border-white/5">
+                                    {/* Spotlight Viewer Area */}
+                                    <div className="relative w-full flex items-center justify-center min-h-[280px] sm:min-h-[380px] max-h-[70vh] overflow-hidden p-2 sm:p-4 group/viewer">
+                                        {/* Ambient Backdrop Layer for Full Aspect Ratio Flexibility */}
+                                        {currentMedia.media_type === "image" ? (
+                                            <img
+                                                key={`ambient-img-${currentMedia.media_path}`}
+                                                src={currentMedia.media_path}
+                                                alt=""
+                                                aria-hidden="true"
+                                                className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-35 scale-150 pointer-events-none transition-all duration-700"
+                                            />
+                                        ) : (
+                                            <video
+                                                key={`ambient-vid-${currentMedia.media_path}`}
+                                                src={currentMedia.media_path}
+                                                aria-hidden="true"
+                                                className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-30 scale-150 pointer-events-none transition-all duration-700"
+                                                muted
+                                                loop
+                                                playsInline
+                                            />
+                                        )}
+
+                                        {/* Foreground Media */}
+                                        {currentMedia.media_type === "video" ? (
+                                            <video
+                                                key={`active-vid-${currentMedia.media_path}`}
+                                                src={currentMedia.media_path}
+                                                controls
+                                                autoPlay
+                                                className="relative z-10 max-h-[64vh] max-w-full w-auto object-contain rounded-xl shadow-2xl"
+                                            />
+                                        ) : (
+                                            <a
+                                                href={currentMedia.media_path}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title="Click to view full resolution image"
+                                                className="relative z-10 flex items-center justify-center group/view"
+                                            >
+                                                <img
+                                                    key={`active-img-${currentMedia.media_path}`}
+                                                    src={currentMedia.media_path}
+                                                    alt={selectedItem.title}
+                                                    className="max-h-[64vh] max-w-full w-auto object-contain rounded-xl shadow-2xl transition-transform group-hover/view:scale-[1.01]"
+                                                />
+                                                <span className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[11px] font-semibold opacity-0 group-hover/view:opacity-100 transition-opacity flex items-center gap-1.5 shadow-lg pointer-events-none">
+                                                    <ExternalLink className="w-3.5 h-3.5" />
+                                                    View Full Image
+                                                </span>
+                                            </a>
+                                        )}
+
+                                        {/* Previous & Next Navigation Arrows */}
+                                        {modalGallery.length > 1 && (
+                                            <>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setActiveMediaIndex((prev) => (prev > 0 ? prev - 1 : modalGallery.length - 1));
+                                                    }}
+                                                    className="absolute left-3 sm:left-4 z-20 p-2.5 rounded-full bg-black/60 hover:bg-black/85 text-white/90 hover:text-white backdrop-blur-md transition-all shadow-lg hover:scale-110"
+                                                    title="Previous Media"
+                                                >
+                                                    <ChevronLeft className="w-5 h-5" />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setActiveMediaIndex((prev) => (prev < modalGallery.length - 1 ? prev + 1 : 0));
+                                                    }}
+                                                    className="absolute right-3 sm:right-4 z-20 p-2.5 rounded-full bg-black/60 hover:bg-black/85 text-white/90 hover:text-white backdrop-blur-md transition-all shadow-lg hover:scale-110"
+                                                    title="Next Media"
+                                                >
+                                                    <ChevronRight className="w-5 h-5" />
+                                                </button>
+                                            </>
+                                        )}
+
+                                        {/* Media Counter & Type Indicator */}
+                                        {modalGallery.length > 1 && (
+                                            <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md border border-white/10">
+                                                <Layers className="w-3.5 h-3.5 text-purple-400" />
+                                                <span>{activeMediaIndex + 1} / {modalGallery.length}</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Gallery Thumbnail Selector Strip (when multiple items exist) */}
+                                    {modalGallery.length > 1 && (
+                                        <div className="px-4 py-3 bg-zinc-900/90 backdrop-blur border-t border-white/10 flex items-center gap-2.5 overflow-x-auto">
+                                            {modalGallery.map((media, idx) => {
+                                                const isActive = idx === activeMediaIndex;
+                                                return (
+                                                    <button
+                                                        key={media.id || idx}
+                                                        type="button"
+                                                        onClick={() => setActiveMediaIndex(idx)}
+                                                        className={`relative shrink-0 w-20 sm:w-24 aspect-video rounded-lg overflow-hidden border transition-all ${
+                                                            isActive
+                                                                ? "border-purple ring-2 ring-purple shadow-lg scale-105 opacity-100"
+                                                                : "border-white/15 opacity-50 hover:opacity-90 hover:scale-100"
+                                                        }`}
+                                                    >
+                                                        {media.media_type === "video" ? (
+                                                            <div className="relative w-full h-full bg-black flex items-center justify-center">
+                                                                <video
+                                                                    src={media.media_path}
+                                                                    className="w-full h-full object-cover"
+                                                                    muted
+                                                                />
+                                                                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                                                    <Video className="w-4 h-4 text-white drop-shadow" />
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <img
+                                                                src={media.media_path}
+                                                                alt=""
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })()}
 
                         {/* Story Content Body */}
                         <div className="p-6 sm:p-10 space-y-6">
