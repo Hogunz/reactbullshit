@@ -1,1 +1,0 @@
-import{j as r,a as s}from"./app-ebbfa975.js";import{N as a}from"./NavBar-ca662eda.js";import{A as t}from"./Academics-84ec9568.js";import"./SVGicon-78587a77.js";import"./CustomCursor-76c12e4c.js";const c=()=>r.jsxs(r.Fragment,{children:[r.jsx(s,{title:"Academic Programs | SITE"}),r.jsx(a,{}),r.jsx(t,{})]});export{c as default};
