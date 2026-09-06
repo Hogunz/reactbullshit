@@ -98,7 +98,7 @@ class StudentShowcaseAdminController extends Controller
         return redirect()->back()->with('success', "Showcase entry \"{$request->title}\" created successfully.");
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int|string $id)
     {
         $showcase = ProgramShowcase::with('images')->findOrFail($id);
 
@@ -160,7 +160,7 @@ class StudentShowcaseAdminController extends Controller
         return redirect()->back()->with('success', "Showcase entry updated successfully.");
     }
 
-    public function destroy($id)
+    public function destroy(int|string $id)
     {
         $showcase = ProgramShowcase::with('images')->findOrFail($id);
 
@@ -181,7 +181,7 @@ class StudentShowcaseAdminController extends Controller
         return redirect()->back()->with('success', "Showcase entry deleted successfully.");
     }
 
-    public function destroyImage($id)
+    public function destroyImage(int|string $id)
     {
         $image = ProgramShowcaseImage::findOrFail($id);
         $showcaseId = $image->program_showcase_id;
@@ -205,7 +205,7 @@ class StudentShowcaseAdminController extends Controller
         return redirect()->back()->with('success', "Media file deleted successfully.");
     }
 
-    public function toggleTop30(Request $request, $id)
+    public function toggleTop30(Request $request, int|string $id)
     {
         $showcase = ProgramShowcase::findOrFail($id);
         $showcase->is_top_30 = !$showcase->is_top_30;
