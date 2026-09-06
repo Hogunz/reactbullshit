@@ -100,9 +100,22 @@ export function NavBar({ isWelcomePage = false }) {
                                 </div>
                             </div>
                         </div>
-                        <Link href="/HallOfFame" className="px-3 xl:px-4 py-2 font-semibold text-sm xl:text-base text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white transition-colors">
-                            Hall of Fame
-                        </Link>
+                        {/* Hall of Fame Dropdown */}
+                        <div className="relative group px-3 xl:px-4 py-2 cursor-pointer">
+                            <span className="flex items-center gap-1 font-semibold text-sm xl:text-base text-gray-700 dark:text-gray-300 group-hover:text-purple dark:group-hover:text-white transition-colors">
+                                Hall of Fame <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+                            </span>
+                            <div className="absolute top-full pt-4 left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out transform group-hover:-translate-y-1 w-52">
+                                <div className="bg-white dark:bg-[#111] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-gray-100 dark:border-white/5 overflow-hidden py-2 flex flex-col backdrop-blur-xl">
+                                    <Link href="/HallOfFame" className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white hover:bg-purple/10 dark:hover:bg-white/5 transition-colors">
+                                        Competitions
+                                    </Link>
+                                    <Link href="/StudentShowcase" className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white hover:bg-purple/10 dark:hover:bg-white/5 transition-colors">
+                                        Student Showcase
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
 
                         <Link href="/News&Events" className="px-3 xl:px-4 py-2 font-semibold text-sm xl:text-base text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-white transition-colors">
                             News & Events
@@ -214,7 +227,14 @@ export function NavBar({ isWelcomePage = false }) {
                         </div>
 
                         <Link href="/News&Events" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">News & Events</Link>
-                        <Link href="/HallOfFame" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Hall of Fame</Link>
+
+                        <div className="flex flex-col gap-4">
+                            <span className="text-3xl font-extrabold text-gray-900 dark:text-white">Hall of Fame</span>
+                            <div className="flex flex-col gap-3">
+                                <Link href="/HallOfFame" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-gray-500 dark:text-gray-400 hover:text-purple dark:hover:text-purple-light">Competitions</Link>
+                                <Link href="/StudentShowcase" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-bold text-gray-500 dark:text-gray-400 hover:text-purple dark:hover:text-purple-light">Student Showcase</Link>
+                            </div>
+                        </div>
                         <Link href="/Partners" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Partners</Link>
                         <Link href="/Contact" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-purple dark:hover:text-purple-light transition-colors">Contact</Link>
                     </nav>

@@ -99,16 +99,27 @@ export default function Dashboard({ auth, siteSettings }) {
                                 Manage your homepage highlights, visibility, showcase spotlight, and custom announcements in real-time.
                             </p>
                         </div>
-                        <Link
-                            href="/"
-                            target="_blank"
-                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl bg-white dark:bg-gray-800 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-900/50 shadow-sm hover:shadow hover:scale-[1.02] transition-all"
-                        >
-                            <span>View Public Site</span>
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                        </Link>
+                        <div className="flex flex-wrap items-center gap-2.5">
+                            <Link
+                                href={route("admin.student-showcase.index")}
+                                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl bg-purple-600 hover:bg-purple-700 text-white shadow-sm hover:shadow-purple-600/30 hover:scale-[1.02] transition-all"
+                            >
+                                <span>Student Showcase CMS</span>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </Link>
+                            <Link
+                                href="/"
+                                target="_blank"
+                                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl bg-white dark:bg-gray-800 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-900/50 shadow-sm hover:shadow hover:scale-[1.02] transition-all"
+                            >
+                                <span>View Public Site</span>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
@@ -266,13 +277,21 @@ export default function Dashboard({ auth, siteSettings }) {
                                                 value={data.highlight_button_link}
                                                 onChange={(e) => setData('highlight_button_link', e.target.value)}
                                             />
-                                            <div className="flex gap-2 mt-1.5">
+                                            <div className="flex flex-wrap gap-2 mt-1.5">
                                                 <button
                                                     type="button"
                                                     onClick={() => setData('highlight_button_link', '/HallOfFame')}
                                                     className="text-[11px] text-purple-600 dark:text-purple-400 hover:underline"
                                                 >
                                                     /HallOfFame
+                                                </button>
+                                                <span className="text-gray-400 text-[11px]">•</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setData('highlight_button_link', '/StudentShowcase')}
+                                                    className="text-[11px] text-purple-600 dark:text-purple-400 hover:underline"
+                                                >
+                                                    /StudentShowcase
                                                 </button>
                                                 <span className="text-gray-400 text-[11px]">•</span>
                                                 <button

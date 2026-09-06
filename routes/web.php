@@ -176,6 +176,26 @@ Route::get('/HallOfFame', [CompetitionController::class, 'publicIndex'])->name('
 Route::resource('admin/competitions', CompetitionController::class)->names('competitions');
 Route::delete('admin/competitions/gallery/{id}', [CompetitionController::class, 'destroyGalleryItem'])->name('competitions.gallery.destroy');
 
+use App\Http\Controllers\StudentShowcaseAdminController;
+
+Route::get('/StudentShowcase', function () {
+    $winners = ProgramShowcase::with('images')
+        ->orderByRaw('is_top_30 DESC')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    return Inertia::render('StudentShowcase', [
+        'winners' => $winners,
+    ]);
+})->name('student-showcase');
+
+// Admin Student Showcase CRUD Routes
+Route::get('admin/student-showcase', [StudentShowcaseAdminController::class, 'index'])->name('admin.student-showcase.index');
+Route::post('admin/student-showcase', [StudentShowcaseAdminController::class, 'store'])->name('admin.student-showcase.store');
+Route::post('admin/student-showcase/{id}', [StudentShowcaseAdminController::class, 'update'])->name('admin.student-showcase.update');
+Route::delete('admin/student-showcase/{id}', [StudentShowcaseAdminController::class, 'destroy'])->name('admin.student-showcase.destroy');
+Route::delete('admin/student-showcase/image/{id}', [StudentShowcaseAdminController::class, 'destroyImage'])->name('admin.student-showcase.image.destroy');
+Route::post('admin/student-showcase/{id}/toggle-top30', [StudentShowcaseAdminController::class, 'toggleTop30'])->name('admin.student-showcase.toggle-top30');
+
 Route::get('/Blogs', function (Request $request) {
 
     return Inertia::render("Blog", [

@@ -40,6 +40,12 @@ export default function Authenticated({ user, header, children }) {
                                     Hall of Fame
                                 </NavLink>
                                 <NavLink
+                                    href={route("admin.student-showcase.index")}
+                                    active={route().current("admin.student-showcase.*")}
+                                >
+                                    Student Showcase
+                                </NavLink>
+                                <NavLink
                                     href={route("faculties.index")}
                                     active={route().current("faculties.*")}
                                 >
@@ -110,6 +116,11 @@ export default function Authenticated({ user, header, children }) {
                                             href={route("competitions.index")}
                                         >
                                             Hall of Fame (Competitions)
+                                        </Dropdown.Link>
+                                        <Dropdown.Link
+                                            href={route("admin.student-showcase.index")}
+                                        >
+                                            Student Showcase
                                         </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("bscstestimonials.index")}
@@ -221,6 +232,12 @@ export default function Authenticated({ user, header, children }) {
                             active={route().current("competitions.*")}
                         >
                             Hall of Fame
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("admin.student-showcase.index")}
+                            active={route().current("admin.student-showcase.*")}
+                        >
+                            Student Showcase
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route("faculties.index")}
