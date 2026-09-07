@@ -3,18 +3,30 @@ import { CalendarIcon, UserIcon } from "../Components/svg/SVGicon";
 import CustomCursor from "@/Components/CustomCursor";
 
 export default function BlogDescription({ events = [] }) {
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        // Example formatting: YYYY-MM-DD HH:MM:SS
-        return `${date.getFullYear()}-${(date.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}-${date
-                .getDate()
-                .toString()
-                .padStart(
-                    2,
-                    "0",
-                )} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    const formatDisplayDate = () => {
+        const dateStr = events.start_time || events.created_at;
+        if (!dateStr) return "";
+        const date = new Date(dateStr);
+        const dateFormatted = date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+        const timeFormatted = date.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit', hour12: true });
+
+        if (events.category === 'Event' && events.start_time && events.end_time) {
+            const endDate = new Date(events.end_time);
+            const isSameDay = date.toDateString() === endDate.toDateString();
+            const endTimeFormatted = endDate.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit', hour12: true });
+
+            if (isSameDay) {
+                return `${dateFormatted} (${timeFormatted} - ${endTimeFormatted})`;
+            } else {
+                const endDateFormatted = endDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+                return `${dateFormatted} - ${endDateFormatted}`;
+            }
+        }
+
+        if (date.getHours() !== 0 || date.getMinutes() !== 0) {
+            return `${dateFormatted} at ${timeFormatted}`;
+        }
+        return dateFormatted;
     };
 
     return (
@@ -43,7 +55,7 @@ export default function BlogDescription({ events = [] }) {
                                 <CalendarIcon className="w-5 h-5" />
                             </div>
                             <h2 className="font-semibold text-sm md:text-base text-gray-600 dark:text-gray-300">
-                                {formatDate(events.created_at)}
+                                {formatDisplayDate()}
                             </h2>
                         </div>
                         <div className="flex space-x-3 items-center group">

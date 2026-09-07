@@ -36,9 +36,14 @@ export default function Blogs({ events = [] }) {
         }
     ];
 
+    const formatArticleDate = (item) => {
+        const dateStr = item?.start_time || item?.created_at;
+        return new Date(dateStr || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    };
+
     const displayFeatured = events.length > 0 ? {
         category: events[0].category,
-        date: new Date(events[0].created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        date: formatArticleDate(events[0]),
         title: events[0].name,
         excerpt: (events[0].content || '').replace(/<[^>]+>/g, '').substring(0, 150) + '...',
         imageUrl: events[0].image ? (events[0].image.startsWith('http') || events[0].image.startsWith('/') ? events[0].image : `/storage/${events[0].image}`) : featuredArticle.imageUrl,
@@ -48,7 +53,7 @@ export default function Blogs({ events = [] }) {
     const displayNewsList = events.length > 1 
         ? events.slice(1, 4).map(e => ({
             category: e.category,
-            date: new Date(e.created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+            date: formatArticleDate(e),
             title: e.name,
             id: e.id
         }))

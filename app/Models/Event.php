@@ -17,7 +17,13 @@ class Event extends Model
         'start_time',
         'end_time',
         'user_id',
+        'created_at',
         // Add any other fields that can be mass assigned here
+    ];
+
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
     use HasFactory;
 

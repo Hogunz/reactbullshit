@@ -20,7 +20,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::with('user')
-            ->orderBy('created_at', 'desc')
+            ->orderByRaw('COALESCE(start_time, created_at) DESC')
             ->get();
 
         return Inertia::render('admin/events/Index', [
@@ -48,7 +48,17 @@ class EventController extends Controller
             'content' => 'required',
             'status' => 'required|in:active,inactive',
             'start_time' => 'nullable|date',
-            'end_time' => 'nullable|date|after_or_equal:start_time',
+            'end_time' => [
+                'nullable',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value && $request->filled('start_time')) {
+                        if (strtotime($value) < strtotime($request->input('start_time'))) {
+                            $fail('The end date and time must be a date after or equal to the start date and time.');
+                        }
+                    }
+                },
+            ],
         ]);
 
         if ($request->hasFile('image')) {
@@ -62,6 +72,13 @@ class EventController extends Controller
         }
 
         $validated['user_id'] = Auth::id();
+
+        // If a specific start_time is set (e.g., backdated announcement/event), align created_at
+        if (!empty($validated['start_time'])) {
+            $validated['created_at'] = $validated['start_time'];
+        } else {
+            $validated['start_time'] = now();
+        }
 
         Event::create($validated);
 
@@ -100,7 +117,17 @@ class EventController extends Controller
             'content' => 'nullable',
             'status' => 'required|in:active,inactive',
             'start_time' => 'nullable|date',
-            'end_time' => 'nullable|date|after_or_equal:start_time',
+            'end_time' => [
+                'nullable',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value && $request->filled('start_time')) {
+                        if (strtotime($value) < strtotime($request->input('start_time'))) {
+                            $fail('The end date and time must be a date after or equal to the start date and time.');
+                        }
+                    }
+                },
+            ],
         ]);
 
         if ($request->hasFile('image')) {
@@ -113,6 +140,11 @@ class EventController extends Controller
             $validated['image'] = '/storage/events/' . $filename;
         } else {
             unset($validated['image']);
+        }
+
+        // If start_time was updated, synchronize created_at so both columns reflect the flexible date
+        if (!empty($validated['start_time'])) {
+            $validated['created_at'] = $validated['start_time'];
         }
 
         $event->update($validated);

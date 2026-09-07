@@ -30,7 +30,7 @@ use App\Models\SiteSetting;
 
 Route::get('/', function () {
     $bscstestimonials = BSCSTestimonial::all();
-    $events = Event::where('status', 'active')->orderBy('created_at', 'desc')->get();
+    $events = Event::where('status', 'active')->orderByRaw('COALESCE(start_time, created_at) DESC')->get();
     $faculties = Faculty::orderBy('row_number')->orderBy('sort_order')->get();
     $partners = Partner::all();
     $settings = SiteSetting::pluck('value', 'key')->toArray();
@@ -96,7 +96,7 @@ Route::get('/Faculty', function () {
 Route::resource('program-attributes', ProgramAttributeController::class);
 
 Route::get('/News&Events', function () {
-    $events = Event::where('status', 'active')->with('user')->orderBy('created_at', 'desc')->get();
+    $events = Event::where('status', 'active')->with('user')->orderByRaw('COALESCE(start_time, created_at) DESC')->get();
     return Inertia::render('Events', [
         'events' => $events,
     ]);
