@@ -10,17 +10,17 @@ export default function Events({ events = [] }) {
         const dateStr = event?.start_time || event?.created_at;
         if (!dateStr) return "";
         const date = new Date(dateStr);
-        const dateFormatted = date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+        const dateFormatted = date.toLocaleDateString("en-US", { timeZone: 'Asia/Manila', month: "long", day: "numeric", year: "numeric" });
 
         if (event?.category === 'Event' && event?.start_time && event?.end_time) {
             const endDate = new Date(event.end_time);
-            const isSameDay = date.toDateString() === endDate.toDateString();
+            const isSameDay = date.toLocaleDateString("en-US", { timeZone: 'Asia/Manila' }) === endDate.toLocaleDateString("en-US", { timeZone: 'Asia/Manila' });
             if (isSameDay) {
-                const startTime = date.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit', hour12: true });
-                const endTime = endDate.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit', hour12: true });
+                const startTime = date.toLocaleTimeString("en-US", { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit', hour12: true });
+                const endTime = endDate.toLocaleTimeString("en-US", { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit', hour12: true });
                 return `${dateFormatted} • ${startTime} - ${endTime}`;
             } else {
-                const endFormatted = endDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+                const endFormatted = endDate.toLocaleDateString("en-US", { timeZone: 'Asia/Manila', month: "short", day: "numeric", year: "numeric" });
                 return `${dateFormatted} - ${endFormatted}`;
             }
         }

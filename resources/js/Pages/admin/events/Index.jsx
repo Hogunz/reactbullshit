@@ -75,12 +75,12 @@ export default function Index({ events }) {
                                             </td>
                                             <td className="px-6 py-4 text-sm whitespace-nowrap">
                                                 <div className="font-medium text-gray-800 dark:text-gray-200">
-                                                    {new Date(event.start_time || event.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                    {new Date(event.start_time || event.created_at).toLocaleDateString('en-US', { timeZone: 'Asia/Manila', month: 'short', day: 'numeric', year: 'numeric' })}
                                                 </div>
                                                 {event.start_time && (
                                                     <div className="text-xs text-gray-400">
-                                                        {new Date(event.start_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
-                                                        {event.end_time && ` - ${new Date(event.end_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`}
+                                                        {new Date(event.start_time).toLocaleTimeString('en-US', { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit', hour12: true })}
+                                                        {event.end_time && ` - ${new Date(event.end_time).toLocaleTimeString('en-US', { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit', hour12: true })}`}
                                                     </div>
                                                 )}
                                             </td>

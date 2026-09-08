@@ -4,24 +4,31 @@ import { Button } from "@material-tailwind/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import JoditEditor from "jodit-react";
 export default function Edit({ events }) {
-    const formatDate = (dateString) => {
+    // Converts an ISO string, timestamp, or date to 'YYYY-MM-DDTHH:mm' in Asia/Manila time
+    const getManilaDateTime = (dateString) => {
         if (!dateString) return "";
-        // Converts "2026-10-10 10:00:00" to "2026-10-10T10:00"
-        return dateString.replace(' ', 'T').slice(0, 16);
-    };
-
-    const getCurrentDateTime = () => {
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        return now.toISOString().slice(0, 16);
+        const d = typeof dateString === 'string' ? new Date(dateString) : dateString;
+        if (isNaN(d.getTime())) return "";
+        const formatter = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Manila',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        });
+        const parts = formatter.formatToParts(d);
+        const getPart = (type) => parts.find(p => p.type === type)?.value;
+        return `${getPart('year')}-${getPart('month')}-${getPart('day')}T${getPart('hour')}:${getPart('minute')}`;
     };
 
     const { data, setData, post, processing, errors } = useForm({
         name: events.name,
         category: events.category || "News",
         status: events.status || "active",
-        start_time: formatDate(events.start_time || events.created_at),
-        end_time: formatDate(events.end_time),
+        start_time: getManilaDateTime(events.start_time || events.created_at),
+        end_time: getManilaDateTime(events.end_time),
         image: "",
         content: events.content,
     });
@@ -100,10 +107,10 @@ export default function Edit({ events }) {
                                     </div>
                                     <button
                                         type="button"
-                                        onClick={() => setData("start_time", getCurrentDateTime())}
+                                        onClick={() => setData("start_time", getManilaDateTime(new Date()))}
                                         className="text-xs text-purple-600 hover:text-purple-800 font-semibold underline self-start sm:self-auto"
                                     >
-                                        Set to Current Time
+                                        Set to Current Time (Manila)
                                     </button>
                                 </div>
 

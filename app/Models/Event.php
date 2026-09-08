@@ -25,6 +25,17 @@ class Event extends Model
         'start_time' => 'datetime',
         'end_time' => 'datetime',
     ];
+
+    /**
+     * Prepare a date for array / JSON serialization in Asia/Manila timezone.
+     */
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return \Illuminate\Support\Carbon::instance($date)
+            ->setTimezone('Asia/Manila')
+            ->format('Y-m-d\TH:i:sP');
+    }
+
     use HasFactory;
 
     public function user()

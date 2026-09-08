@@ -38,7 +38,7 @@ export default function Blogs({ events = [] }) {
 
     const formatArticleDate = (item) => {
         const dateStr = item?.start_time || item?.created_at;
-        return new Date(dateStr || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        return new Date(dateStr || Date.now()).toLocaleDateString('en-US', { timeZone: 'Asia/Manila', month: 'long', day: 'numeric', year: 'numeric' });
     };
 
     const displayFeatured = events.length > 0 ? {

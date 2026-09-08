@@ -7,23 +7,33 @@ export default function BlogDescription({ events = [] }) {
         const dateStr = events.start_time || events.created_at;
         if (!dateStr) return "";
         const date = new Date(dateStr);
-        const dateFormatted = date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-        const timeFormatted = date.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit', hour12: true });
+        const dateFormatted = date.toLocaleDateString("en-US", { timeZone: 'Asia/Manila', month: "long", day: "numeric", year: "numeric" });
+        const timeFormatted = date.toLocaleTimeString("en-US", { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit', hour12: true });
 
         if (events.category === 'Event' && events.start_time && events.end_time) {
             const endDate = new Date(events.end_time);
-            const isSameDay = date.toDateString() === endDate.toDateString();
-            const endTimeFormatted = endDate.toLocaleTimeString("en-US", { hour: 'numeric', minute: '2-digit', hour12: true });
+            const isSameDay = date.toLocaleDateString("en-US", { timeZone: 'Asia/Manila' }) === endDate.toLocaleDateString("en-US", { timeZone: 'Asia/Manila' });
+            const endTimeFormatted = endDate.toLocaleTimeString("en-US", { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit', hour12: true });
 
             if (isSameDay) {
                 return `${dateFormatted} (${timeFormatted} - ${endTimeFormatted})`;
             } else {
-                const endDateFormatted = endDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+                const endDateFormatted = endDate.toLocaleDateString("en-US", { timeZone: 'Asia/Manila', month: "long", day: "numeric", year: "numeric" });
                 return `${dateFormatted} - ${endDateFormatted}`;
             }
         }
 
-        if (date.getHours() !== 0 || date.getMinutes() !== 0) {
+        // Check hour/minute in Manila timezone
+        const manilaParts = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Asia/Manila',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false,
+        }).formatToParts(date);
+        const hour = parseInt(manilaParts.find(p => p.type === 'hour')?.value || '0', 10);
+        const minute = parseInt(manilaParts.find(p => p.type === 'minute')?.value || '0', 10);
+
+        if (hour !== 0 || minute !== 0) {
             return `${dateFormatted} at ${timeFormatted}`;
         }
         return dateFormatted;

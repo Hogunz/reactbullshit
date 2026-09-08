@@ -5,18 +5,29 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import JoditEditor from "jodit-react";
 export default function Create() {
-    // Format current date and time in local timezone for datetime-local input
-    const getCurrentDateTime = () => {
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        return now.toISOString().slice(0, 16);
+    // Format date and time strictly in Asia/Manila timezone for datetime-local input
+    const getManilaDateTime = (date = new Date()) => {
+        const d = typeof date === 'string' ? new Date(date) : date;
+        if (isNaN(d.getTime())) return "";
+        const formatter = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Manila',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        });
+        const parts = formatter.formatToParts(d);
+        const getPart = (type) => parts.find(p => p.type === type)?.value;
+        return `${getPart('year')}-${getPart('month')}-${getPart('day')}T${getPart('hour')}:${getPart('minute')}`;
     };
 
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         category: "News",
         status: "active",
-        start_time: getCurrentDateTime(),
+        start_time: getManilaDateTime(),
         end_time: "",
         image: "",
         content: "",
@@ -97,10 +108,10 @@ export default function Create() {
                                     </div>
                                     <button
                                         type="button"
-                                        onClick={() => setData("start_time", getCurrentDateTime())}
+                                        onClick={() => setData("start_time", getManilaDateTime())}
                                         className="text-xs text-purple-600 hover:text-purple-800 font-semibold underline self-start sm:self-auto"
                                     >
-                                        Set to Current Time
+                                        Set to Current Time (Manila)
                                     </button>
                                 </div>
 
