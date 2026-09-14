@@ -41,6 +41,7 @@ export default function Academics() {
                         <h1 className="text-4xl lg:text-5xl font-extrabold text-dark dark:text-light mb-4">
                             Program <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Description</span>
                         </h1>
+                        {/* Temporarily hidden - unhide when needed:
                         <div className="flex justify-center mt-3">
                             <Link
                                 href="/Recognitions"
@@ -53,6 +54,7 @@ export default function Academics() {
                                 <span>&rarr;</span>
                             </Link>
                         </div>
+                        */}
                     </div>
 
                     {/* BSIT Section */}
