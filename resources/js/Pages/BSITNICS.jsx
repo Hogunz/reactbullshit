@@ -1,4 +1,3 @@
-import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import React, { useRef, useState, useEffect } from "react";
 import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
@@ -118,7 +117,6 @@ function BSITNICS({ video, galleryItems, categories }) {
     return (
         <>
             <Head title="BSIT NICS" />
-            <CustomCursor />
             <div className="dark:bg-dark w-full">
                 <NavBar isWelcomePage={true} />
                 {" "}

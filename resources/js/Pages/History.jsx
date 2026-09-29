@@ -1,9 +1,9 @@
-import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Head } from "@inertiajs/react";
+import { SakuraBackground } from "@/Components/SakuraBackground";
 
 const History = () => {
     useEffect(() => {
@@ -88,13 +88,9 @@ const History = () => {
     return (
         <>
             <Head title="History" />
-            <CustomCursor />
-            <NavBar />
-            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden font-sans selection:bg-purple selection:text-white">
-                {/* Enhanced Background Elements */}
-                <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple/20 via-transparent to-transparent opacity-50 pointer-events-none" />
-                <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-fuchsia-500/10 via-transparent to-transparent opacity-40 pointer-events-none" />
-                <div className="fixed top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+            <div className="bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth relative overflow-x-hidden font-sans selection:bg-purple selection:text-white">
+                <SakuraBackground petalCount={20} />
+                <NavBar />
 
                 {/* Content Container */}
                 <div className="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">

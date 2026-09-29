@@ -18,6 +18,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         is_top_30: false,
         top_30_category: "game", // Default to game if winner
         creator_major: "", // Optional attribution
+        project_url: "", // Website / Mobile App link
     });
     const [processingGallery, setProcessingGallery] = useState(false);
     const [galleryErrors, setGalleryErrors] = useState({});
@@ -38,6 +39,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         const formData = new FormData();
         formData.append('title', galleryData.title);
         formData.append('category', galleryData.category);
+        formData.append('project_url', galleryData.project_url || '');
         formData.append('is_top_30', galleryData.is_top_30 ? '1' : '0');
         formData.append('top_30_category', galleryData.top_30_category);
         formData.append('creator_major', galleryData.creator_major);
@@ -49,7 +51,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         router.post(route("admin.specializations.store-gallery", program), formData, {
             forceFormData: true,
             onSuccess: () => {
-                setGalleryData({ title: "", category: "", files: [], is_top_30: false, top_30_category: "game" });
+                setGalleryData({ title: "", category: "", project_url: "", files: [], is_top_30: false, top_30_category: "game", creator_major: "" });
                 if (fileInputRef.current) fileInputRef.current.value = '';
             },
             onError: (errors) => setGalleryErrors(errors),
@@ -94,6 +96,15 @@ export default function Showcase({ program, video, galleryItems, categories }) {
         router.post(route("admin.specializations.toggle-top30", id), {
             top_30_category: category
         });
+    };
+
+    const handleUpdateUrl = (id, currentUrl = "") => {
+        const url = prompt("Enter project link (Website / Mobile App URL):", currentUrl || "");
+        if (url !== null) {
+            router.patch(route("admin.specializations.update-showcase", id), {
+                project_url: url
+            });
+        }
     };
 
     return (
@@ -239,30 +250,42 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                     <div className="p-6 rounded-2xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 space-y-6">
                                         <div>
                                             <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Project Type (Required)</label>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <button 
-                                                    type="button"
-                                                    onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'game'}))}
-                                                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'game' 
-                                                        ? 'bg-purple border-purple text-white shadow-lg' 
-                                                        : 'bg-white dark:bg-black/40 border-transparent text-gray-500 hover:border-purple/30'}`}
-                                                >
-                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                                                    </svg>
-                                                    <span className="text-sm font-bold">GAME</span>
-                                                </button>
+                                            <div className="grid grid-cols-3 gap-2">
                                                 <button 
                                                     type="button"
                                                     onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'website'}))}
-                                                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'website' 
+                                                    className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'website' 
                                                         ? 'bg-purple border-purple text-white shadow-lg' 
                                                         : 'bg-white dark:bg-black/40 border-transparent text-gray-500 hover:border-purple/30'}`}
                                                 >
-                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                                                     </svg>
-                                                    <span className="text-sm font-bold">WEBSITE</span>
+                                                    <span className="text-[11px] font-bold">WEBSITE</span>
+                                                </button>
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'mobile'}))}
+                                                    className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'mobile' 
+                                                        ? 'bg-purple border-purple text-white shadow-lg' 
+                                                        : 'bg-white dark:bg-black/40 border-transparent text-gray-500 hover:border-purple/30'}`}
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span className="text-[11px] font-bold">MOBILE</span>
+                                                </button>
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => setGalleryData(prev => ({...prev, top_30_category: 'game'}))}
+                                                    className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all ${galleryData.top_30_category === 'game' 
+                                                        ? 'bg-purple border-purple text-white shadow-lg' 
+                                                        : 'bg-white dark:bg-black/40 border-transparent text-gray-500 hover:border-purple/30'}`}
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                                                    </svg>
+                                                    <span className="text-[11px] font-bold">GAME</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -301,6 +324,19 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                                 placeholder="e.g. Project Alpha"
                                             />
                                             {galleryErrors.title && <p className="mt-1 text-xs text-red-500 font-medium">{galleryErrors.title}</p>}
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-bold uppercase tracking-wider">
+                                                Project Link (Optional Website / Mobile App URL)
+                                            </label>
+                                            <input
+                                                type="url"
+                                                value={galleryData.project_url}
+                                                onChange={(e) => setGalleryData(prev => ({ ...prev, project_url: e.target.value }))}
+                                                className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-purple focus:border-transparent text-dark dark:text-light transition-all shadow-inner"
+                                                placeholder="https://myproject.com or App Store / Play Store / GitHub"
+                                            />
                                         </div>
 
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -418,6 +454,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                         items={catItems}
                                         onDelete={handleDeleteGalleryItem}
                                         onToggleTop30={handleToggleTop30}
+                                        onUpdateUrl={handleUpdateUrl}
                                     />
                                 );
                             })}
@@ -435,6 +472,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
                                             items={uncategorizedItems}
                                             onDelete={handleDeleteGalleryItem}
                                             onToggleTop30={handleToggleTop30}
+                                            onUpdateUrl={handleUpdateUrl}
                                             isUncategorized={true}
                                         />
                                     );
@@ -454,8 +492,7 @@ export default function Showcase({ program, video, galleryItems, categories }) {
     );
 }
 
-// Pagination Component
-function CategorySection({ title, color, items, onDelete, onToggleTop30, isUncategorized = false }) {
+function CategorySection({ title, color, items, onDelete, onToggleTop30, onUpdateUrl, isUncategorized = false }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
 
@@ -521,7 +558,7 @@ function CategorySection({ title, color, items, onDelete, onToggleTop30, isUncat
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-zinc-900 text-gray-600 text-sm">No media</div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90" />
 
                         {/* Image count badge */}
                         {imgCount > 1 && (
@@ -530,9 +567,42 @@ function CategorySection({ title, color, items, onDelete, onToggleTop30, isUncat
                             </div>
                         )}
 
-                        <div className="absolute bottom-0 left-0 p-6 w-full">
+                        <div className="absolute bottom-0 left-0 p-5 w-full z-20">
                             {isUncategorized && <p className="text-xs font-mono text-gray-400 mb-1">No Category</p>}
-                            <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                            <h3 className="text-lg font-bold text-white leading-tight mb-1">{item.title}</h3>
+
+                            {/* Project Link info & quick edit */}
+                            {item.project_url ? (
+                                <div className="flex items-center gap-2 mt-1">
+                                    <a
+                                        href={item.project_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple/40 hover:bg-purple text-white text-[11px] font-mono border border-purple/30 truncate max-w-[190px] transition-colors"
+                                        title={`Visit: ${item.project_url}`}
+                                    >
+                                        <span>🔗 Live Link</span>
+                                        <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                    </a>
+                                    <button
+                                        type="button"
+                                        onClick={() => onUpdateUrl && onUpdateUrl(item.id, item.project_url)}
+                                        className="text-[10px] text-gray-400 hover:text-white underline font-mono cursor-pointer"
+                                        title="Edit URL"
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={() => onUpdateUrl && onUpdateUrl(item.id, "")}
+                                    className="mt-1 inline-flex items-center gap-1 text-[11px] font-mono text-purple-300 hover:text-white hover:underline transition-colors cursor-pointer"
+                                >
+                                    <span>+ Add Web/App Link</span>
+                                </button>
+                            )}
                         </div>
 
                         <div className="absolute top-4 left-4 z-20 flex gap-2">

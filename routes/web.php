@@ -138,6 +138,7 @@ Route::delete('admin/specializations/gallery/{id}', [ShowcaseController::class, 
 Route::post('admin/specializations/{program}/category', [ShowcaseController::class, 'storeCategory'])->name('admin.specializations.store-category');
 Route::delete('admin/specializations/category/{id}', [ShowcaseController::class, 'destroyCategory'])->name('admin.specializations.destroy-category');
 Route::post('admin/specializations/showcase/{id}/toggle-top30', [ShowcaseController::class, 'toggleTop30'])->name('admin.specializations.toggle-top30');
+Route::patch('admin/specializations/showcase/{id}', [ShowcaseController::class, 'updateShowcase'])->name('admin.specializations.update-showcase');
 
 Route::get('/academics/bsit/MMA', function () {
     $video = ProgramAttribute::where('program', 'MMA')->where('type', 'VIDEO_PATH')->value('content');

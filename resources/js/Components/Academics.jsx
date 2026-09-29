@@ -1,6 +1,5 @@
 import React from "react";
 import ButtonLink from "./ButtonLink";
-import CustomCursor from "./CustomCursor";
 import { Link } from "@inertiajs/react";
 export const Description = ({ name = "SITE", props }) => (
     <div className="relative w-full overflow-hidden bg-[#FDFDFC] dark:bg-[#080212] pt-[160px] pb-[100px] border-b border-gray-100 dark:border-white/5">
@@ -20,7 +19,6 @@ export const Description = ({ name = "SITE", props }) => (
 export default function Academics() {
     return (
         <>
-            <CustomCursor />
             <section className="relative overflow-hidden bg-[#FDFDFC] dark:bg-[#080212] pt-32 pb-20 lg:pt-40 lg:pb-32 min-h-screen">
                 {/* Deep Purple Ambient Lighting */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">

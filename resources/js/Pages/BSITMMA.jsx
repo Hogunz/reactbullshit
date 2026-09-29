@@ -1,4 +1,3 @@
-import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
 import React, { useRef, useState, useEffect } from "react";
@@ -184,7 +183,6 @@ function BSITMMA({ video, galleryItems, categories }) {
     return (
         <>
             <Head title="BSIT MMA" />
-            <CustomCursor />
             <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden selection:bg-purple selection:text-white perspective-1000">
                 <NavBar isWelcomePage={true} />
 

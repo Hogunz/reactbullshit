@@ -6,7 +6,6 @@ import {
     MessageIcon,
     FinderIcon,
 } from "./svg/SVGicon";
-import CustomCursor from "./CustomCursor";
 
 export const BSITDescriptionProgram = ({ attributes }) => {
     const specializations = [
@@ -37,7 +36,6 @@ export const BSITDescriptionProgram = ({ attributes }) => {
 
     return (
         <>
-            <CustomCursor />
             <div className="relative min-h-screen bg-[#FDFDFC] dark:bg-[#080212] overflow-hidden">
                 {/* Deep Purple Ambient Lighting */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -224,7 +222,6 @@ export const BSCSDescriptionProgram = ({ attributes }) => {
 
     return (
         <>
-            <CustomCursor />
             <div className="relative min-h-screen bg-[#FDFDFC] dark:bg-[#080212] overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
                 {/* Deep Purple Ambient Lighting */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">

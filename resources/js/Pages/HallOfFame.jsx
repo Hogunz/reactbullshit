@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Head, Link } from "@inertiajs/react";
 import { NavBar } from "@/Components/NavBar";
-import CustomCursor from "@/Components/CustomCursor";
 import { SakuraBackground } from "@/Components/SakuraBackground";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -106,7 +105,6 @@ export default function HallOfFame({ competitions = [] }) {
     return (
         <>
             <Head title="Hall of Fame | Competitions & Achievements" />
-            <CustomCursor />
             <NavBar />
 
             <div className="relative min-h-screen bg-[#FDFDFC] dark:bg-[#080212] overflow-hidden font-sans selection:bg-purple selection:text-white">

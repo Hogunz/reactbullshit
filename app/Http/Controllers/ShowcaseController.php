@@ -6,12 +6,14 @@ use App\Models\ProgramAttribute;
 use App\Models\ProgramCategory;
 use App\Models\ProgramShowcase;
 use App\Models\ProgramShowcaseImage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ShowcaseController extends Controller
 {
-    public function edit($program)
+    public function edit(string $program): Response
     {
         if (!in_array($program, ['MMA', 'NICS', 'WMAD', 'CSE'])) {
             abort(404);
@@ -35,7 +37,7 @@ class ShowcaseController extends Controller
         ]);
     }
 
-    public function updateVideo(Request $request, $program)
+    public function updateVideo(Request $request, string $program): RedirectResponse
     {
         $request->validate([
             'video' => 'required|mimetypes:video/mp4,video/quicktime|max:512000',
@@ -55,13 +57,14 @@ class ShowcaseController extends Controller
         return redirect()->back()->with('success', 'Video updated successfully.');
     }
 
-    public function storeGalleryItem(Request $request, $program)
+    public function storeGalleryItem(Request $request, string $program): RedirectResponse
     {
         $request->validate([
-            'title'    => 'required|string',
-            'category' => 'nullable|string',
-            'files'    => 'required|array|min:1',
-            'files.*'  => 'file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,qt|max:512000',
+            'title'       => 'required|string',
+            'category'    => 'nullable|string',
+            'project_url' => 'nullable|string',
+            'files'       => 'required|array|min:1',
+            'files.*'     => 'file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,qt|max:512000',
         ]);
 
         // One showcase entry for this title/category
@@ -69,6 +72,7 @@ class ShowcaseController extends Controller
             'program'         => $program,
             'title'           => $request->title,
             'category'        => $request->category,
+            'project_url'     => $request->project_url,
             'is_top_30'       => $request->boolean('is_top_30'),
             'top_30_category' => $request->top_30_category, // 'game' or 'website'
             'creator_major'   => $request->creator_major,
@@ -95,7 +99,7 @@ class ShowcaseController extends Controller
         return redirect()->back()->with('success', "Entry \"{$request->title}\" added with {$label}.");
     }
 
-    public function destroyGalleryItem($id)
+    public function destroyGalleryItem(int|string $id): RedirectResponse
     {
         // Child images are cascade-deleted by the DB foreign key constraint
         ProgramShowcase::findOrFail($id)->delete();
@@ -103,7 +107,7 @@ class ShowcaseController extends Controller
         return redirect()->back()->with('success', 'Gallery item deleted successfully.');
     }
 
-    public function storeCategory(Request $request, $program)
+    public function storeCategory(Request $request, string $program): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -117,14 +121,14 @@ class ShowcaseController extends Controller
         return redirect()->back()->with('success', 'Category added successfully.');
     }
 
-    public function destroyCategory($id)
+    public function destroyCategory(int|string $id): RedirectResponse
     {
         ProgramCategory::findOrFail($id)->delete();
 
         return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 
-    public function toggleTop30(Request $request, $id)
+    public function toggleTop30(Request $request, int|string $id): RedirectResponse
     {
         $item            = ProgramShowcase::findOrFail($id);
         $item->is_top_30 = !$item->is_top_30;
@@ -136,5 +140,21 @@ class ShowcaseController extends Controller
         $item->save();
 
         return redirect()->back()->with('success', 'Hall of Fame status updated.');
+    }
+
+    public function updateShowcase(Request $request, int|string $id): RedirectResponse
+    {
+        $request->validate([
+            'title'           => 'sometimes|required|string',
+            'category'        => 'nullable|string',
+            'project_url'     => 'nullable|string',
+            'top_30_category' => 'nullable|string',
+            'creator_major'   => 'nullable|string',
+        ]);
+
+        $item = ProgramShowcase::findOrFail($id);
+        $item->update($request->only(['title', 'category', 'project_url', 'top_30_category', 'creator_major']));
+
+        return redirect()->back()->with('success', 'Project details updated.');
     }
 }

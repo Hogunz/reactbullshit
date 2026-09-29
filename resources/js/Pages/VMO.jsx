@@ -1,4 +1,3 @@
-import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import React, { useEffect } from "react";
 import AOS from "aos";
@@ -13,16 +12,15 @@ const VMO = () => {
     return (
         <>
             <Head title="Vision, Mission & Core Values" />
-            <CustomCursor />
-            <NavBar />
-            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+            <div className="bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen scroll-smooth relative overflow-x-hidden font-sans selection:bg-purple selection:text-white">
+                {/* Atmospheric Ambient Lighting (Welcome page palette without petals) */}
+                <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(139,92,246,0.12),transparent_70%)]"></div>
+                    <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[45%] bg-purple-600/10 dark:bg-purple-600/15 rounded-full blur-[140px]"></div>
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[35%] h-[35%] bg-fuchsia-500/10 dark:bg-fuchsia-600/10 rounded-full blur-[120px]"></div>
+                </div>
 
-                {/* Decorative Blobs */}
-                <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-purple/20 blur-[100px] mix-blend-screen pointer-events-none"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/10 blur-[120px] mix-blend-screen pointer-events-none"></div>
+                <NavBar />
 
                 <div className="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
                     {/* Header */}
@@ -54,9 +52,9 @@ const VMO = () => {
                             <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
                             <div className="relative h-full p-8 lg:p-10 rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl flex flex-col items-center text-center transform transition-all duration-300 group-hover:-translate-y-2">
                                 <div className="w-16 h-16 mb-8 rounded-2xl bg-purple/10 flex items-center justify-center text-purple group-hover:scale-110 transition-transform duration-300">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    <svg className="w-8 h-8 " fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 </div>
-                                <h2 className="text-3xl font-bold text-dark dark:text-light mb-6 group-hover:text-purple transition-colors">
+                                <h2 className="text-3xl font-bold text-dark dark:text-light mb-6 group-hover:text-white transition-colors">
                                     Vision
                                 </h2>
                                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -77,9 +75,9 @@ const VMO = () => {
                             <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
                             <div className="relative h-full p-8 lg:p-10 rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl flex flex-col items-center text-center transform transition-all duration-300 group-hover:-translate-y-2">
                                 <div className="w-16 h-16 mb-8 rounded-2xl bg-purple/10 flex items-center justify-center text-purple group-hover:scale-110 transition-transform duration-300">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                    <svg className="w-8 h-8" fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                                 </div>
-                                <h2 className="text-3xl font-bold text-dark dark:text-light mb-6 group-hover:text-purple transition-colors">
+                                <h2 className="text-3xl font-bold text-dark dark:text-light mb-6 group-hover:text-white transition-colors">
                                     Mission
                                 </h2>
                                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -100,9 +98,9 @@ const VMO = () => {
                             <div className="absolute -inset-0.5 bg-gradient-to-br from-purple to-fuchsia-600 rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
                             <div className="relative h-full p-8 lg:p-10 rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl flex flex-col items-center text-center transform transition-all duration-300 group-hover:-translate-y-2">
                                 <div className="w-16 h-16 mb-8 rounded-2xl bg-purple/10 flex items-center justify-center text-purple group-hover:scale-110 transition-transform duration-300">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                    <svg className="w-8 h-8" fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                 </div>
-                                <h2 className="text-3xl font-bold text-dark dark:text-light mb-6 group-hover:text-purple transition-colors">
+                                <h2 className="text-3xl font-bold text-dark dark:text-light mb-6 group-hover:text-white transition-colors">
                                     Core Values
                                 </h2>
                                 <div className="flex flex-wrap justify-center gap-3 ">

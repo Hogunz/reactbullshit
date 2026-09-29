@@ -1,12 +1,73 @@
-import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
-import React, { useRef, useState, useEffect } from "react";
 import { LocationIcon, MessageIcon, PhoneIcon } from "@/Components/svg/SVGicon";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import React, { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
+import { Head, Link } from "@inertiajs/react";
 import GalleryModal from "@/Components/GalleryModal";
-import { Head } from "@inertiajs/react";
+
+// --- Custom Icons ---
+const GlobeIcon = ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+    </svg>
+);
+
+const SmartphoneIcon = ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    </svg>
+);
+
+const ExternalLinkIcon = ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+);
 
 // --- Animation Components ---
+
+const Magnetic = ({ children }) => {
+    const ref = useRef(null);
+    const position = { x: useMotionValue(0), y: useMotionValue(0) };
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    const handleMouse = (e) => {
+        if (isMobile) return;
+        const { clientX, clientY } = e;
+        const { height, width, left, top } = ref.current.getBoundingClientRect();
+        const middleX = clientX - (left + width / 2);
+        const middleY = clientY - (top + height / 2);
+        position.x.set(middleX * 0.2);
+        position.y.set(middleY * 0.2);
+    };
+
+    const reset = () => {
+        position.x.set(0);
+        position.y.set(0);
+    };
+
+    const { x, y } = position;
+    return (
+        <motion.div
+            style={{ x, y }}
+            ref={ref}
+            onMouseMove={handleMouse}
+            onMouseLeave={reset}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+            whileTap={{ scale: 0.95 }}
+        >
+            {children}
+        </motion.div>
+    );
+};
+
 const TiltCard = ({ children, className, color, onClick }) => {
     const ref = useRef(null);
     const x = useMotionValue(0);
@@ -58,10 +119,10 @@ const TiltCard = ({ children, className, color, onClick }) => {
             whileTap={{ scale: 0.98 }}
             className={`relative overflow-hidden rounded-3xl ${className} ${color}`}
         >
-            <div style={{ transform: isMobile ? "none" : "translateZ(50px)", transformStyle: "preserve-3d" }} className="relative z-10 h-full">
+            <div style={{ transform: isMobile ? "none" : "translateZ(50px)", transformStyle: "preserve-3d" }} className="relative z-10 h-full w-full">
                 {children}
             </div>
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none z-30" />
         </motion.div>
     );
 };
@@ -90,7 +151,7 @@ const StaggerText = ({ text, className, delay = 0 }) => {
 
     return (
         <motion.div
-            style={{ display: "flex", flexWrap: "wrap" }}
+            style={{ display: "flex", flexWrap: "nowrap" }}
             variants={container}
             initial="hidden"
             whileInView="visible"
@@ -106,202 +167,707 @@ const StaggerText = ({ text, className, delay = 0 }) => {
     );
 };
 
-function BSITWMAD({ video, galleryItems, categories }) {
-    const itemsToDisplay = galleryItems || [];
-    const { scrollYProgress } = useScroll();
-    const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
-    const rotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
+// --- Main Component ---
 
+function BSITWMAD({ video, galleryItems, categories }) {
     const [modalOpen, setModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [hoveredCategory, setHoveredCategory] = useState(null);
+    const [deviceView, setDeviceView] = useState("web"); // 'web' | 'mobile'
+
+    const careersList = [
+        "Frontend Developer", "Backend Developer", "Full-Stack Engineer",
+        "Mobile App Developer", "UI/UX Designer", "DevOps Engineer",
+        "QA Engineer", "Cloud Architect", "API Specialist"
+    ];
+
+    const toolsList = [
+        "React", "React Native", "Flutter", "Laravel", "Node.js", "Next.js", "Tailwind CSS", "TypeScript"
+    ];
+
+    // Helper to detect if category/item is mobile
+    const checkIsMobile = (catName = "", item = null) => {
+        const text = `${catName} ${item?.category || ''} ${item?.top_30_category || ''} ${item?.title || ''}`.toLowerCase();
+        return text.includes("mobile") || text.includes("app") || text.includes("android") || text.includes("ios") || text.includes("flutter");
+    };
+
+    // Prepare display items from database + fallback representations
+    const dbItems = (galleryItems || []).map(item => ({
+        ...item,
+        platform: checkIsMobile(item.category, item) ? "mobile" : "web",
+    }));
+
+    const sampleItems = [
+        {
+            id: "sample-web-1",
+            title: "CampusConnect Portal",
+            category: "Web Applications",
+            platform: "web",
+            project_url: "https://pulse-dashboard.vercel.app",
+            creator_major: "BSIT - WMAD",
+            is_top_30: true,
+            images: [{ id: "sw1", media_path: "/storage/showcase/wmad_sample.png", media_type: "image" }]
+        },
+        {
+            id: "sample-mob-1",
+            title: "SmartLocker Mobile",
+            category: "Mobile Apps",
+            platform: "mobile",
+            project_url: "https://pulse-dashboard.vercel.app",
+            creator_major: "BSIT - WMAD",
+            is_top_30: false,
+            images: [{ id: "sm1", media_path: "/storage/showcase/1788678935_tTqqqVByqvAo.jpg", media_type: "image" }]
+        }
+    ];
+
+    const allItems = dbItems.length > 0 ? dbItems : sampleItems;
+
+    // Flexible Categories List:
+    // Core default categories: "Web Applications" and "Mobile Applications"
+    // Plus ANY other categories dynamically added in the database!
+    const defaultCategoryNames = ["Web Applications", "Mobile Applications"];
+    const dbCategoryNames = (categories || []).map(c => c.name);
+    const combinedCategoryNames = Array.from(new Set([...defaultCategoryNames, ...dbCategoryNames]));
+
+    const categoryList = combinedCategoryNames.map((name, index) => {
+        const dbCat = categories?.find(c => c.name.toLowerCase() === name.toLowerCase());
+        const isMob = checkIsMobile(name);
+        return {
+            id: dbCat ? dbCat.id : `cat-${index}`,
+            name: name,
+            isMobile: isMob,
+        };
+    });
+
+    // Determine currently active category
+    const activeCategoryName = hoveredCategory || categoryList[0]?.name || "Web Applications";
+    const isCurrentMobile = checkIsMobile(activeCategoryName);
+
+    // Find the primary showcase entry for the active category
+    const activeProject = allItems.find(item => {
+        const itemCat = (item.category || "").toLowerCase();
+        const activeCat = activeCategoryName.toLowerCase();
+        if (itemCat === activeCat) return true;
+        if (isCurrentMobile && (itemCat.includes("mobile") || itemCat.includes("app"))) return true;
+        if (!isCurrentMobile && (itemCat.includes("web") || item.top_30_category === "website")) return true;
+        return false;
+    }) || allItems[0];
+
+    const activeFirstImage = activeProject?.images && activeProject.images.length > 0 ? activeProject.images[0] : null;
+    const projectLiveUrl = activeProject?.project_url || "https://pulse-dashboard.vercel.app";
+
+    const handleCategoryClick = (catName) => {
+        setSelectedCategory(catName);
+        setSelectedItem(activeProject);
+        setModalOpen(true);
+    };
 
     return (
         <>
             <Head title="BSIT WMAD" />
-            <CustomCursor />
-            <div className="dark:bg-dark w-full">
+            <div className="relative min-h-screen bg-light dark:bg-dark overflow-hidden selection:bg-purple selection:text-white perspective-1000">
                 <NavBar isWelcomePage={true} />
-                {" "}
-                <div className="text-dark dark:text-light text-center font-inter font-bold lg:text-[90px] text-[40px] leading-[108px] relative">
-                    <div className="relative w-full lg:block hidden">
-                        <img
-                            className="w-full rounded-lg shadow-lg  object-cover object-center bg-auto"
-                            src="/img/wma.png"
-                        ></img>
-                    </div>
-                </div>
-            </div>
-            <section className="dark:bg-[#232323] bg-light ">
-                <div className="mx-auto w-full max-w-5xl grid grid-cols-1 pt-[60px]">
-                    <div className="border dark:border-0 shadow-2xl dark:shadow-none dark:bg-dark bg-light  relative  ">
-                        <div className="flex flex-col">
-                            <div className="flex space-x-4 p-8 items-center">
-                                <div>
-                                    <h2 className="font-inter leading-[33.6px] font-semibold text-[28px] text-dark dark:text-light">
-                                        Our Contacts
-                                    </h2>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-8">
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <LocationIcon />
-                                    </div>
-                                    <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-dark/75 dark:text-light/75 text-[18px] ">
-                                            Arellano St, Dagupan City,
-                                            Philippines
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <MessageIcon />
-                                    </div>
-                                    <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-dark/75 dark:text-light/75 text-[18px] ">
-                                            udd_site@cdd.edu.ph
-                                        </h2>
-                                    </div>
-                                </div>
-                                <div className="flex space-x-4 items-center">
-                                    <div className="border-dashed border-2 border-purple bg-purple/5 p-[5px]">
-                                        <PhoneIcon />
-                                    </div>
-                                    <div>
-                                        <h2 className="font-light font-inter leading-[27px] text-dark/75 dark:text-light/75 text-[18px] ">
-                                            (075) 522 2405
-                                        </h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl">
-                    <p className="dark:text-light text-dark font-inter leading-[30px] lg:text-[24px] text-[18px] text-justify lg:text-left">
-                        The Web and Mobile Application Development
-                        Specialization is designed to supplement courses that
-                        the learner is already taking. This specialization will
-                        equip learners with the technical skills and knowledge
-                        to design, develop, and deploy innovative web and mobile
-                        applications. Additionally, this will focus on modern
-                        mobile and web programming languages, frameworks, and
-                        tools for creating user-friendly, and responsive
-                        applications. Graduates from this specialization will
-                        have the knowledge and skills needed to address
-                        real-world challenges in web and mobile technologies and
-                        become competitive and innovative individuals in the
-                        ever-changing digital landscape.
-                    </p>
-                    <h1 className="text-dark dark:text-light text-3xl font-inter font-semibold pb-[50px] pt-[50px]">
-                        Career Opportunities:
-                    </h1>
-                    <div>
-                        <ul className="list-disc list-inside">
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Frontend Developer
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Backend Developer
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Full-Stack Developer
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Mobile App Developer
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                UI/UX Designer
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Web Developer
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Quality Assurance (QA) Tester
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                Product Manager
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                App Store Optimization (ASO) Specialist
-                            </li>
-                            <li className=" marker:text-purple font-inter font-normal text-[18px] leading-[27px] dark:text-light text-black/75 pt-[20.6px] lg:text-left text-justify lg:p-0 p-4">
-                                DevOps Engineer
-                            </li>
-                        </ul>
-                    </div>
 
-                    {/* Dynamic Showcase & Video Section */}
-                    {(video || itemsToDisplay.length > 0) && (
-                        <div className="mt-24">
-                            {/* Video Section */}
-                            {video && (
-                                <div className="mb-12 shadow-2xl border border-white/10 group aspect-video rounded-3xl overflow-hidden bg-black relative">
+                {/* Dynamic Ambient Background */}
+                <div className="fixed inset-0 pointer-events-none z-0">
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+                    <motion.div
+                        animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                        className="absolute -top-[20%] -right-[20%] w-[80vw] h-[80vw] bg-gradient-to-b from-purple/20 to-transparent rounded-full blur-[100px]"
+                    />
+                    <motion.div
+                        animate={{ rotate: -360, scale: [1, 1.2, 1] }}
+                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                        className="absolute -bottom-[20%] -left-[20%] w-[80vw] h-[80vw] bg-gradient-to-t from-fuchsia-500/10 to-transparent rounded-full blur-[100px]"
+                    />
+                </div>
+
+                {/* Hero Section */}
+                <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-32 pb-20 overflow-hidden">
+                    <div className="max-w-[90rem] mx-auto w-full flex flex-col items-center">
+                        {/* Massive Centered Typography */}
+                        <div className="relative flex flex-col items-center text-center mb-12 z-20 w-full">
+                            <StaggerText
+                                text="WEB & MOBILE"
+                                className="text-[14vw] md:text-[10vw] lg:text-[9vw] leading-[0.8] font-black tracking-tighter text-dark dark:text-light mix-blend-difference"
+                            />
+                            <div className="flex items-center justify-center gap-3 md:gap-6 mt-3 md:mt-2 flex-wrap">
+                                <StaggerText
+                                    text="APPLICATION"
+                                    delay={0.2}
+                                    className="text-[11vw] md:text-[7.5vw] lg:text-[6.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 py-2 pr-2"
+                                />
+                                <StaggerText
+                                    text="DEVELOPMENT"
+                                    delay={0.4}
+                                    className="text-[11vw] md:text-[7.5vw] lg:text-[6.5vw] leading-[0.85] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-purple py-2 pr-2"
+                                />
+                            </div>
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.8 }}
+                                className="mt-8 text-lg md:text-2xl text-gray-700 dark:text-gray-300 max-w-2xl font-light text-center leading-relaxed"
+                            >
+                                Building modern web and mobile applications for the real world.
+                            </motion.p>
+                        </div>
+
+                        {/* Centered Massive Showreel */}
+                        <div className="w-full max-w-5xl relative perspective-1000 z-10 mt-4 md:mt-8">
+                            <TiltCard className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black group" color="">
+                                {/* Play Button Overlay */}
+                                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center z-20 pointer-events-none">
+                                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500">
+                                        <svg className="w-8 h-8 md:w-10 md:h-10 text-white ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                    </div>
+                                </div>
+
+                                {video ? (
                                     <video
                                         src={video}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover scale-[1.02] group-hover:scale-100 transition-transform duration-700"
                                         autoPlay
                                         muted
                                         loop
                                         playsInline
-                                        controls
                                     />
+                                ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900">
+                                        <svg className="w-12 h-12 text-white/20 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                        </svg>
+                                        <p className="text-white/40 font-mono text-sm tracking-widest uppercase">Showreel Coming Soon</p>
+                                    </div>
+                                )}
+
+                                {/* UI Accents on the container */}
+                                <div className="absolute top-6 left-6 z-30 text-white/90 font-mono text-[10px] md:text-xs tracking-widest flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span> LIVE DEMO
                                 </div>
-                            )}
+                                <div className="absolute bottom-6 right-6 z-30 text-white/70 font-mono text-[10px] md:text-xs tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">
+                                    RESPONSIVE • FULL-STACK
+                                </div>
+                            </TiltCard>
 
-                            {/* Gallery Section */}
-                            {itemsToDisplay.length > 0 && (
-                                <>
-                                    <StaggerText text="STUDENT GALLERY" className="text-3xl md:text-6xl font-black tracking-tighter mb-12" />
+                            {/* Floating Badge */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                className="absolute -bottom-10 -right-4 md:-bottom-16 md:-right-16 w-28 h-28 md:w-40 md:h-40 rounded-full border border-white/20 bg-dark/50 backdrop-blur-md flex items-center justify-center text-white/80 text-xs uppercase tracking-widest z-40 shadow-2xl"
+                            >
+                                <svg className="w-full h-full animate-spin-slow" viewBox="0 0 100 100">
+                                    <path id="curve-hero" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="transparent" />
+                                    <text>
+                                        <textPath href="#curve-hero" className="fill-current text-[10px] font-bold">
+                                            • WEB & MOBILE • APP DEV •
+                                        </textPath>
+                                    </text>
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-3 h-3 rounded-full bg-purple shadow-[0_0_15px_rgba(99,48,125,0.8)]"></div>
+                                </div>
+                            </motion.div>
+                        </div>
 
-                                    {/* Categories Grid */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                                        {categories && categories.length > 0 ? (
-                                            categories.map((cat, index) => {
-                                                // Assign a color based on index or hash
-                                                const colors = ["bg-rose-500", "bg-purple", "bg-blue-500", "bg-amber-500", "bg-emerald-500", "bg-indigo-500"];
-                                                const cardColor = colors[index % colors.length];
+                        {/* Minimalist Toolkit below Video */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1.2, duration: 0.8 }}
+                            className="mt-16 md:mt-24 flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500"
+                        >
+                            {toolsList.map((tool, i) => (
+                                <p key={i} className="font-mono text-xs md:text-sm font-bold tracking-widest text-dark dark:text-light uppercase">{tool}</p>
+                            ))}
+                        </motion.div>
+                    </div>
+                </section>
 
-                                                return (
-                                                    <TiltCard
-                                                        key={cat.id}
-                                                        className="aspect-[16/9] md:h-[400px] group cursor-pointer"
-                                                        color={cardColor}
-                                                        onClick={() => {
-                                                            setSelectedCategory(cat.name);
-                                                            setModalOpen(true);
-                                                        }}
-                                                    >
-                                                        <div className="absolute inset-0 flex items-end p-8 md:p-12 z-20">
+                {/* Content Grid / Overview */}
+                <section className="relative z-10 py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="gap-12 items-start">
+                            <div className="lg:col-span-8 space-y-12 md:space-y-20">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="prose prose-lg dark:prose-invert max-w-none"
+                                >
+                                    <p className="text-xl md:text-3xl font-light leading-relaxed text-dark dark:text-light text-justify md:text-left">
+                                        The <span className="font-bold text-purple">Web and Mobile Application Development Specialization</span> equips students with the technical expertise and software engineering foundation needed to build modern digital products. Learners gain hands-on proficiency in <span className="font-bold text-purple">full-stack web development, cross-platform mobile apps, cloud backends, and responsive UI/UX</span>. Graduates are prepared to architect scalable applications and solve real-world challenges in the tech industry.
+                                    </p>
+                                </motion.div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Career Ticker */}
+                <section className="py-16 md:py-20 overflow-hidden bg-purple text-white">
+                    <div className="flex whitespace-nowrap">
+                        <motion.div
+                            animate={{ x: "-50%" }}
+                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                            className="flex gap-8 md:gap-12 text-4xl md:text-8xl font-black uppercase tracking-tight"
+                        >
+                            {careersList.map((career, i) => (
+                                <span key={i} className="flex items-center gap-8 md:gap-12">
+                                    {career} <span className="text-white/30">•</span>
+                                </span>
+                            ))}
+                            {careersList.map((career, i) => (
+                                <span key={`dup-${i}`} className="flex items-center gap-8 md:gap-12">
+                                    {career} <span className="text-white/30">•</span>
+                                </span>
+                            ))}
+                        </motion.div>
+                    </div>
+                </section>
+
+                {/* Student Showcase Section — Web & Mobile Showcase */}
+                <section className="relative z-10 py-16 md:py-32 bg-dark text-light">
+                    <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="mb-10 md:mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <div>
+                                <StaggerText text="STUDENT SHOWCASE" className="text-3xl md:text-5xl lg:text-7xl font-black tracking-tighter mb-2" />
+                                <p className="text-sm md:text-base text-gray-400 font-mono">
+                                    Interactive Web Platforms & Mobile Applications engineered by WMAD
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-2 text-xs font-mono text-gray-400">
+                                <span className="w-2 h-2 rounded-full bg-purple animate-pulse"></span>
+                                Click any category or preview to explore
+                            </div>
+                        </div>
+
+                        {/* Interactive List Showcase */}
+                        <div className="relative flex flex-col md:flex-row items-start gap-8 lg:gap-16">
+                            {/* Left List: Flexible Categories (Web Apps, Mobile Apps, + any dynamic DB categories) */}
+                            <div className="w-full md:w-1/2 lg:w-3/5 flex flex-col relative z-20 pb-20">
+                                {categoryList.map((cat, index) => {
+                                    const isHovered = (hoveredCategory === cat.name) || (!hoveredCategory && index === 0);
+                                    
+                                    // Count projects for this category
+                                    const count = allItems.filter(item => {
+                                        const itemCat = (item.category || "").toLowerCase();
+                                        const targetCat = cat.name.toLowerCase();
+                                        if (itemCat === targetCat) return true;
+                                        if (cat.isMobile && (itemCat.includes("mobile") || itemCat.includes("app"))) return true;
+                                        if (!cat.isMobile && (itemCat.includes("web") || item.top_30_category === "website")) return true;
+                                        return false;
+                                    }).length;
+
+                                    return (
+                                        <div
+                                            key={cat.id}
+                                            className={`group relative py-8 md:py-12 border-b border-white/5 cursor-pointer flex justify-between items-center transition-all duration-500 ${
+                                                isHovered ? 'border-purple/40 pl-3 md:pl-6' : 'hover:pl-2'
+                                            }`}
+                                            onMouseEnter={() => {
+                                                setHoveredCategory(cat.name);
+                                                setDeviceView(cat.isMobile ? "mobile" : "web");
+                                            }}
+                                            onClick={() => handleCategoryClick(cat.name)}
+                                        >
+                                            <div className="flex items-center gap-6 md:gap-10 relative z-10 w-full pr-4">
+                                                <span className={`font-mono text-sm md:text-xl font-bold transition-colors duration-500 ${
+                                                    isHovered ? 'text-purple-300' : 'text-gray-700'
+                                                }`}>
+                                                    {(index + 1).toString().padStart(2, '0')}
+                                                </span>
+
+                                                <div className="flex flex-col">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        {cat.isMobile ? (
+                                                            <span className="inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-purple-400 font-bold">
+                                                                <SmartphoneIcon className="w-3.5 h-3.5" />
+                                                                Mobile Development
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold">
+                                                                <GlobeIcon className="w-3.5 h-3.5" />
+                                                                Web Development
+                                                            </span>
+                                                        )}
+                                                        {count > 0 && (
+                                                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10">
+                                                                {count} {count === 1 ? 'project' : 'projects'}
+                                                            </span>
+                                                        )}
+                                                    </div>
+
+                                                    <h3 className={`text-3xl sm:text-5xl md:text-5xl lg:text-7xl font-black tracking-tighter transition-all duration-700 break-words ${
+                                                        isHovered
+                                                            ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 translate-x-2 md:translate-x-4'
+                                                            : 'text-gray-600 group-hover:text-gray-300'
+                                                    }`}>
+                                                        {cat.name}
+                                                    </h3>
+                                                </div>
+                                            </div>
+
+                                            <div className={`hidden md:flex items-center gap-4 transition-all duration-500 relative z-10 flex-shrink-0 ${
+                                                isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                                            }`}>
+                                                <p className="font-mono text-xs tracking-widest uppercase text-purple-300 whitespace-nowrap">
+                                                    Explore
+                                                </p>
+                                                <svg className="w-5 h-5 text-fuchsia-500 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Right Sticky Preview with Interactive Device Mockup */}
+                            <div className="w-full md:w-1/2 lg:w-2/5 sticky top-28 h-[580px] md:h-[660px] z-10 perspective-1000 flex flex-col">
+                                {/* Device View Switcher Header */}
+                                <div className="flex items-center justify-between gap-3 mb-3 px-1 select-none">
+                                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-purple"></span>
+                                        Interactive Preview
+                                    </span>
+
+                                    {/* Web vs Mobile Frame Mode Switcher */}
+                                    <div className="flex items-center gap-1 p-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md">
+                                        <button
+                                            onClick={() => setDeviceView("web")}
+                                            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                                                deviceView === "web"
+                                                    ? "bg-purple text-white shadow-md font-bold"
+                                                    : "text-gray-400 hover:text-white"
+                                            }`}
+                                            title="View as Desktop Web Browser"
+                                        >
+                                            <GlobeIcon className="w-3.5 h-3.5" />
+                                            <span>Web</span>
+                                        </button>
+                                        <button
+                                            onClick={() => setDeviceView("mobile")}
+                                            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                                                deviceView === "mobile"
+                                                    ? "bg-purple text-white shadow-md font-bold"
+                                                    : "text-gray-400 hover:text-white"
+                                            }`}
+                                            title="View inside Mobile Smartphone"
+                                        >
+                                            <SmartphoneIcon className="w-3.5 h-3.5" />
+                                            <span>Mobile</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Dynamic Device Canvas */}
+                                <div className="flex-1 w-full relative rounded-[2rem] p-3 md:p-4 bg-gradient-to-b from-[#18181b] to-[#0c0c0e] border border-white/10 shadow-2xl flex items-center justify-center overflow-hidden">
+                                    {activeProject ? (
+                                        <AnimatePresence mode="wait">
+                                            {deviceView === "web" ? (
+                                                /* --- DESKTOP BROWSER FRAME --- */
+                                                <motion.div
+                                                    key={`web-${activeProject.id}`}
+                                                    initial={{ opacity: 0, scale: 0.96 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.96 }}
+                                                    transition={{ duration: 0.35 }}
+                                                    className="w-full h-full flex flex-col rounded-xl md:rounded-2xl overflow-hidden bg-[#121214] border border-white/10 shadow-2xl"
+                                                >
+                                                    {/* macOS Browser Header */}
+                                                    <div className="h-11 bg-[#1c1c20] border-b border-white/10 px-4 flex items-center justify-between flex-shrink-0 select-none">
+                                                        {/* Window Dots */}
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm" />
+                                                            <span className="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm" />
+                                                            <span className="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm" />
+                                                        </div>
+
+                                                        {/* Address Bar — Clickable link to website */}
+                                                        <div className="flex-1 max-w-xs md:max-w-sm mx-4">
+                                                            <a
+                                                                href={projectLiveUrl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                title="Open live website in new tab"
+                                                                className="h-7 bg-[#0c0c0e] hover:bg-[#18181d] transition-colors rounded-md px-3 flex items-center gap-2 text-[11px] font-mono text-gray-400 border border-white/5 truncate group/url"
+                                                            >
+                                                                <svg className="w-3 h-3 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                                                </svg>
+                                                                <span className="text-gray-300 group-hover/url:text-purple-300 transition-colors truncate">
+                                                                    {projectLiveUrl.replace(/^https?:\/\//, '')}
+                                                                </span>
+                                                                <ExternalLinkIcon className="w-3 h-3 ml-auto opacity-0 group-hover/url:opacity-100 transition-opacity text-purple-400" />
+                                                            </a>
+                                                        </div>
+
+                                                        {/* Platform Tag */}
+                                                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold">
+                                                            WEB
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Browser Screen Content */}
+                                                    <div className="relative flex-1 bg-[#09090b] overflow-hidden flex items-center justify-center group cursor-pointer">
+                                                        {activeFirstImage ? (
+                                                            activeFirstImage.media_type === "video" ? (
+                                                                <video
+                                                                    src={activeFirstImage.media_path}
+                                                                    className="w-full h-full object-contain"
+                                                                    autoPlay
+                                                                    muted
+                                                                    loop
+                                                                    playsInline
+                                                                />
+                                                            ) : (
+                                                                <>
+                                                                    {/* Blurred background glow */}
+                                                                    <img
+                                                                        src={activeFirstImage.media_path}
+                                                                        alt=""
+                                                                        className="absolute inset-0 w-full h-full object-cover opacity-25 blur-2xl scale-110"
+                                                                    />
+                                                                    {/* Uncropped web screenshot */}
+                                                                    <img
+                                                                        src={activeFirstImage.media_path}
+                                                                        alt={activeProject.title}
+                                                                        className="relative z-10 w-full h-full object-contain p-2"
+                                                                    />
+                                                                </>
+                                                            )
+                                                        ) : (
+                                                            <div className="flex flex-col items-center justify-center p-6 text-gray-500 font-mono text-xs">
+                                                                <GlobeIcon className="w-10 h-10 mb-2 opacity-30" />
+                                                                <span>Live Web Preview</span>
+                                                            </div>
+                                                        )}
+
+                                                        {/* Hover Action Overlay — Direct Link to Web App OR Gallery */}
+                                                        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 z-30 p-4">
+                                                            {projectLiveUrl && (
+                                                                <a
+                                                                    href={projectLiveUrl}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    className="px-6 py-2.5 rounded-full bg-purple hover:bg-purple/80 text-white font-bold text-xs md:text-sm flex items-center gap-2 hover:scale-105 transition-transform shadow-xl shadow-purple/40"
+                                                                >
+                                                                    <span>Open Live Website</span>
+                                                                    <ExternalLinkIcon className="w-4 h-4" />
+                                                                </a>
+                                                            )}
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleCategoryClick(activeCategoryName);
+                                                                }}
+                                                                className="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs backdrop-blur-md transition-all flex items-center gap-2 border border-white/20"
+                                                            >
+                                                                <span>View Full Gallery</span>
+                                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                            </button>
+                                                        </div>
+
+                                                        {/* Project info overlay at bottom */}
+                                                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5 z-20 flex items-end justify-between pointer-events-none">
                                                             <div>
-                                                                <p className="text-xs md:text-sm font-mono mb-2 opacity-70 text-white tracking-widest uppercase">{cat.program} Specialization</p>
-                                                                <h3 className="text-4xl md:text-6xl font-black text-white leading-none tracking-tighter">{cat.name}</h3>
+                                                                <p className="text-xs font-mono text-purple-300 font-bold mb-1">
+                                                                    {activeProject.category}
+                                                                </p>
+                                                                <h4 className="text-xl md:text-2xl font-black text-white leading-tight">
+                                                                    {activeProject.title}
+                                                                </h4>
+                                                            </div>
+                                                            <span className="text-[11px] font-mono text-white/50">
+                                                                Hover for actions
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            ) : (
+                                                /* --- SMARTPHONE MOBILE FRAME --- */
+                                                <motion.div
+                                                    key={`mobile-${activeProject.id}`}
+                                                    initial={{ opacity: 0, scale: 0.95 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.95 }}
+                                                    transition={{ duration: 0.35 }}
+                                                    className="w-[280px] md:w-[310px] h-full max-h-[540px] rounded-[2.8rem] p-3 bg-gradient-to-b from-[#2e2e33] via-[#1f1f23] to-[#121215] border-2 border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] relative flex flex-col mx-auto select-none"
+                                                >
+                                                    {/* Smartphone Inner Screen */}
+                                                    <div className="relative w-full h-full rounded-[2.2rem] overflow-hidden bg-black flex flex-col border border-white/15">
+                                                        {/* Dynamic Island & Status Bar */}
+                                                        <div className="h-9 bg-black px-6 flex items-center justify-between text-[11px] font-mono text-white/90 z-30 flex-shrink-0">
+                                                            <span className="font-semibold tracking-tight">9:41</span>
+
+                                                            {/* Dynamic Island Pill */}
+                                                            <div className="w-20 h-4 bg-[#141416] rounded-full border border-white/10 flex items-center justify-end px-2">
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500/70"></div>
+                                                            </div>
+
+                                                            {/* Battery & Signals */}
+                                                            <div className="flex items-center gap-1.5">
+                                                                <svg className="w-3.5 h-3.5 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
+                                                                <div className="w-4 h-2.5 rounded-xs border border-white/80 p-0.5 flex items-center">
+                                                                    <div className="h-full w-2 bg-emerald-400 rounded-2xs" />
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </TiltCard>
-                                                );
-                                            })
-                                        ) : (
-                                            <div className="col-span-full py-12 text-center text-gray-500 border-2 border-dashed border-gray-700 rounded-3xl">
-                                                <p>No categories found.</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </>
-                            )}
+
+                                                        {/* Mobile App Screen Viewport */}
+                                                        <div className="relative flex-1 overflow-hidden bg-[#0c0c0e] flex items-center justify-center cursor-pointer group">
+                                                            {activeFirstImage ? (
+                                                                activeFirstImage.media_type === "video" ? (
+                                                                    <video
+                                                                        src={activeFirstImage.media_path}
+                                                                        className="w-full h-full object-cover"
+                                                                        autoPlay
+                                                                        muted
+                                                                        loop
+                                                                        playsInline
+                                                                    />
+                                                                ) : (
+                                                                    <>
+                                                                        {/* Background blur */}
+                                                                        <img
+                                                                            src={activeFirstImage.media_path}
+                                                                            alt=""
+                                                                            className="absolute inset-0 w-full h-full object-cover opacity-25 blur-xl scale-120"
+                                                                        />
+                                                                        {/* Actual mobile screen screenshot */}
+                                                                        <img
+                                                                            src={activeFirstImage.media_path}
+                                                                            alt={activeProject.title}
+                                                                            className="relative z-10 w-full h-full object-contain"
+                                                                        />
+                                                                    </>
+                                                                )
+                                                            ) : (
+                                                                <div className="flex flex-col items-center justify-center p-6 text-gray-500 font-mono text-xs">
+                                                                    <SmartphoneIcon className="w-10 h-10 mb-2 opacity-30" />
+                                                                    <span>Mobile Screen</span>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Mobile Hover Action Overlay — Direct Link or Gallery */}
+                                                            <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2.5 z-30 p-4">
+                                                                {projectLiveUrl && (
+                                                                    <a
+                                                                        href={projectLiveUrl}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        onClick={(e) => e.stopPropagation()}
+                                                                        className="w-full max-w-[190px] py-2.5 rounded-full bg-purple hover:bg-purple/80 text-white font-bold text-xs flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-xl shadow-purple/40"
+                                                                    >
+                                                                        <span>Launch Mobile App</span>
+                                                                        <ExternalLinkIcon className="w-3.5 h-3.5" />
+                                                                    </a>
+                                                                )}
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleCategoryClick(activeCategoryName);
+                                                                    }}
+                                                                    className="w-full max-w-[190px] py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs backdrop-blur-md transition-all flex items-center justify-center gap-1.5 border border-white/20"
+                                                                >
+                                                                    <span>View Gallery</span>
+                                                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                                </button>
+                                                            </div>
+
+                                                            {/* Mobile Bottom Overlay */}
+                                                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/85 to-transparent p-4 z-20 pointer-events-none">
+                                                                <p className="text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">
+                                                                    {activeProject.category}
+                                                                </p>
+                                                                <h4 className="text-base font-black text-white truncate">
+                                                                    {activeProject.title}
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Smartphone Home Bar */}
+                                                        <div className="h-5 bg-black flex items-center justify-center flex-shrink-0 z-30">
+                                                            <div className="w-24 h-1 bg-white/40 rounded-full" />
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    ) : (
+                                        <div className="text-center text-gray-600 font-mono text-sm uppercase">
+                                            Select a category to preview
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                    )}
+                    </div>
+                </section>
 
-                    <GalleryModal
-                        isOpen={modalOpen}
-                        onClose={() => setModalOpen(false)}
-                        initialCategory={selectedCategory}
-                        allItems={itemsToDisplay}
-                    />
+                <GalleryModal
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    initialItem={selectedItem}
+                    initialCategory={selectedCategory}
+                    allItems={allItems}
+                />
 
-                </div>
-            </section>
+                {/* CTA & Contact Footer */}
+                <section className="relative z-10 py-24 md:py-32 px-4 text-center">
+                    <div className="max-w-4xl mx-auto">
+                        <motion.h2
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5 }}
+                            className="text-4xl md:text-7xl font-bold text-dark dark:text-light mb-6 md:mb-8"
+                        >
+                            READY TO <span className="text-purple">DEVELOP?</span>
+                        </motion.h2>
+                        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 md:mb-12 max-w-2xl mx-auto">
+                            Join the next generation of software engineers and tech innovators. Your journey starts here.
+                        </p>
+
+                        <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-6 mb-16 md:mb-24">
+                            <Magnetic>
+                                <Link href="/Contact">
+                                    <button className="w-full md:w-auto px-12 py-5 rounded-full bg-dark dark:bg-light text-light dark:text-dark font-bold text-lg hover:scale-105 transition-transform active:scale-95 shadow-xl">
+                                        Enroll Now
+                                    </button>
+                                </Link>
+                            </Magnetic>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto text-left">
+                            {[
+                                { icon: LocationIcon, label: "Visit Us", value: "Arellano St, Dagupan City" },
+                                { icon: MessageIcon, label: "Email Us", value: "udd_site@cdd.edu.ph" },
+                                { icon: PhoneIcon, label: "Call Us", value: "(075) 522 2405" },
+                            ].map((contact, i) => (
+                                <motion.div
+                                    key={i}
+                                    whileHover={{ y: -5 }}
+                                    className="flex items-center gap-4 p-6 rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur-sm border border-black/5 dark:border-white/10"
+                                >
+                                    <div className="p-3 rounded-full bg-purple/10 text-purple">
+                                        <contact.icon className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{contact.label}</p>
+                                        <p className="font-medium text-dark dark:text-light">{contact.value}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </div>
         </>
     );
 }

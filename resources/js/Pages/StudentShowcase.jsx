@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Head } from "@inertiajs/react";
 import { NavBar } from "@/Components/NavBar";
-import CustomCursor from "@/Components/CustomCursor";
 import { motion } from "framer-motion";
 import GalleryModal from "@/Components/GalleryModal";
 import { SakuraBackground } from "@/Components/SakuraBackground";
@@ -175,7 +174,6 @@ export default function StudentShowcase({ winners = [] }) {
     return (
         <>
             <Head title="Student Showcase | Hall of Fame" />
-            <CustomCursor />
 
             <div className="min-h-screen bg-[#070708] text-white selection:bg-purple selection:text-white relative overflow-x-hidden">
                 <NavBar />

@@ -6,13 +6,11 @@ import {
     FinderIcon,
 } from "./svg/SVGicon";
 import GoogleMap from "./GoogleMap";
-import CustomCursor from "./CustomCursor";
 
 
 const ContactUs = () => {
     return (
         <>
-            <CustomCursor />
             <div className="dark:bg-dark relative overflow-hidden">
                 {/* Background Elements */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />

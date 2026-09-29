@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import CustomCursor from "@/Components/CustomCursor";
 import { NavBar } from "@/Components/NavBar";
 import { Head } from "@inertiajs/react";
 import AOS from "aos";
@@ -56,7 +55,6 @@ export default function Recognitions() {
     return (
         <>
             <Head title="Recognitions | SITE" />
-            <CustomCursor />
             <NavBar />
 
             <div className="relative min-h-screen bg-[#FDFDFC] dark:bg-dark overflow-hidden font-sans">
