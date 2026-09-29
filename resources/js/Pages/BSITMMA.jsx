@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { Head, Link } from "@inertiajs/react";
 import GalleryModal from "@/Components/GalleryModal";
+import ShowreelPlayer from "@/Components/ShowreelPlayer";
 
 // --- Animation Components ---
 
@@ -241,38 +242,9 @@ function BSITMMA({ video, galleryItems, categories }) {
 
                         {/* Centered Massive Showreel */}
                         <div className="w-full max-w-5xl relative perspective-1000 z-10 mt-4 md:mt-8">
-                            <TiltCard className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black group" color="">
-                                {/* Play Button Overlay */}
-                                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center z-20 pointer-events-none">
-                                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500">
-                                        <svg className="w-8 h-8 md:w-10 md:h-10 text-white ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    </div>
-                                </div>
-
-                                {video ? (
-                                    <video
-                                        src={video}
-                                        className="w-full h-full object-cover scale-[1.02] group-hover:scale-100 transition-transform duration-700"
-                                        autoPlay
-                                        muted
-                                        loop
-                                        playsInline
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900">
-                                        <svg className="w-12 h-12 text-white/20 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                        <p className="text-white/40 font-mono text-sm tracking-widest uppercase">Showreel Coming Soon</p>
-                                    </div>
-                                )}
-
-                                {/* UI Accents on the video container */}
-                                <div className="absolute top-6 left-6 z-30 text-white/90 font-mono text-[10px] md:text-xs tracking-widest flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span> REC
-                                </div>
-                                <div className="absolute bottom-6 right-6 z-30 text-white/70 font-mono text-[10px] md:text-xs tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">
-                                    4K • 60FPS
-                                </div>
-                            </TiltCard>
+                            <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black group">
+                                <ShowreelPlayer video={video} programTag="MULTIMEDIA SHOWREEL" />
+                            </div>
 
                             {/* Floating Badge */}
                             <motion.div

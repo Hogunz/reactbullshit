@@ -190,7 +190,7 @@ export default function GalleryModal({ isOpen, onClose, initialItem, initialCate
                                 </h2>
                                 <div className="h-1 w-20 bg-purple mt-4 rounded-full" />
 
-                                {currentEntry?.project_url && (
+                                {Boolean(currentEntry?.project_url && currentEntry.project_url.trim()) && (
                                     <div className="pt-2">
                                         <a
                                             href={currentEntry.project_url}

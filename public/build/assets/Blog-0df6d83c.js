@@ -1,0 +1,1 @@
+import{j as t,a as o}from"./app-c209af8a.js";import e from"./BlogDescription-c1f3c10a.js";import{N as a}from"./NavBar-ff7d0187.js";import"./SVGicon-1dd44e86.js";const x=({events:r,blog:s})=>t.jsxs(t.Fragment,{children:[t.jsx(o,{title:"News & Event Details | SITE"}),t.jsx(a,{}),t.jsx(e,{events:r,blog:s})]});export{x as default};

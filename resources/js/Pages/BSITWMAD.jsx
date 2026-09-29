@@ -4,20 +4,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 import { Head, Link } from "@inertiajs/react";
 import GalleryModal from "@/Components/GalleryModal";
+import ShowreelPlayer from "@/Components/ShowreelPlayer";
 
 // --- Custom Icons ---
-const GlobeIcon = ({ className = "w-4 h-4" }) => (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-    </svg>
-);
-
-const SmartphoneIcon = ({ className = "w-4 h-4" }) => (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-    </svg>
-);
-
 const ExternalLinkIcon = ({ className = "w-4 h-4" }) => (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -174,7 +163,6 @@ function BSITWMAD({ video, galleryItems, categories }) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [hoveredCategory, setHoveredCategory] = useState(null);
-    const [deviceView, setDeviceView] = useState("web"); // 'web' | 'mobile'
 
     const careersList = [
         "Frontend Developer", "Backend Developer", "Full-Stack Engineer",
@@ -186,80 +174,13 @@ function BSITWMAD({ video, galleryItems, categories }) {
         "React", "React Native", "Flutter", "Laravel", "Node.js", "Next.js", "Tailwind CSS", "TypeScript"
     ];
 
-    // Helper to detect if category/item is mobile
-    const checkIsMobile = (catName = "", item = null) => {
-        const text = `${catName} ${item?.category || ''} ${item?.top_30_category || ''} ${item?.title || ''}`.toLowerCase();
-        return text.includes("mobile") || text.includes("app") || text.includes("android") || text.includes("ios") || text.includes("flutter");
-    };
-
-    // Prepare display items from database + fallback representations
-    const dbItems = (galleryItems || []).map(item => ({
-        ...item,
-        platform: checkIsMobile(item.category, item) ? "mobile" : "web",
-    }));
-
-    const sampleItems = [
-        {
-            id: "sample-web-1",
-            title: "CampusConnect Portal",
-            category: "Web Applications",
-            platform: "web",
-            project_url: "https://pulse-dashboard.vercel.app",
-            creator_major: "BSIT - WMAD",
-            is_top_30: true,
-            images: [{ id: "sw1", media_path: "/storage/showcase/wmad_sample.png", media_type: "image" }]
-        },
-        {
-            id: "sample-mob-1",
-            title: "SmartLocker Mobile",
-            category: "Mobile Apps",
-            platform: "mobile",
-            project_url: "https://pulse-dashboard.vercel.app",
-            creator_major: "BSIT - WMAD",
-            is_top_30: false,
-            images: [{ id: "sm1", media_path: "/storage/showcase/1788678935_tTqqqVByqvAo.jpg", media_type: "image" }]
-        }
-    ];
-
-    const allItems = dbItems.length > 0 ? dbItems : sampleItems;
-
-    // Flexible Categories List:
-    // Core default categories: "Web Applications" and "Mobile Applications"
-    // Plus ANY other categories dynamically added in the database!
-    const defaultCategoryNames = ["Web Applications", "Mobile Applications"];
-    const dbCategoryNames = (categories || []).map(c => c.name);
-    const combinedCategoryNames = Array.from(new Set([...defaultCategoryNames, ...dbCategoryNames]));
-
-    const categoryList = combinedCategoryNames.map((name, index) => {
-        const dbCat = categories?.find(c => c.name.toLowerCase() === name.toLowerCase());
-        const isMob = checkIsMobile(name);
-        return {
-            id: dbCat ? dbCat.id : `cat-${index}`,
-            name: name,
-            isMobile: isMob,
-        };
-    });
-
-    // Determine currently active category
-    const activeCategoryName = hoveredCategory || categoryList[0]?.name || "Web Applications";
-    const isCurrentMobile = checkIsMobile(activeCategoryName);
-
-    // Find the primary showcase entry for the active category
-    const activeProject = allItems.find(item => {
-        const itemCat = (item.category || "").toLowerCase();
-        const activeCat = activeCategoryName.toLowerCase();
-        if (itemCat === activeCat) return true;
-        if (isCurrentMobile && (itemCat.includes("mobile") || itemCat.includes("app"))) return true;
-        if (!isCurrentMobile && (itemCat.includes("web") || item.top_30_category === "website")) return true;
-        return false;
-    }) || allItems[0];
-
-    const activeFirstImage = activeProject?.images && activeProject.images.length > 0 ? activeProject.images[0] : null;
-    const projectLiveUrl = activeProject?.project_url || "https://pulse-dashboard.vercel.app";
+    const allItems = galleryItems || [];
+    const categoryList = categories || [];
 
     const handleCategoryClick = (catName) => {
         setSelectedCategory(catName);
-        setSelectedItem(activeProject);
+        const entry = allItems.find(item => item.category === catName) || null;
+        setSelectedItem(entry);
         setModalOpen(true);
     };
 
@@ -318,40 +239,9 @@ function BSITWMAD({ video, galleryItems, categories }) {
 
                         {/* Centered Massive Showreel */}
                         <div className="w-full max-w-5xl relative perspective-1000 z-10 mt-4 md:mt-8">
-                            <TiltCard className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black group" color="">
-                                {/* Play Button Overlay */}
-                                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center z-20 pointer-events-none">
-                                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500">
-                                        <svg className="w-8 h-8 md:w-10 md:h-10 text-white ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    </div>
-                                </div>
-
-                                {video ? (
-                                    <video
-                                        src={video}
-                                        className="w-full h-full object-cover scale-[1.02] group-hover:scale-100 transition-transform duration-700"
-                                        autoPlay
-                                        muted
-                                        loop
-                                        playsInline
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900">
-                                        <svg className="w-12 h-12 text-white/20 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                        </svg>
-                                        <p className="text-white/40 font-mono text-sm tracking-widest uppercase">Showreel Coming Soon</p>
-                                    </div>
-                                )}
-
-                                {/* UI Accents on the container */}
-                                <div className="absolute top-6 left-6 z-30 text-white/90 font-mono text-[10px] md:text-xs tracking-widest flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span> LIVE DEMO
-                                </div>
-                                <div className="absolute bottom-6 right-6 z-30 text-white/70 font-mono text-[10px] md:text-xs tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">
-                                    RESPONSIVE • FULL-STACK
-                                </div>
-                            </TiltCard>
+                            <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black group">
+                                <ShowreelPlayer video={video} programTag="RESPONSIVE • FULL-STACK" />
+                            </div>
 
                             {/* Floating Badge */}
                             <motion.div
@@ -429,7 +319,7 @@ function BSITWMAD({ video, galleryItems, categories }) {
                     </div>
                 </section>
 
-                {/* Student Showcase Section — Web & Mobile Showcase */}
+                {/* Student Showcase Section */}
                 <section className="relative z-10 py-16 md:py-32 bg-dark text-light">
                     <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="mb-10 md:mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -442,366 +332,156 @@ function BSITWMAD({ video, galleryItems, categories }) {
 
                             <div className="flex items-center gap-2 text-xs font-mono text-gray-400">
                                 <span className="w-2 h-2 rounded-full bg-purple animate-pulse"></span>
-                                Click any category or preview to explore
+                                Click any category to explore
                             </div>
                         </div>
 
                         {/* Interactive List Showcase */}
                         <div className="relative flex flex-col md:flex-row items-start gap-8 lg:gap-16">
-                            {/* Left List: Flexible Categories (Web Apps, Mobile Apps, + any dynamic DB categories) */}
+                            {/* Left List: User Categories */}
                             <div className="w-full md:w-1/2 lg:w-3/5 flex flex-col relative z-20 pb-20">
-                                {categoryList.map((cat, index) => {
-                                    const isHovered = (hoveredCategory === cat.name) || (!hoveredCategory && index === 0);
-                                    
-                                    // Count projects for this category
-                                    const count = allItems.filter(item => {
-                                        const itemCat = (item.category || "").toLowerCase();
-                                        const targetCat = cat.name.toLowerCase();
-                                        if (itemCat === targetCat) return true;
-                                        if (cat.isMobile && (itemCat.includes("mobile") || itemCat.includes("app"))) return true;
-                                        if (!cat.isMobile && (itemCat.includes("web") || item.top_30_category === "website")) return true;
-                                        return false;
-                                    }).length;
+                                {categoryList && categoryList.length > 0 ? (
+                                    categoryList.map((cat, index) => {
+                                        const isHovered = (hoveredCategory === cat.name) || (!hoveredCategory && index === 0);
+                                        const count = allItems.filter(item => item.category === cat.name).length;
 
-                                    return (
-                                        <div
-                                            key={cat.id}
-                                            className={`group relative py-8 md:py-12 border-b border-white/5 cursor-pointer flex justify-between items-center transition-all duration-500 ${
-                                                isHovered ? 'border-purple/40 pl-3 md:pl-6' : 'hover:pl-2'
-                                            }`}
-                                            onMouseEnter={() => {
-                                                setHoveredCategory(cat.name);
-                                                setDeviceView(cat.isMobile ? "mobile" : "web");
-                                            }}
-                                            onClick={() => handleCategoryClick(cat.name)}
-                                        >
-                                            <div className="flex items-center gap-6 md:gap-10 relative z-10 w-full pr-4">
-                                                <span className={`font-mono text-sm md:text-xl font-bold transition-colors duration-500 ${
-                                                    isHovered ? 'text-purple-300' : 'text-gray-700'
-                                                }`}>
-                                                    {(index + 1).toString().padStart(2, '0')}
-                                                </span>
+                                        return (
+                                            <div
+                                                key={cat.id}
+                                                className={`group relative py-8 md:py-12 border-b border-white/5 cursor-pointer flex justify-between items-center transition-all duration-500 ${
+                                                    isHovered ? 'border-purple/40 pl-3 md:pl-6' : 'hover:pl-2'
+                                                }`}
+                                                onMouseEnter={() => setHoveredCategory(cat.name)}
+                                                onClick={() => handleCategoryClick(cat.name)}
+                                            >
+                                                <div className="flex items-center gap-6 md:gap-10 relative z-10 w-full pr-4">
+                                                    <span className={`font-mono text-sm md:text-xl font-bold transition-colors duration-500 ${
+                                                        isHovered ? 'text-purple-300' : 'text-gray-700'
+                                                    }`}>
+                                                        {(index + 1).toString().padStart(2, '0')}
+                                                    </span>
 
-                                                <div className="flex flex-col">
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        {cat.isMobile ? (
-                                                            <span className="inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-purple-400 font-bold">
-                                                                <SmartphoneIcon className="w-3.5 h-3.5" />
-                                                                Mobile Development
-                                                            </span>
-                                                        ) : (
-                                                            <span className="inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold">
-                                                                <GlobeIcon className="w-3.5 h-3.5" />
-                                                                Web Development
-                                                            </span>
-                                                        )}
+                                                    <div className="flex flex-col">
                                                         {count > 0 && (
-                                                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10">
+                                                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10 w-fit mb-1">
                                                                 {count} {count === 1 ? 'project' : 'projects'}
                                                             </span>
                                                         )}
-                                                    </div>
 
-                                                    <h3 className={`text-3xl sm:text-5xl md:text-5xl lg:text-7xl font-black tracking-tighter transition-all duration-700 break-words ${
-                                                        isHovered
-                                                            ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 translate-x-2 md:translate-x-4'
-                                                            : 'text-gray-600 group-hover:text-gray-300'
-                                                    }`}>
-                                                        {cat.name}
-                                                    </h3>
+                                                        <h3 className={`text-3xl sm:text-5xl md:text-5xl lg:text-7xl font-black tracking-tighter transition-all duration-700 break-words ${
+                                                            isHovered
+                                                                ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 translate-x-2 md:translate-x-4'
+                                                                : 'text-gray-600 group-hover:text-gray-300'
+                                                        }`}>
+                                                            {cat.name}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+
+                                                <div className={`hidden md:flex items-center gap-4 transition-all duration-500 relative z-10 flex-shrink-0 ${
+                                                    isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                                                }`}>
+                                                    <p className="font-mono text-xs tracking-widest uppercase text-purple-300 whitespace-nowrap">
+                                                        Explore
+                                                    </p>
+                                                    <svg className="w-5 h-5 text-fuchsia-500 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                    </svg>
                                                 </div>
                                             </div>
-
-                                            <div className={`hidden md:flex items-center gap-4 transition-all duration-500 relative z-10 flex-shrink-0 ${
-                                                isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                                            }`}>
-                                                <p className="font-mono text-xs tracking-widest uppercase text-purple-300 whitespace-nowrap">
-                                                    Explore
-                                                </p>
-                                                <svg className="w-5 h-5 text-fuchsia-500 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })
+                                ) : (
+                                    <div className="w-full py-20 text-center text-gray-500 border-2 border-dashed border-white/10 rounded-[2rem] bg-white/5 backdrop-blur-sm">
+                                        <svg className="w-12 h-12 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        <p className="font-mono uppercase tracking-widest">No Categories Found.</p>
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Right Sticky Preview with Interactive Device Mockup */}
-                            <div className="w-full md:w-1/2 lg:w-2/5 sticky top-28 h-[580px] md:h-[660px] z-10 perspective-1000 flex flex-col">
-                                {/* Device View Switcher Header */}
-                                <div className="flex items-center justify-between gap-3 mb-3 px-1 select-none">
-                                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-purple"></span>
-                                        Interactive Preview
-                                    </span>
+                            {/* Right Sticky Preview: Real Project Media */}
+                            <div className="w-full md:w-1/2 lg:w-2/5 sticky top-32 h-[50vh] md:h-[60vh] z-10 perspective-1000">
+                                <div className="w-full h-full relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-[#0a0a0a]">
+                                    {categoryList && categoryList.length > 0 && categoryList.map((cat, index) => {
+                                        const entry = allItems.find(item => item.category === cat.name);
+                                        const isHovered = hoveredCategory === cat.name || (!hoveredCategory && index === 0);
 
-                                    {/* Web vs Mobile Frame Mode Switcher */}
-                                    <div className="flex items-center gap-1 p-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md">
-                                        <button
-                                            onClick={() => setDeviceView("web")}
-                                            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition-all ${
-                                                deviceView === "web"
-                                                    ? "bg-purple text-white shadow-md font-bold"
-                                                    : "text-gray-400 hover:text-white"
-                                            }`}
-                                            title="View as Desktop Web Browser"
-                                        >
-                                            <GlobeIcon className="w-3.5 h-3.5" />
-                                            <span>Web</span>
-                                        </button>
-                                        <button
-                                            onClick={() => setDeviceView("mobile")}
-                                            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition-all ${
-                                                deviceView === "mobile"
-                                                    ? "bg-purple text-white shadow-md font-bold"
-                                                    : "text-gray-400 hover:text-white"
-                                            }`}
-                                            title="View inside Mobile Smartphone"
-                                        >
-                                            <SmartphoneIcon className="w-3.5 h-3.5" />
-                                            <span>Mobile</span>
-                                        </button>
-                                    </div>
-                                </div>
+                                        if (!entry) return null;
+                                        const firstImg = entry.images && entry.images.length > 0 ? entry.images[0] : null;
+                                        if (!firstImg) return null;
 
-                                {/* Dynamic Device Canvas */}
-                                <div className="flex-1 w-full relative rounded-[2rem] p-3 md:p-4 bg-gradient-to-b from-[#18181b] to-[#0c0c0e] border border-white/10 shadow-2xl flex items-center justify-center overflow-hidden">
-                                    {activeProject ? (
-                                        <AnimatePresence mode="wait">
-                                            {deviceView === "web" ? (
-                                                /* --- DESKTOP BROWSER FRAME --- */
-                                                <motion.div
-                                                    key={`web-${activeProject.id}`}
-                                                    initial={{ opacity: 0, scale: 0.96 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    exit={{ opacity: 0, scale: 0.96 }}
-                                                    transition={{ duration: 0.35 }}
-                                                    className="w-full h-full flex flex-col rounded-xl md:rounded-2xl overflow-hidden bg-[#121214] border border-white/10 shadow-2xl"
-                                                >
-                                                    {/* macOS Browser Header */}
-                                                    <div className="h-11 bg-[#1c1c20] border-b border-white/10 px-4 flex items-center justify-between flex-shrink-0 select-none">
-                                                        {/* Window Dots */}
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm" />
-                                                            <span className="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm" />
-                                                            <span className="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm" />
-                                                        </div>
-
-                                                        {/* Address Bar — Clickable link to website */}
-                                                        <div className="flex-1 max-w-xs md:max-w-sm mx-4">
-                                                            <a
-                                                                href={projectLiveUrl}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                title="Open live website in new tab"
-                                                                className="h-7 bg-[#0c0c0e] hover:bg-[#18181d] transition-colors rounded-md px-3 flex items-center gap-2 text-[11px] font-mono text-gray-400 border border-white/5 truncate group/url"
-                                                            >
-                                                                <svg className="w-3 h-3 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                </svg>
-                                                                <span className="text-gray-300 group-hover/url:text-purple-300 transition-colors truncate">
-                                                                    {projectLiveUrl.replace(/^https?:\/\//, '')}
-                                                                </span>
-                                                                <ExternalLinkIcon className="w-3 h-3 ml-auto opacity-0 group-hover/url:opacity-100 transition-opacity text-purple-400" />
-                                                            </a>
-                                                        </div>
-
-                                                        {/* Platform Tag */}
-                                                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold">
-                                                            WEB
-                                                        </span>
-                                                    </div>
-
-                                                    {/* Browser Screen Content */}
-                                                    <div className="relative flex-1 bg-[#09090b] overflow-hidden flex items-center justify-center group cursor-pointer">
-                                                        {activeFirstImage ? (
-                                                            activeFirstImage.media_type === "video" ? (
-                                                                <video
-                                                                    src={activeFirstImage.media_path}
-                                                                    className="w-full h-full object-contain"
-                                                                    autoPlay
-                                                                    muted
-                                                                    loop
-                                                                    playsInline
-                                                                />
-                                                            ) : (
-                                                                <>
-                                                                    {/* Blurred background glow */}
-                                                                    <img
-                                                                        src={activeFirstImage.media_path}
-                                                                        alt=""
-                                                                        className="absolute inset-0 w-full h-full object-cover opacity-25 blur-2xl scale-110"
-                                                                    />
-                                                                    {/* Uncropped web screenshot */}
-                                                                    <img
-                                                                        src={activeFirstImage.media_path}
-                                                                        alt={activeProject.title}
-                                                                        className="relative z-10 w-full h-full object-contain p-2"
-                                                                    />
-                                                                </>
-                                                            )
-                                                        ) : (
-                                                            <div className="flex flex-col items-center justify-center p-6 text-gray-500 font-mono text-xs">
-                                                                <GlobeIcon className="w-10 h-10 mb-2 opacity-30" />
-                                                                <span>Live Web Preview</span>
-                                                            </div>
-                                                        )}
-
-                                                        {/* Hover Action Overlay — Direct Link to Web App OR Gallery */}
-                                                        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 z-30 p-4">
-                                                            {projectLiveUrl && (
-                                                                <a
-                                                                    href={projectLiveUrl}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    onClick={(e) => e.stopPropagation()}
-                                                                    className="px-6 py-2.5 rounded-full bg-purple hover:bg-purple/80 text-white font-bold text-xs md:text-sm flex items-center gap-2 hover:scale-105 transition-transform shadow-xl shadow-purple/40"
-                                                                >
-                                                                    <span>Open Live Website</span>
-                                                                    <ExternalLinkIcon className="w-4 h-4" />
-                                                                </a>
-                                                            )}
-                                                            <button
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    handleCategoryClick(activeCategoryName);
-                                                                }}
-                                                                className="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs backdrop-blur-md transition-all flex items-center gap-2 border border-white/20"
-                                                            >
-                                                                <span>View Full Gallery</span>
-                                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                                            </button>
-                                                        </div>
-
-                                                        {/* Project info overlay at bottom */}
-                                                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5 z-20 flex items-end justify-between pointer-events-none">
-                                                            <div>
-                                                                <p className="text-xs font-mono text-purple-300 font-bold mb-1">
-                                                                    {activeProject.category}
-                                                                </p>
-                                                                <h4 className="text-xl md:text-2xl font-black text-white leading-tight">
-                                                                    {activeProject.title}
-                                                                </h4>
-                                                            </div>
-                                                            <span className="text-[11px] font-mono text-white/50">
-                                                                Hover for actions
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
-                                            ) : (
-                                                /* --- SMARTPHONE MOBILE FRAME --- */
-                                                <motion.div
-                                                    key={`mobile-${activeProject.id}`}
-                                                    initial={{ opacity: 0, scale: 0.95 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    exit={{ opacity: 0, scale: 0.95 }}
-                                                    transition={{ duration: 0.35 }}
-                                                    className="w-[280px] md:w-[310px] h-full max-h-[540px] rounded-[2.8rem] p-3 bg-gradient-to-b from-[#2e2e33] via-[#1f1f23] to-[#121215] border-2 border-white/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] relative flex flex-col mx-auto select-none"
-                                                >
-                                                    {/* Smartphone Inner Screen */}
-                                                    <div className="relative w-full h-full rounded-[2.2rem] overflow-hidden bg-black flex flex-col border border-white/15">
-                                                        {/* Dynamic Island & Status Bar */}
-                                                        <div className="h-9 bg-black px-6 flex items-center justify-between text-[11px] font-mono text-white/90 z-30 flex-shrink-0">
-                                                            <span className="font-semibold tracking-tight">9:41</span>
-
-                                                            {/* Dynamic Island Pill */}
-                                                            <div className="w-20 h-4 bg-[#141416] rounded-full border border-white/10 flex items-center justify-end px-2">
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500/70"></div>
-                                                            </div>
-
-                                                            {/* Battery & Signals */}
-                                                            <div className="flex items-center gap-1.5">
-                                                                <svg className="w-3.5 h-3.5 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
-                                                                <div className="w-4 h-2.5 rounded-xs border border-white/80 p-0.5 flex items-center">
-                                                                    <div className="h-full w-2 bg-emerald-400 rounded-2xs" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Mobile App Screen Viewport */}
-                                                        <div className="relative flex-1 overflow-hidden bg-[#0c0c0e] flex items-center justify-center cursor-pointer group">
-                                                            {activeFirstImage ? (
-                                                                activeFirstImage.media_type === "video" ? (
-                                                                    <video
-                                                                        src={activeFirstImage.media_path}
-                                                                        className="w-full h-full object-cover"
-                                                                        autoPlay
-                                                                        muted
-                                                                        loop
-                                                                        playsInline
-                                                                    />
-                                                                ) : (
-                                                                    <>
-                                                                        {/* Background blur */}
-                                                                        <img
-                                                                            src={activeFirstImage.media_path}
-                                                                            alt=""
-                                                                            className="absolute inset-0 w-full h-full object-cover opacity-25 blur-xl scale-120"
-                                                                        />
-                                                                        {/* Actual mobile screen screenshot */}
-                                                                        <img
-                                                                            src={activeFirstImage.media_path}
-                                                                            alt={activeProject.title}
-                                                                            className="relative z-10 w-full h-full object-contain"
-                                                                        />
-                                                                    </>
-                                                                )
-                                                            ) : (
-                                                                <div className="flex flex-col items-center justify-center p-6 text-gray-500 font-mono text-xs">
-                                                                    <SmartphoneIcon className="w-10 h-10 mb-2 opacity-30" />
-                                                                    <span>Mobile Screen</span>
-                                                                </div>
-                                                            )}
-
-                                                            {/* Mobile Hover Action Overlay — Direct Link or Gallery */}
-                                                            <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2.5 z-30 p-4">
-                                                                {projectLiveUrl && (
-                                                                    <a
-                                                                        href={projectLiveUrl}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        onClick={(e) => e.stopPropagation()}
-                                                                        className="w-full max-w-[190px] py-2.5 rounded-full bg-purple hover:bg-purple/80 text-white font-bold text-xs flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-xl shadow-purple/40"
-                                                                    >
-                                                                        <span>Launch Mobile App</span>
-                                                                        <ExternalLinkIcon className="w-3.5 h-3.5" />
-                                                                    </a>
-                                                                )}
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        handleCategoryClick(activeCategoryName);
-                                                                    }}
-                                                                    className="w-full max-w-[190px] py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs backdrop-blur-md transition-all flex items-center justify-center gap-1.5 border border-white/20"
-                                                                >
-                                                                    <span>View Gallery</span>
-                                                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                                                </button>
-                                                            </div>
-
-                                                            {/* Mobile Bottom Overlay */}
-                                                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/85 to-transparent p-4 z-20 pointer-events-none">
-                                                                <p className="text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">
-                                                                    {activeProject.category}
-                                                                </p>
-                                                                <h4 className="text-base font-black text-white truncate">
-                                                                    {activeProject.title}
-                                                                </h4>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Smartphone Home Bar */}
-                                                        <div className="h-5 bg-black flex items-center justify-center flex-shrink-0 z-30">
-                                                            <div className="w-24 h-1 bg-white/40 rounded-full" />
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    ) : (
-                                        <div className="text-center text-gray-600 font-mono text-sm uppercase">
+                                        return (
+                                            <motion.div
+                                                key={`preview-${cat.id}`}
+                                                initial={false}
+                                                animate={{
+                                                    opacity: isHovered ? 1 : 0,
+                                                    scale: isHovered ? 1 : 1.05,
+                                                    zIndex: isHovered ? 20 : 0
+                                                }}
+                                                transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+                                                className="absolute inset-0 cursor-pointer"
+                                                onClick={() => handleCategoryClick(cat.name)}
+                                            >
+                                                {firstImg.media_type === 'video' ? (
+                                                    <>
+                                                        <video
+                                                            src={firstImg.media_path}
+                                                            className="absolute inset-0 w-full h-full object-cover opacity-30 blur-3xl scale-110"
+                                                            muted
+                                                            loop
+                                                            playsInline
+                                                        />
+                                                        <video
+                                                            src={firstImg.media_path}
+                                                            className="absolute inset-0 w-full h-full object-contain opacity-90"
+                                                            autoPlay
+                                                            muted
+                                                            loop
+                                                            playsInline
+                                                        />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <img
+                                                            src={firstImg.media_path}
+                                                            alt=""
+                                                            className="absolute inset-0 w-full h-full object-cover opacity-25 blur-2xl scale-110"
+                                                        />
+                                                        <img
+                                                            src={firstImg.media_path}
+                                                            alt={entry.title}
+                                                            className="relative z-10 w-full h-full object-contain p-4"
+                                                        />
+                                                    </>
+                                                )}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-dark/95 via-dark/30 to-transparent flex flex-col justify-end p-8 z-20">
+                                                    <span className="text-xs font-mono text-purple-400 font-bold tracking-widest uppercase mb-1">
+                                                        {entry.category}
+                                                    </span>
+                                                    <h4 className="text-2xl md:text-3xl font-black text-light leading-tight mb-3">
+                                                        {entry.title}
+                                                    </h4>
+                                                    {Boolean(entry.project_url && entry.project_url.trim()) && (
+                                                        <a
+                                                            href={entry.project_url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="w-fit inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-purple hover:bg-purple/80 text-white text-xs font-bold transition-all shadow-lg shadow-purple/40"
+                                                        >
+                                                            <span>Visit Project</span>
+                                                            <ExternalLinkIcon className="w-3.5 h-3.5" />
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
+                                    {(!categoryList || categoryList.length === 0 || !allItems.some(item => categoryList.some(cat => cat.name === item.category))) && (
+                                        <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center text-gray-600 font-mono text-xs uppercase tracking-widest">
                                             Select a category to preview
                                         </div>
                                     )}
