@@ -95,7 +95,12 @@ Route::get('/Faculty', function () {
 Route::resource('program-attributes', ProgramAttributeController::class);
 
 Route::get('/News&Events', function () {
-    $events = Event::where('status', 'active')->with('user')->orderByRaw('COALESCE(start_time, created_at) DESC')->get();
+    $events = Event::where('status', 'active')
+        ->with('user')
+        ->orderByRaw('COALESCE(start_time, created_at) DESC')
+        ->paginate(9)
+        ->withQueryString();
+
     return Inertia::render('Events', [
         'events' => $events,
     ]);

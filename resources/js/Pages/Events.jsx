@@ -6,6 +6,10 @@ import { ZoomIn } from "lucide-react";
 
 export default function Events({ events = [] }) {
     const [modalData, setModalData] = useState(null);
+
+    const eventList = Array.isArray(events) ? events : (events?.data || []);
+    const paginationLinks = !Array.isArray(events) ? (events?.links || []) : [];
+
     const formatDate = (event) => {
         const dateStr = event?.start_time || event?.created_at;
         if (!dateStr) return "";
@@ -55,81 +59,140 @@ export default function Events({ events = [] }) {
                         </div>
 
                         {/* Events Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                            {events.map((event) => {
-                                const imageUrl = event.image?.startsWith('http') || event.image?.startsWith('/') 
-                                    ? event.image 
-                                    : (event.image ? "/storage/" + event.image : null);
+                        {eventList.length === 0 ? (
+                            <div className="py-24 text-center">
+                                <p className="text-gray-500 dark:text-gray-400 text-lg">No news or events posted yet.</p>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                                {eventList.map((event) => {
+                                    const imageUrl = event.image?.startsWith('http') || event.image?.startsWith('/') 
+                                        ? event.image 
+                                        : (event.image ? "/storage/" + event.image : null);
 
-                                return (
-                                    <Link
-                                        key={event.id}
-                                        href={route("events.show", {
-                                            id: event.id,
-                                        })}
-                                        className="group flex flex-col bg-white dark:bg-[#0a0a0a] rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
-                                    >
-                                        {/* Image */}
-                                        <div className="relative h-64 overflow-hidden border-b border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-[#111]">
-                                            <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
-                                            {imageUrl && (
-                                                <img
-                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                                    src={imageUrl}
-                                                    alt={event.name}
-                                                />
-                                            )}
-                                            {/* Floating Zoom / Expand button */}
-                                            {imageUrl && (
-                                                <button
-                                                    type="button"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        setModalData({
-                                                            imageSrc: imageUrl,
-                                                            title: event.name,
-                                                            category: event.category || "News",
-                                                        });
-                                                    }}
-                                                    className="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-purple-600 text-white text-xs font-semibold backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 shadow-lg"
-                                                    title="View Full Image"
-                                                >
-                                                    <ZoomIn className="w-3.5 h-3.5" />
-                                                    <span>View Image</span>
-                                                </button>
-                                            )}
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="flex flex-col flex-grow p-8">
-                                            <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-4">
-                                                <span className="text-purple-600 dark:text-purple-400">{event.category || 'News'}</span>
-                                                <span className="text-gray-400 dark:text-gray-500">&bull;</span>
-                                                <span className="text-gray-500 dark:text-gray-400">{formatDate(event)}</span>
-                                            </div>
-                                            
-                                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 mb-4 line-clamp-2">
-                                                {event.name}
-                                            </h3>
-                                            
-                                            <div className="text-gray-600 dark:text-gray-400 line-clamp-3 text-base leading-relaxed mb-6 flex-grow">
-                                                <p>
-                                                    {(event.content || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')}
-                                                </p>
+                                    return (
+                                        <Link
+                                            key={event.id}
+                                            href={route("events.show", {
+                                                id: event.id,
+                                            })}
+                                            className="group flex flex-col bg-white dark:bg-[#0a0a0a] rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                                        >
+                                            {/* Image */}
+                                            <div className="relative h-64 overflow-hidden border-b border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-[#111]">
+                                                <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+                                                {imageUrl && (
+                                                    <img
+                                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                        src={imageUrl}
+                                                        alt={event.name}
+                                                    />
+                                                )}
+                                                {/* Floating Zoom / Expand button */}
+                                                {imageUrl && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            setModalData({
+                                                                imageSrc: imageUrl,
+                                                                title: event.name,
+                                                                category: event.category || "News",
+                                                            });
+                                                        }}
+                                                        className="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-purple-600 text-white text-xs font-semibold backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 shadow-lg"
+                                                        title="View Full Image"
+                                                    >
+                                                        <ZoomIn className="w-3.5 h-3.5" />
+                                                        <span>View Image</span>
+                                                    </button>
+                                                )}
                                             </div>
 
-                                            <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
-                                                <div className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                                                    Read Full Story
-                                                    <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                            {/* Content */}
+                                            <div className="flex flex-col flex-grow p-8">
+                                                <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-4">
+                                                    <span className="text-purple-600 dark:text-purple-400">{event.category || 'News'}</span>
+                                                    <span className="text-gray-400 dark:text-gray-500">&bull;</span>
+                                                    <span className="text-gray-500 dark:text-gray-400">{formatDate(event)}</span>
+                                                </div>
+                                                
+                                                <h3 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 mb-4 line-clamp-2">
+                                                    {event.name}
+                                                </h3>
+                                                
+                                                <div className="text-gray-600 dark:text-gray-400 line-clamp-3 text-base leading-relaxed mb-6 flex-grow">
+                                                    <p>
+                                                        {(event.content || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')}
+                                                    </p>
+                                                </div>
+
+                                                <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
+                                                    <div className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                                        Read Full Story
+                                                        <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </Link>
-                                );
-                            })}
-                        </div>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {/* Pagination Bar */}
+                        {paginationLinks.length > 3 && (
+                            <div className="mt-16 pt-10 border-t border-gray-100 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                                    Showing <span className="font-bold text-gray-900 dark:text-white">{events.from || 1}</span> to{" "}
+                                    <span className="font-bold text-gray-900 dark:text-white">{events.to || eventList.length}</span> of{" "}
+                                    <span className="font-bold text-gray-900 dark:text-white">{events.total || eventList.length}</span> stories
+                                </p>
+
+                                <nav aria-label="Pagination" className="flex flex-wrap items-center gap-2">
+                                    {paginationLinks.map((link, idx) => {
+                                        const isPrev = link.label.includes("Previous") || link.label.includes("&laquo;");
+                                        const isNext = link.label.includes("Next") || link.label.includes("&raquo;");
+                                        const label = isPrev ? "← Prev" : isNext ? "Next →" : link.label;
+
+                                        if (!link.url) {
+                                            return (
+                                                <span
+                                                    key={idx}
+                                                    className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-white/[0.02] border border-gray-200/50 dark:border-white/5 cursor-not-allowed select-none"
+                                                >
+                                                    {label}
+                                                </span>
+                                            );
+                                        }
+
+                                        if (link.active) {
+                                            return (
+                                                <span
+                                                    key={idx}
+                                                    aria-current="page"
+                                                    className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-purple shadow-md shadow-purple/30 border border-purple select-none"
+                                                >
+                                                    {label}
+                                                </span>
+                                            );
+                                        }
+
+                                        return (
+                                            <Link
+                                                key={idx}
+                                                href={link.url}
+                                                preserveScroll
+                                                className="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple dark:hover:text-purple-300 hover:bg-purple/10 dark:hover:bg-white/5 bg-white dark:bg-[#0c0c0e] border border-gray-200/60 dark:border-white/10 transition-all shadow-sm"
+                                            >
+                                                {label}
+                                            </Link>
+                                        );
+                                    })}
+                                </nav>
+                            </div>
+                        )}
                     </div>
                 </div>
 
