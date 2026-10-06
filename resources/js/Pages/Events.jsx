@@ -1,10 +1,11 @@
 import { NavBar } from "@/Components/NavBar";
-import React from "react";
+import React, { useState } from "react";
 import { Link, Head } from "@inertiajs/react";
-
-
+import ImageModal from "@/Components/ImageModal";
+import { ZoomIn } from "lucide-react";
 
 export default function Events({ events = [] }) {
+    const [modalData, setModalData] = useState(null);
     const formatDate = (event) => {
         const dateStr = event?.start_time || event?.created_at;
         if (!dateStr) return "";
@@ -55,54 +56,90 @@ export default function Events({ events = [] }) {
 
                         {/* Events Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                            {events.map((event) => (
-                                <Link
-                                    key={event.id}
-                                    href={route("events.show", {
-                                        id: event.id,
-                                    })}
-                                    className="group flex flex-col bg-white dark:bg-[#0a0a0a] rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
-                                >
-                                    {/* Image */}
-                                    <div className="relative h-64 overflow-hidden border-b border-gray-100 dark:border-white/5">
-                                        <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-                                        <img
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                            src={event.image?.startsWith('http') || event.image?.startsWith('/') ? event.image : "/storage/" + event.image}
-                                            alt={event.name}
-                                        />
-                                    </div>
+                            {events.map((event) => {
+                                const imageUrl = event.image?.startsWith('http') || event.image?.startsWith('/') 
+                                    ? event.image 
+                                    : (event.image ? "/storage/" + event.image : null);
 
-                                    {/* Content */}
-                                    <div className="flex flex-col flex-grow p-8">
-                                        <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-4">
-                                            <span className="text-purple-600 dark:text-purple-400">{event.category || 'News'}</span>
-                                            <span className="text-gray-400 dark:text-gray-500">&bull;</span>
-                                            <span className="text-gray-500 dark:text-gray-400">{formatDate(event)}</span>
-                                        </div>
-                                        
-                                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 mb-4 line-clamp-2">
-                                            {event.name}
-                                        </h3>
-                                        
-                                        <div className="text-gray-600 dark:text-gray-400 line-clamp-3 text-base leading-relaxed mb-6 flex-grow">
-                                            <p>
-                                                {(event.content || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')}
-                                            </p>
+                                return (
+                                    <Link
+                                        key={event.id}
+                                        href={route("events.show", {
+                                            id: event.id,
+                                        })}
+                                        className="group flex flex-col bg-white dark:bg-[#0a0a0a] rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                                    >
+                                        {/* Image */}
+                                        <div className="relative h-64 overflow-hidden border-b border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-[#111]">
+                                            <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+                                            {imageUrl && (
+                                                <img
+                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    src={imageUrl}
+                                                    alt={event.name}
+                                                />
+                                            )}
+                                            {/* Floating Zoom / Expand button */}
+                                            {imageUrl && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        setModalData({
+                                                            imageSrc: imageUrl,
+                                                            title: event.name,
+                                                            category: event.category || "News",
+                                                        });
+                                                    }}
+                                                    className="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-purple-600 text-white text-xs font-semibold backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 shadow-lg"
+                                                    title="View Full Image"
+                                                >
+                                                    <ZoomIn className="w-3.5 h-3.5" />
+                                                    <span>View Image</span>
+                                                </button>
+                                            )}
                                         </div>
 
-                                        <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
-                                            <div className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                                                Read Full Story
-                                                <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                        {/* Content */}
+                                        <div className="flex flex-col flex-grow p-8">
+                                            <div className="flex items-center gap-3 text-xs md:text-sm font-bold tracking-widest uppercase mb-4">
+                                                <span className="text-purple-600 dark:text-purple-400">{event.category || 'News'}</span>
+                                                <span className="text-gray-400 dark:text-gray-500">&bull;</span>
+                                                <span className="text-gray-500 dark:text-gray-400">{formatDate(event)}</span>
+                                            </div>
+                                            
+                                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 mb-4 line-clamp-2">
+                                                {event.name}
+                                            </h3>
+                                            
+                                            <div className="text-gray-600 dark:text-gray-400 line-clamp-3 text-base leading-relaxed mb-6 flex-grow">
+                                                <p>
+                                                    {(event.content || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')}
+                                                </p>
+                                            </div>
+
+                                            <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
+                                                <div className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                                    Read Full Story
+                                                    <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            ))}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
+
+                <ImageModal
+                    isOpen={!!modalData}
+                    onClose={() => setModalData(null)}
+                    imageSrc={modalData?.imageSrc}
+                    title={modalData?.title}
+                    category={modalData?.category}
+                />
             </div>
         </>
     );

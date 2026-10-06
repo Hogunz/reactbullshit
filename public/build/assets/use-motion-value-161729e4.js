@@ -1,0 +1,1 @@
+import{r as t}from"./app-12d74f5c.js";import{j as a,k as u,M as r}from"./motion-937e4a86.js";function i(o){const e=a(()=>u(o)),{isStatic:s}=t.useContext(r);if(s){const[,n]=t.useState(o);t.useEffect(()=>e.on("change",n),[])}return e}export{i as u};

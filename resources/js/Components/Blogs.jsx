@@ -1,13 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from '@inertiajs/react';
+import ImageModal from '@/Components/ImageModal';
+import { ZoomIn } from 'lucide-react';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Blogs({ events = [] }) {
     const sectionRef = useRef(null);
+    const [modalData, setModalData] = useState(null);
 
     // Dummy data for the editorial layout fallback
     const featuredArticle = {
@@ -136,13 +139,33 @@ export default function Blogs({ events = [] }) {
 
                     {/* Left Column: Featured Hero Article (60% width) */}
                     <Link href={displayFeatured.id ? `/events/${displayFeatured.id}` : '/News&Events'} className="news-featured lg:col-span-7 group block">
-                        <div className="relative overflow-hidden rounded-3xl aspect-[4/3] mb-8 shadow-2xl border border-gray-100 dark:border-white/5">
-                            <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                        <div className="relative overflow-hidden rounded-3xl aspect-[4/3] mb-8 shadow-2xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-[#111]">
+                            <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20 mix-blend-color group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
                             <img
                                 src={displayFeatured.imageUrl}
                                 alt={displayFeatured.title}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             />
+                            {/* Floating Zoom / Expand button */}
+                            {displayFeatured.imageUrl && (
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setModalData({
+                                            imageSrc: displayFeatured.imageUrl,
+                                            title: displayFeatured.title,
+                                            category: displayFeatured.category || "News",
+                                        });
+                                    }}
+                                    className="absolute top-4 right-4 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-purple-600 text-white text-xs font-semibold backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 shadow-lg"
+                                    title="View Full Image"
+                                >
+                                    <ZoomIn className="w-3.5 h-3.5" />
+                                    <span>View Image</span>
+                                </button>
+                            )}
                         </div>
                         <div className="space-y-4">
                             <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase">
@@ -196,6 +219,14 @@ export default function Blogs({ events = [] }) {
 
                 </div>
             </div>
+
+            <ImageModal
+                isOpen={!!modalData}
+                onClose={() => setModalData(null)}
+                imageSrc={modalData?.imageSrc}
+                title={modalData?.title}
+                category={modalData?.category}
+            />
         </section>
     );
 }

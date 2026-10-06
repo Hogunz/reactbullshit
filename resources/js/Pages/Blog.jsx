@@ -4,12 +4,12 @@ import { NavBar } from "@/Components/NavBar";
 import React from "react";
 import { Head } from "@inertiajs/react";
 
-const Blog = ({ events, blog }) => {
+const Blog = ({ events, blog, suggestions = [] }) => {
     return (
         <>
-            <Head title="News & Event Details | SITE" />
+            <Head title={`${events?.name ? events.name + " | " : ""}News & Events | SITE`} />
             <NavBar />
-            <BlogDescription events={events} blog={blog} />
+            <BlogDescription events={events} blog={blog} suggestions={suggestions} />
         </>
     );
 };

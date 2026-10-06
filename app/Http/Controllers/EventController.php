@@ -90,8 +90,16 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $suggestions = Event::where('status', 'active')
+            ->where('id', '!=', $event->id)
+            ->with('user')
+            ->orderByRaw('COALESCE(start_time, created_at) DESC')
+            ->take(8)
+            ->get();
+
         return Inertia::render('Blog', [
             'events' => $event->load('user'),
+            'suggestions' => $suggestions,
         ]);
     }
 
