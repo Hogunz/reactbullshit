@@ -4,7 +4,6 @@ use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\BSCSTestimonial;
-use App\Http\Controllers\BSCSTesti;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\EventController;
