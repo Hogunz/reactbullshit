@@ -11,20 +11,22 @@ import GoogleMap from "./GoogleMap";
 const ContactUs = () => {
     return (
         <>
-            <div className="dark:bg-dark relative overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple/5 via-transparent to-purple/5 dark:from-purple/10 dark:to-dark pointer-events-none" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+            <div className="bg-[#FDFDFC] dark:bg-[#080212] relative overflow-hidden selection:bg-purple-500 selection:text-white">
+                {/* Deep Purple Ambient Lighting */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-50"></div>
+                    <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/10 dark:bg-fuchsia-900/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-40"></div>
+                </div>
 
-                <div className="relative z-10 py-20 lg:py-32">
+                <div className="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         {/* Header */}
-                        <div className="text-center mb-16 lg:mb-24">
-                            <h3 className="font-inter text-sm font-bold text-purple tracking-[0.2em] uppercase mb-4">
-                                Get in Touch
-                            </h3>
-                            <h1 className="text-4xl lg:text-7xl font-extrabold text-dark dark:text-light mb-6">
-                                Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500">Us</span>
+                        <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-24">
+                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-purple-50 dark:bg-white/5 border border-purple-100 dark:border-white/10 shadow-sm mb-6">
+                                <span className="text-sm font-bold text-purple-600 tracking-widest uppercase">Get in Touch</span>
+                            </div>
+                            <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-6">
+                                Contact <span className="text-purple-600 dark:text-purple-500">Us</span>
                             </h1>
                         </div>
 

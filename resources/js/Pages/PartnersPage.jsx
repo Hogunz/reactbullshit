@@ -28,36 +28,40 @@ export default function PartnersPage({ partners }) {
     };
 
     return (
-        <div className="bg-light dark:bg-dark min-h-screen scroll-smooth relative overflow-hidden">
+        <div className="bg-[#FDFDFC] dark:bg-[#080212] min-h-screen scroll-smooth relative overflow-hidden selection:bg-purple-500 selection:text-white">
             <Head title="Our Industry Partners" />
             <NavBar />
 
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple/20 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-screen" />
-            <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/10 rounded-full blur-[150px] pointer-events-none -z-10 mix-blend-screen" />
+            {/* Deep Purple Ambient Lighting */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[140px] mix-blend-multiply dark:mix-blend-screen opacity-50"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/10 dark:bg-fuchsia-900/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen opacity-40"></div>
+            </div>
 
-            <div className="pt-32 pb-20 relative z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                    >
-                        <span className="inline-block py-1 px-3 rounded-full bg-purple/10 border border-purple/20 text-purple text-sm font-bold tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                            Global Network
-                        </span>
-                        <h1 className="text-5xl md:text-7xl font-extrabold text-dark dark:text-light tracking-tight mb-6 leading-tight">
-                            Our Industry <br className="hidden md:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple to-fuchsia-500 drop-shadow-sm">Partners</span>
-                        </h1>
-                        <p className="mt-6 text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
-                            We collaborate with global technology leaders to provide our students with the best tools, resources, and opportunities to shape the future.
-                        </p>
-                    </motion.div>
-                </div>
+            <div className="relative z-10 pt-32 pb-20 lg:pt-48 lg:pb-32">
+                <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
+                    {/* Header */}
+                    <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-24">
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                        >
+                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-purple-50 dark:bg-white/5 border border-purple-100 dark:border-white/10 shadow-sm mb-6">
+                                <span className="text-sm font-bold text-purple-600 tracking-widest uppercase">Global Network</span>
+                            </div>
+                            <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-6">
+                                Our Industry <br className="hidden md:block" />
+                                <span className="text-purple-600 dark:text-purple-500">Partners</span>
+                            </h1>
+                            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                                We collaborate with global technology leaders to provide our students with the best tools, resources, and opportunities to shape the future.
+                            </p>
+                        </motion.div>
+                    </div>
 
                 <motion.div
-                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32"
+                    className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8 pb-32"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -90,6 +94,7 @@ export default function PartnersPage({ partners }) {
                         ))}
                     </div>
                 </motion.div>
+                </div>{/* end max-w-[90rem] */}
             </div>
 
             <AnimatePresence>
