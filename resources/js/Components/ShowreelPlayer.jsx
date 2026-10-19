@@ -1,26 +1,58 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREEL" }) {
+export default function ShowreelPlayer({
+    video,
+    programTag = "FULL-STACK SHOWREEL",
+    poster,
+    onLoaded,
+    autoPlay = false
+}) {
     const videoRef = useRef(null);
     const containerRef = useRef(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(autoPlay);
+    const [isMuted, setIsMuted] = useState(autoPlay);
+    const [isEnded, setIsEnded] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-        // Reset playback when video prop changes
-        setIsPlaying(false);
+        setIsPlaying(autoPlay);
+        setIsMuted(autoPlay);
+        setIsEnded(false);
         setCurrentTime(0);
+
         if (videoRef.current) {
-            videoRef.current.pause();
             videoRef.current.currentTime = 0;
+            if (autoPlay) {
+                videoRef.current.muted = true;
+                const playPromise = videoRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setIsPlaying(true);
+                    }).catch(() => {
+                        setIsPlaying(false);
+                    });
+                }
+            } else {
+                videoRef.current.pause();
+            }
         }
-    }, [video]);
+    }, [video, autoPlay]);
 
     const togglePlay = () => {
         if (!videoRef.current) return;
+        if (isEnded) {
+            videoRef.current.currentTime = 0;
+            videoRef.current.play().then(() => {
+                setIsPlaying(true);
+                setIsEnded(false);
+            }).catch((err) => {
+                console.error("Playback error:", err);
+            });
+            return;
+        }
+
         if (videoRef.current.paused) {
             videoRef.current.play().then(() => {
                 setIsPlaying(true);
@@ -57,6 +89,21 @@ export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREE
         if (videoRef.current) {
             videoRef.current.currentTime = newTime;
             setCurrentTime(newTime);
+            if (isEnded && newTime < duration) {
+                setIsEnded(false);
+            }
+        }
+    };
+
+    const skip = (seconds, e) => {
+        if (e) e.stopPropagation();
+        if (!videoRef.current) return;
+        const targetDuration = duration || 100;
+        const newTime = Math.min(Math.max(0, videoRef.current.currentTime + seconds), targetDuration);
+        videoRef.current.currentTime = newTime;
+        setCurrentTime(newTime);
+        if (isEnded && newTime < targetDuration) {
+            setIsEnded(false);
         }
     };
 
@@ -89,31 +136,43 @@ export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREE
             <video
                 ref={videoRef}
                 src={video}
+                poster={poster}
                 className="w-full h-full object-cover scale-[1.01] transition-transform duration-700"
                 playsInline
-                loop
+                muted={isMuted}
+                onLoadedData={() => onLoaded && onLoaded()}
+                onError={() => onLoaded && onLoaded()}
                 onTimeUpdate={() => videoRef.current && setCurrentTime(videoRef.current.currentTime)}
                 onLoadedMetadata={() => videoRef.current && setDuration(videoRef.current.duration)}
-                onEnded={() => setIsPlaying(false)}
+                onEnded={() => {
+                    setIsPlaying(false);
+                    setIsEnded(true);
+                }}
             />
 
-            {/* Dark vignette overlay when paused */}
+            {/* Dark vignette overlay when paused or ended */}
             <div
                 className={`absolute inset-0 bg-black/40 transition-opacity duration-300 pointer-events-none ${
                     isPlaying ? "opacity-0" : "opacity-100"
                 }`}
             />
 
-            {/* Big Interactive Play Button in Center */}
+            {/* Big Interactive Play/Replay Button in Center */}
             <div
                 className={`absolute inset-0 flex items-center justify-center z-20 pointer-events-none transition-all duration-300 ${
-                    isPlaying ? "opacity-0 scale-90" : "opacity-100 scale-100"
+                    isPlaying ? "opacity-0 scale-90 pointer-events-none" : "opacity-100 scale-100"
                 }`}
             >
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-purple/90 hover:bg-purple text-white backdrop-blur-md border border-white/30 flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.7)] transform transition-transform group-hover/player:scale-110">
-                    <svg className="w-9 h-9 md:w-11 md:h-11 text-white ml-1.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                    </svg>
+                    {isEnded ? (
+                        <svg className="w-9 h-9 md:w-11 md:h-11 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    ) : (
+                        <svg className="w-9 h-9 md:w-11 md:h-11 text-white ml-1.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    )}
                 </div>
             </div>
 
@@ -127,10 +186,12 @@ export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREE
                     className={`w-2 h-2 rounded-full ${
                         isPlaying
                             ? "bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]"
+                            : isEnded
+                            ? "bg-purple-400"
                             : "bg-white/40"
                     }`}
                 />
-                {isPlaying ? "NOW PLAYING" : "CLICK TO PLAY"}
+                {isPlaying ? "NOW PLAYING" : isEnded ? "REPLAY VIDEO" : "CLICK TO PLAY"}
             </div>
 
             <div
@@ -141,7 +202,7 @@ export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREE
                 {programTag}
             </div>
 
-            {/* Bottom Controls Bar (Shows on hover or when paused) */}
+            {/* Bottom Controls Bar (Shows on hover or when paused/ended) */}
             <div
                 onClick={(e) => e.stopPropagation()}
                 className={`absolute bottom-0 inset-x-0 p-4 md:p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-30 transition-all duration-300 flex flex-col gap-2 ${
@@ -169,17 +230,33 @@ export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREE
 
                 {/* Buttons row */}
                 <div className="flex items-center justify-between pt-1">
-                    <div className="flex items-center gap-3">
-                        {/* Play/Pause Button */}
+                    <div className="flex items-center gap-2 md:gap-3">
+                        {/* Rewind 10s Button */}
+                        <button
+                            type="button"
+                            onClick={(e) => skip(-10, e)}
+                            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                            title="Rewind 10s"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+                            </svg>
+                        </button>
+
+                        {/* Play/Pause/Replay Button */}
                         <button
                             type="button"
                             onClick={togglePlay}
                             className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                            title={isPlaying ? "Pause" : "Play"}
+                            title={isPlaying ? "Pause" : isEnded ? "Replay" : "Play"}
                         >
                             {isPlaying ? (
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                </svg>
+                            ) : isEnded ? (
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                             ) : (
                                 <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -188,11 +265,23 @@ export default function ShowreelPlayer({ video, programTag = "FULL-STACK SHOWREE
                             )}
                         </button>
 
+                        {/* Fast Forward 10s Button */}
+                        <button
+                            type="button"
+                            onClick={(e) => skip(10, e)}
+                            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                            title="Fast Forward 10s"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
+                            </svg>
+                        </button>
+
                         {/* Mute/Unmute Button */}
                         <button
                             type="button"
                             onClick={toggleMute}
-                            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors ml-1"
                             title={isMuted ? "Unmute" : "Mute"}
                         >
                             {isMuted ? (

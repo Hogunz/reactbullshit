@@ -50,7 +50,7 @@ export default function Highlights({
     const isExternalLink = buttonLink?.startsWith('http://') || buttonLink?.startsWith('https://');
 
     return (
-        <section className="relative py-20 lg:py-28 bg-[#FDFDFC] dark:bg-[#0a0a0a] overflow-hidden border-t border-gray-100 dark:border-white/5">
+        <section className="relative pt-4 pb-20 lg:pt-6 lg:pb-28 bg-[#FDFDFC] dark:bg-[#0a0a0a] overflow-hidden">
             {/* Ambient Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-purple-500/10 dark:bg-purple-600/15 rounded-full blur-[120px] pointer-events-none -z-0" />
 

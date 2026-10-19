@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import { Link } from "@inertiajs/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ShowreelPlayer from "@/Components/ShowreelPlayer";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -33,59 +33,30 @@ export default function HeroSection({ onHeroLoaded }) {
         });
 
         // Initialize elements
-        gsap.set(".hero-title", { opacity: 0, y: 50 });
-        gsap.set(".hero-subtitle", { opacity: 0, y: 30 });
-        gsap.set(".hero-buttons", { opacity: 0, y: 20 });
-        gsap.set(".hero-image-container", { opacity: 0, scale: 0.9, rotate: -3 });
-        gsap.set(".hero-image", { scale: 1.2 });
+        gsap.set(".hero-image-container", { opacity: 0, scale: 0.95, y: 30 });
 
-        tl.to(".hero-title", {
+        tl.to(".hero-image-container", {
             opacity: 1,
+            scale: 1,
             y: 0,
             duration: 1,
             ease: "power3.out"
-        })
-            .to(".hero-subtitle", {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power3.out"
-            }, "-=0.6")
-            .to(".hero-buttons", {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power3.out"
-            }, "-=0.6")
-            .to(".hero-image-container", {
-                opacity: 1,
-                scale: 1,
-                rotate: -1,
-                duration: 1.2,
-                ease: "back.out(1.2)"
-            }, "-=0.8")
-            .to(".hero-image", {
-                scale: 1,
-                duration: 1.5,
-                ease: "power2.out"
-            }, "-=1.2");
+        });
 
-        // Hover effect for image container
+        // Hover effect for video container
         const imageContainer = document.querySelector(".hero-image-container");
         if (imageContainer) {
             imageContainer.addEventListener("mouseenter", () => {
-                gsap.to(imageContainer, { rotate: 0, scale: 1.02, duration: 0.5, ease: "power2.out" });
-                gsap.to(".hero-image", { scale: 1.05, duration: 0.5, ease: "power2.out" });
+                gsap.to(imageContainer, { scale: 1.01, duration: 0.4, ease: "power2.out" });
             });
             imageContainer.addEventListener("mouseleave", () => {
-                gsap.to(imageContainer, { rotate: -1, scale: 1, duration: 0.5, ease: "power2.out" });
-                gsap.to(".hero-image", { scale: 1, duration: 0.5, ease: "power2.out" });
+                gsap.to(imageContainer, { scale: 1, duration: 0.4, ease: "power2.out" });
             });
         }
 
         // --- Scroll Parallax Effects ---
         gsap.to(".hero-image-container", {
-            y: 120, // Gentle parallax push
+            y: 60, // Gentle parallax push
             ease: "none",
             scrollTrigger: {
                 trigger: container.current,
@@ -96,7 +67,7 @@ export default function HeroSection({ onHeroLoaded }) {
         });
 
         gsap.to(".bg-shape-1", {
-            y: 200, // Moves faster for depth
+            y: 150,
             ease: "none",
             scrollTrigger: {
                 trigger: container.current,
@@ -107,7 +78,7 @@ export default function HeroSection({ onHeroLoaded }) {
         });
 
         gsap.to(".bg-shape-2", {
-            y: -150, // Moves contrary for dynamic feel
+            y: -100,
             ease: "none",
             scrollTrigger: {
                 trigger: container.current,
@@ -120,85 +91,34 @@ export default function HeroSection({ onHeroLoaded }) {
     }, { scope: container });
 
     return (
-        <section ref={container} className="relative bg-[#FDFDFC] dark:bg-[#0a0a0a] min-h-screen w-full flex items-center overflow-hidden">
+        <section
+            ref={container}
+            className="relative bg-[#FDFDFC] dark:bg-[#0a0a0a] w-full pt-24 pb-6 sm:pt-28 sm:pb-8 flex flex-col items-center overflow-hidden"
+        >
             {/* Abstract Background Shapes */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-                <div className="bg-shape-1 absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 rounded-full blur-[120px]"></div>
-                <div className="bg-shape-2 absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-fuchsia-500/10 rounded-full blur-[100px]"></div>
+                <div className="bg-shape-1 absolute top-[-10%] left-[-10%] w-[45%] h-[45%] bg-purple-600/10 rounded-full blur-[130px]"></div>
+                <div className="bg-shape-2 absolute bottom-[-10%] right-[-10%] w-[35%] h-[35%] bg-fuchsia-500/10 rounded-full blur-[110px]"></div>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full h-full">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center h-full pt-28 lg:pt-0">
-
-                    {/* Text Content */}
-                    <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left order-1 flex flex-col justify-center">
-                        <h1 className="hero-title text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-dark dark:text-light mb-8">
-                            Center of <br /> Development in <br />
-                            <span className="text-[#9333ea] dark:text-[#a855f7]">
-                                Information <br />
-                                Technology <br />
-                                Education
-                            </span>
-                        </h1>
-
-                        <p className="hero-subtitle text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed font-light">
-                            Unlock Your Potential at the Center of Development in
-                            Information Technology Education. Ignite Your Future in
-                            IT. Enroll Today and Build a Path to Success.
-                        </p>
-
-                        <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <Link
-                                href="/Contact"
-                                className="inline-flex justify-center items-center py-4 px-10 text-lg font-bold text-white rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-105 transition-all duration-300"
-                            >
-                                Enroll Now
-                                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </Link>
-                            <Link
-                                href="/ProgramDescription"
-                                className="inline-flex justify-center items-center py-4 px-10 text-lg font-bold text-dark dark:text-white bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
-                            >
-                                See Our Programs
-                            </Link>
-                        </div>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+                {/* Centered Massive Showreel Video Player (matches MMA/WMAD design) */}
+                <div className="w-full max-w-5xl relative">
+                    <div className="hero-image-container relative w-full aspect-video rounded-3xl lg:rounded-[2rem] overflow-hidden shadow-2xl shadow-purple-600/25 border-2 border-white/20 dark:border-white/10 bg-black group">
+                        <ShowreelPlayer
+                            video="/assets/CTA_video.mp4"
+                            poster="/assets/hero_section.jpg"
+                            programTag="SITE"
+                            autoPlay={true}
+                            onLoaded={() => {
+                                if (onHeroLoaded) onHeroLoaded();
+                            }}
+                        />
                     </div>
 
-                    {/* Image Content - Bigger and Modern */}
-                    <div className="relative lg:h-[90vh] w-full flex items-center justify-center order-2 mt-8 lg:mt-0">
-                        <div className="hero-image-container relative w-full h-[50vh] lg:h-[85%] rounded-3xl overflow-hidden shadow-2xl shadow-purple-600/20 border-4 border-white dark:border-white/5 bg-gray-900 group">
-                            {/* Blurred Background for Fill */}
-                            <img
-                                src="/assets/hero_section.jpg"
-                                alt="Background"
-                                className="absolute inset-0 w-full h-full object-cover opacity-50 blur-xl scale-110"
-                                loading="eager"
-                                fetchpriority="high"
-                            />
-
-                            {/* Main Full Image */}
-                            <img
-                                src="/assets/hero_section.jpg"
-                                alt="UDD Faculty and Students"
-                                className="hero-image relative z-10 w-full h-full object-contain"
-                                loading="eager"
-                                fetchpriority="high"
-                                onLoad={() => {
-                                    if (onHeroLoaded) onHeroLoaded();
-                                }}
-                                onError={() => {
-                                    // Fallback if image fails to load
-                                    if (onHeroLoaded) onHeroLoaded();
-                                }}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent z-20 pointer-events-none"></div>
-                        </div>
-
-                        {/* Decorative Elements */}
-                        <div className="absolute -z-10 top-20 right-10 w-72 h-72 bg-purple-600/30 rounded-full blur-[80px]"></div>
-                        <div className="absolute -z-10 bottom-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-[80px]"></div>
-                    </div>
-
+                    {/* Decorative Ambient Elements */}
+                    <div className="absolute -z-10 -top-10 -right-10 w-72 h-72 bg-purple-600/30 rounded-full blur-[90px]"></div>
+                    <div className="absolute -z-10 -bottom-10 -left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-[90px]"></div>
                 </div>
             </div>
         </section>
