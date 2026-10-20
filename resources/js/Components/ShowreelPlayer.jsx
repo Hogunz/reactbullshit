@@ -5,12 +5,13 @@ export default function ShowreelPlayer({
     programTag = "FULL-STACK SHOWREEL",
     poster,
     onLoaded,
-    autoPlay = false
+    autoPlay = false,
+    defaultMuted = false
 }) {
     const videoRef = useRef(null);
     const containerRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
-    const [isMuted, setIsMuted] = useState(autoPlay);
+    const [isMuted, setIsMuted] = useState(defaultMuted);
     const [isEnded, setIsEnded] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -18,32 +19,74 @@ export default function ShowreelPlayer({
 
     useEffect(() => {
         setIsPlaying(autoPlay);
-        setIsMuted(autoPlay);
+        setIsMuted(defaultMuted);
         setIsEnded(false);
         setCurrentTime(0);
+
+        let cleanupListeners = null;
 
         if (videoRef.current) {
             videoRef.current.currentTime = 0;
             if (autoPlay) {
-                videoRef.current.muted = true;
+                videoRef.current.muted = defaultMuted;
                 const playPromise = videoRef.current.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         setIsPlaying(true);
+                        setIsMuted(videoRef.current ? videoRef.current.muted : defaultMuted);
                     }).catch(() => {
-                        setIsPlaying(false);
+                        // Browser autoplay policy prevented unmuted playback.
+                        // Fallback to muted playback so it plays visually, then unmute on first interaction.
+                        if (videoRef.current) {
+                            videoRef.current.muted = true;
+                            setIsMuted(true);
+                            videoRef.current.play().then(() => {
+                                setIsPlaying(true);
+                            }).catch(() => {
+                                setIsPlaying(false);
+                            });
+
+                            if (!defaultMuted) {
+                                const enableSoundOnInteraction = () => {
+                                    if (videoRef.current) {
+                                        videoRef.current.muted = false;
+                                        setIsMuted(false);
+                                    }
+                                    cleanup();
+                                };
+
+                                const cleanup = () => {
+                                    window.removeEventListener("click", enableSoundOnInteraction);
+                                    window.removeEventListener("keydown", enableSoundOnInteraction);
+                                    window.removeEventListener("touchstart", enableSoundOnInteraction);
+                                };
+
+                                window.addEventListener("click", enableSoundOnInteraction, { once: true });
+                                window.addEventListener("keydown", enableSoundOnInteraction, { once: true });
+                                window.addEventListener("touchstart", enableSoundOnInteraction, { once: true });
+                                cleanupListeners = cleanup;
+                            }
+                        }
                     });
                 }
             } else {
                 videoRef.current.pause();
             }
         }
-    }, [video, autoPlay]);
+
+        return () => {
+            if (cleanupListeners) {
+                cleanupListeners();
+            }
+        };
+    }, [video, autoPlay, defaultMuted]);
 
     const togglePlay = () => {
         if (!videoRef.current) return;
         if (isEnded) {
             videoRef.current.currentTime = 0;
+            videoRef.current.muted = false;
+            setIsMuted(false);
             videoRef.current.play().then(() => {
                 setIsPlaying(true);
                 setIsEnded(false);
@@ -53,7 +96,16 @@ export default function ShowreelPlayer({
             return;
         }
 
+        // If video is playing while muted, clicking the player directly enables sound
+        if (isPlaying && isMuted) {
+            videoRef.current.muted = false;
+            setIsMuted(false);
+            return;
+        }
+
         if (videoRef.current.paused) {
+            videoRef.current.muted = false;
+            setIsMuted(false);
             videoRef.current.play().then(() => {
                 setIsPlaying(true);
             }).catch((err) => {
@@ -201,6 +253,32 @@ export default function ShowreelPlayer({
             >
                 {programTag}
             </div>
+
+            {/* Quick Unmute Floating Button (visible when playing muted and not hovering bottom controls) */}
+            {isMuted && isPlaying && !isHovered && (
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (videoRef.current) {
+                            videoRef.current.muted = false;
+                            setIsMuted(false);
+                        }
+                    }}
+                    className="absolute bottom-6 right-6 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-black/80 hover:bg-purple-600 text-white text-xs md:text-sm font-semibold tracking-wide backdrop-blur-md border border-white/20 shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer group/soundbtn"
+                    title="Click to enable sound"
+                >
+                    <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-500"></span>
+                    </span>
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                    <span>Click for Sound</span>
+                </button>
+            )}
 
             {/* Bottom Controls Bar (Shows on hover or when paused/ended) */}
             <div

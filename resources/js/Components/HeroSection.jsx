@@ -101,15 +101,16 @@ export default function HeroSection({ onHeroLoaded }) {
                 <div className="bg-shape-2 absolute bottom-[-10%] right-[-10%] w-[35%] h-[35%] bg-fuchsia-500/10 rounded-full blur-[110px]"></div>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
-                {/* Centered Massive Showreel Video Player (matches MMA/WMAD design) */}
-                <div className="w-full max-w-5xl relative">
+            <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+                {/* Centered Massive Showreel Video Player */}
+                <div className="w-full relative">
                     <div className="hero-image-container relative w-full aspect-video rounded-3xl lg:rounded-[2rem] overflow-hidden shadow-2xl shadow-purple-600/25 border-2 border-white/20 dark:border-white/10 bg-black group">
                         <ShowreelPlayer
                             video="/assets/CTA_video.mp4"
                             poster="/assets/hero_section.jpg"
                             programTag="SITE"
                             autoPlay={true}
+                            defaultMuted={false}
                             onLoaded={() => {
                                 if (onHeroLoaded) onHeroLoaded();
                             }}
